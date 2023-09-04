@@ -1,0 +1,12 @@
+D:\Migrate\repos\LSPApi\DataLayer\bin\Release\net6.0\DataLayer.deps.json
+D:\Migrate\repos\LSPApi\DataLayer\bin\Release\net6.0\DataLayer.dll
+D:\Migrate\repos\LSPApi\DataLayer\bin\Release\net6.0\DataLayer.pdb
+D:\Migrate\repos\LSPApi\DataLayer\obj\Release\net6.0\DataLayer.csproj.AssemblyReference.cache
+D:\Migrate\repos\LSPApi\DataLayer\obj\Release\net6.0\DataLayer.GeneratedMSBuildEditorConfig.editorconfig
+D:\Migrate\repos\LSPApi\DataLayer\obj\Release\net6.0\DataLayer.AssemblyInfoInputs.cache
+D:\Migrate\repos\LSPApi\DataLayer\obj\Release\net6.0\DataLayer.AssemblyInfo.cs
+D:\Migrate\repos\LSPApi\DataLayer\obj\Release\net6.0\DataLayer.csproj.CoreCompileInputs.cache
+D:\Migrate\repos\LSPApi\DataLayer\obj\Release\net6.0\DataLayer.dll
+D:\Migrate\repos\LSPApi\DataLayer\obj\Release\net6.0\refint\DataLayer.dll
+D:\Migrate\repos\LSPApi\DataLayer\obj\Release\net6.0\DataLayer.pdb
+D:\Migrate\repos\LSPApi\DataLayer\obj\Release\net6.0\ref\DataLayer.dll

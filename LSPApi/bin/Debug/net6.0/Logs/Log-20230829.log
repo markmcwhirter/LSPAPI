@@ -1,0 +1,90 @@
+[2023-08-29 07:59:47.167 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-29 07:59:47.476 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 316.4296ms
+[2023-08-29 07:59:47.482 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-29 07:59:47.486 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.2633ms
+[2023-08-29 07:59:47.489 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-29 07:59:47.501 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 12.0286ms
+[2023-08-29 07:59:47.705 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-29 07:59:47.815 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Conflicting method/path combination "GET api/Sale" for actions - LSPApi.Controllers.SaleController.GetAll (LSPApi),LSPApi.Controllers.SaleController.LastSales (LSPApi). Actions require a unique method/path combination for Swagger/OpenAPI 3.0. Use ConflictingActionsResolver as a workaround
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerDocumentWithoutFilters(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerAsync(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-29 07:59:47.818 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 500 - text/plain;+charset=utf-8 113.5397ms
+[2023-08-29 08:00:27.312 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-29 08:00:27.596 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 291.2821ms
+[2023-08-29 08:00:27.602 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-29 08:00:27.606 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 4.2090ms
+[2023-08-29 08:00:27.608 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-29 08:00:27.621 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 12.5619ms
+[2023-08-29 08:00:27.833 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-29 08:00:27.908 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Conflicting method/path combination "GET api/Sale" for actions - LSPApi.Controllers.SaleController.GetAll (LSPApi),LSPApi.Controllers.SaleController.LastSales (LSPApi). Actions require a unique method/path combination for Swagger/OpenAPI 3.0. Use ConflictingActionsResolver as a workaround
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerDocumentWithoutFilters(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerAsync(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-29 08:00:27.911 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 500 - text/plain;+charset=utf-8 77.9840ms
+[2023-08-29 08:01:34.381 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-29 08:01:34.651 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 277.4103ms
+[2023-08-29 08:01:34.657 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-29 08:01:34.661 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 3.4934ms
+[2023-08-29 08:01:34.663 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-29 08:01:34.677 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 13.7980ms
+[2023-08-29 08:01:34.885 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-29 08:01:34.961 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Conflicting method/path combination "GET api/Sale" for actions - LSPApi.Controllers.SaleController.GetAll (LSPApi),LSPApi.Controllers.SaleController.LastSales (LSPApi). Actions require a unique method/path combination for Swagger/OpenAPI 3.0. Use ConflictingActionsResolver as a workaround
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerDocumentWithoutFilters(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerAsync(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-29 08:01:34.964 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 500 - text/plain;+charset=utf-8 78.7670ms
+[2023-08-29 11:25:13.992 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-29 11:25:14.293 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 308.3295ms
+[2023-08-29 11:25:14.295 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-29 11:25:14.302 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.6678ms
+[2023-08-29 11:25:14.304 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-29 11:25:14.318 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 13.6705ms
+[2023-08-29 11:25:14.518 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-29 11:25:14.595 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Conflicting method/path combination "GET api/Sale" for actions - LSPApi.Controllers.SaleController.GetAll (LSPApi),LSPApi.Controllers.SaleController.LastSales (LSPApi). Actions require a unique method/path combination for Swagger/OpenAPI 3.0. Use ConflictingActionsResolver as a workaround
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerDocumentWithoutFilters(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerAsync(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-29 11:25:14.598 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 500 - text/plain;+charset=utf-8 79.3564ms
+[2023-08-29 11:25:36.731 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-29 11:25:37.002 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 277.7742ms
+[2023-08-29 11:25:37.005 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-29 11:25:37.011 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.3926ms
+[2023-08-29 11:25:37.016 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-29 11:25:37.027 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 11.2313ms
+[2023-08-29 11:25:37.226 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-29 11:25:37.306 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 80.1941ms
+[2023-08-29 11:27:06.914 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-29 11:27:07.184 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 278.5945ms
+[2023-08-29 11:27:07.189 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-29 11:27:07.193 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 3.7229ms
+[2023-08-29 11:27:07.197 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-29 11:27:07.209 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 11.8391ms
+[2023-08-29 11:27:07.410 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-29 11:27:07.491 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 81.2130ms
+[2023-08-29 11:27:41.723 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-29 11:27:42.007 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 291.3650ms
+[2023-08-29 11:27:42.009 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-29 11:27:42.016 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.5992ms
+[2023-08-29 11:27:42.020 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-29 11:27:42.031 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 11.4450ms
+[2023-08-29 11:27:42.235 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-29 11:27:42.320 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 84.9004ms
+[2023-08-29 11:27:50.742 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Sale/GetSales/{vendorid}/{bookid} - -
+[2023-08-29 11:27:50.759 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Sale/GetSales/{vendorid}/{bookid} - - - 404 0 - 16.0715ms

@@ -1,0 +1,699 @@
+[2023-08-20 08:55:13.326 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger - -
+[2023-08-20 08:55:13.471 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger - - - 301 0 - 153.0392ms
+[2023-08-20 08:55:13.473 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 08:55:13.769 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 295.1608ms
+[2023-08-20 08:55:13.773 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 08:55:13.773 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/swagger-ui-standalone-preset.js - -
+[2023-08-20 08:55:13.774 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/swagger-ui-bundle.js - -
+[2023-08-20 08:55:13.775 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/swagger-ui.css - -
+[2023-08-20 08:55:13.778 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.3147ms
+[2023-08-20 08:55:13.781 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 08:55:13.832 -07:00  INF] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+[2023-08-20 08:55:13.832 -07:00  INF] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+[2023-08-20 08:55:13.832 -07:00  INF] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+[2023-08-20 08:55:13.834 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/swagger-ui.css - - - 200 144929 text/css 59.9427ms
+[2023-08-20 08:55:13.834 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/swagger-ui-standalone-preset.js - - - 200 312163 application/javascript 61.2134ms
+[2023-08-20 08:55:13.835 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/swagger-ui-bundle.js - - - 200 1061536 application/javascript 59.9687ms
+[2023-08-20 08:55:13.836 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 55.6241ms
+[2023-08-20 08:55:13.927 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 08:55:13.937 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/favicon-32x32.png - -
+[2023-08-20 08:55:13.939 -07:00  INF] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+[2023-08-20 08:55:13.940 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/favicon-32x32.png - - - 200 628 image/png 2.1940ms
+[2023-08-20 08:55:14.015 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 87.6609ms
+[2023-08-20 08:55:19.258 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/1 - -
+[2023-08-20 08:55:19.280 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-20 08:55:19.307 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Author"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.AuthorDto] GetById(Int32) on controller LSPApi.Controllers.AuthorController (LSPApi).
+[2023-08-20 08:55:44.077 -07:00  ERR] Microsoft.EntityFrameworkCore.Database.Connection: An error occurred using the connection to database 'lsp' on server '146.190.157.235'.
+[2023-08-20 08:55:44.253 -07:00  ERR] Microsoft.EntityFrameworkCore.Query: An exception occurred while iterating over the results of a query for context type 'LSPApi.DataLayer.LSPContext'.
+System.InvalidOperationException: An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure()' to the 'UseMySql' call.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+   at MySqlConnector.Core.ServerSession.OpenTcpSocketAsync(ConnectionSettings cs, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1133
+   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int32 startTickCount, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 439
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 410
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 415
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 105
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 135
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 929
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 959
+   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 423
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlRelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure()' to the 'UseMySql' call.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+   at MySqlConnector.Core.ServerSession.OpenTcpSocketAsync(ConnectionSettings cs, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1133
+   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int32 startTickCount, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 439
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 410
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 415
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 105
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 135
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 929
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 959
+   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 423
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlRelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+[2023-08-20 08:55:44.341 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.AuthorController.GetById (LSPApi) in 25025.1605ms
+[2023-08-20 08:55:44.346 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-20 08:55:44.372 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure()' to the 'UseMySql' call.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+   at MySqlConnector.Core.ServerSession.OpenTcpSocketAsync(ConnectionSettings cs, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1133
+   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int32 startTickCount, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 439
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 410
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 415
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 105
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 135
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 929
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 959
+   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 423
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlRelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at LSPApi.DataLayer.AuthorRepository.GetById(Int32 id) in D:\Migrate\repos\LSPApi\DataLayer\AuthorRepository.cs:line 16
+   at LSPApi.Controllers.AuthorController.GetById(Int32 id) in D:\Migrate\repos\LSPApi\LSPApi\Controllers\AuthorController.cs:line 22
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-20 08:55:44.392 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/1 - - - 500 - text/plain;+charset=utf-8 25133.8574ms
+[2023-08-20 08:55:58.725 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/1 - -
+[2023-08-20 08:55:58.726 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-20 08:55:58.727 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Author"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.AuthorDto] GetById(Int32) on controller LSPApi.Controllers.AuthorController (LSPApi).
+[2023-08-20 08:56:17.822 -07:00  ERR] Microsoft.EntityFrameworkCore.Database.Connection: An error occurred using the connection to database 'lsp' on server '146.190.157.235'.
+[2023-08-20 08:56:17.830 -07:00  ERR] Microsoft.EntityFrameworkCore.Query: An exception occurred while iterating over the results of a query for context type 'LSPApi.DataLayer.LSPContext'.
+System.InvalidOperationException: An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure()' to the 'UseMySql' call.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+   at MySqlConnector.Core.ServerSession.OpenTcpSocketAsync(ConnectionSettings cs, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1133
+   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int32 startTickCount, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 439
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 410
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 415
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 105
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 135
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 929
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 959
+   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 423
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlRelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure()' to the 'UseMySql' call.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+   at MySqlConnector.Core.ServerSession.OpenTcpSocketAsync(ConnectionSettings cs, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1133
+   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int32 startTickCount, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 439
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 410
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 415
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 105
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 135
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 929
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 959
+   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 423
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlRelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+[2023-08-20 08:56:17.904 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.AuthorController.GetById (LSPApi) in 19176.039ms
+[2023-08-20 08:56:17.906 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-20 08:56:17.911 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure()' to the 'UseMySql' call.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+ ---> MySqlConnector.MySqlException (0x80004005): Connect Timeout expired.
+   at MySqlConnector.Core.ServerSession.OpenTcpSocketAsync(ConnectionSettings cs, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1133
+   at MySqlConnector.Core.ServerSession.ConnectAsync(ConnectionSettings cs, MySqlConnection connection, Int32 startTickCount, ILoadBalancer loadBalancer, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 439
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 410
+   at MySqlConnector.Core.ConnectionPool.ConnectSessionAsync(MySqlConnection connection, String logMessage, Int32 startTickCount, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 415
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 105
+   at MySqlConnector.Core.ConnectionPool.GetSessionAsync(MySqlConnection connection, Int32 startTickCount, Int32 timeoutMilliseconds, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ConnectionPool.cs:line 135
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 929
+   at MySqlConnector.MySqlConnection.CreateSessionAsync(ConnectionPool pool, Int32 startTickCount, Activity activity, Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 959
+   at MySqlConnector.MySqlConnection.OpenAsync(Nullable`1 ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlConnection.cs:line 423
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlRelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at LSPApi.DataLayer.AuthorRepository.GetById(Int32 id) in D:\Migrate\repos\LSPApi\DataLayer\AuthorRepository.cs:line 16
+   at LSPApi.Controllers.AuthorController.GetById(Int32 id) in D:\Migrate\repos\LSPApi\LSPApi\Controllers\AuthorController.cs:line 22
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-20 08:56:17.915 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/1 - - - 500 - text/plain;+charset=utf-8 19188.8276ms
+[2023-08-20 09:19:01.723 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 09:19:01.998 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 09:19:02.003 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 286.1333ms
+[2023-08-20 09:19:02.003 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 3.6843ms
+[2023-08-20 09:19:02.007 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 09:19:02.018 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 10.7633ms
+[2023-08-20 09:19:02.124 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 09:19:02.198 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 73.2033ms
+[2023-08-20 09:19:07.876 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/1 - -
+[2023-08-20 09:19:07.896 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-20 09:19:07.920 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Author"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.AuthorDto] GetById(Int32) on controller LSPApi.Controllers.AuthorController (LSPApi).
+[2023-08-20 09:19:11.721 -07:00  INF] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (95ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT `a`.`AuthorID`, `a`.`Address1`, `a`.`Address2`, `a`.`Admin`, `a`.`Bio`, `a`.`BusinessPhone`, `a`.`CellPhone`, `a`.`City`, `a`.`Country`, `a`.`DateCreated`, `a`.`DateUpdated`, `a`.`Email`, `a`.`FirstName`, `a`.`HomePhone`, `a`.`LastName`, `a`.`MiddleName`, `a`.`Password`, `a`.`Prefix`, `a`.`State`, `a`.`Suffix`, `a`.`Username`, `a`.`ZIP`
+FROM `Author` AS `a`
+WHERE `a`.`AuthorID` = @__id_0
+LIMIT 1
+[2023-08-20 09:19:11.906 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor: Executing ObjectResult, writing value of type 'LSPApi.DataLayer.Model.AuthorDto'.
+[2023-08-20 09:19:11.925 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.AuthorController.GetById (LSPApi) in 3996.8251ms
+[2023-08-20 09:19:11.927 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-20 09:19:11.940 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/1 - - - 200 - application/json;+charset=utf-8 4064.1825ms
+[2023-08-20 09:34:23.032 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 09:34:23.308 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 09:34:23.309 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 284.1482ms
+[2023-08-20 09:34:23.315 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.4645ms
+[2023-08-20 09:34:23.318 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 09:34:23.330 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 11.2252ms
+[2023-08-20 09:34:23.365 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 09:34:23.445 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 79.6456ms
+[2023-08-20 09:35:19.093 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 09:35:19.375 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 288.8330ms
+[2023-08-20 09:35:19.377 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 09:35:19.383 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.0439ms
+[2023-08-20 09:35:19.386 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 09:35:19.397 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 10.9410ms
+[2023-08-20 09:35:19.434 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 09:35:19.472 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Conflicting method/path combination "GET {id}" for actions - LSPApi.Controllers.AuthorController.GetById (LSPApi),LSPApi.Controllers.BookController.GetById (LSPApi). Actions require a unique method/path combination for Swagger/OpenAPI 3.0. Use ConflictingActionsResolver as a workaround
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerDocumentWithoutFilters(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerAsync(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-20 09:35:19.475 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 500 - text/plain;+charset=utf-8 40.6736ms
+[2023-08-20 09:48:36.965 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 09:48:37.248 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 290.1130ms
+[2023-08-20 09:48:37.249 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 09:48:37.256 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.4756ms
+[2023-08-20 09:48:37.259 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 09:48:37.270 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 10.9775ms
+[2023-08-20 09:48:37.307 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 09:48:37.385 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 77.2848ms
+[2023-08-20 09:48:44.990 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Book/1 - -
+[2023-08-20 09:48:45.015 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 09:48:45.039 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Book"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.BookDto] GetById(Int32) on controller LSPApi.Controllers.BookController (LSPApi).
+[2023-08-20 09:48:45.048 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.BookController.GetById (LSPApi) in 1.4557ms
+[2023-08-20 09:48:45.051 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 09:48:45.074 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'LSPApi.DataLayer.IBookRepository' while attempting to activate 'LSPApi.Controllers.BookController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-20 09:48:45.077 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Book/1 - - - 500 - text/plain;+charset=utf-8 87.1359ms
+[2023-08-20 09:50:24.718 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 09:50:24.992 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 280.0564ms
+[2023-08-20 09:50:24.994 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 09:50:25.000 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.5776ms
+[2023-08-20 09:50:25.003 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 09:50:25.014 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 10.8773ms
+[2023-08-20 09:50:25.049 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 09:50:25.124 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 74.1204ms
+[2023-08-20 09:50:31.444 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Author/1 - -
+[2023-08-20 09:50:31.468 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-20 09:50:31.494 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Author"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.AuthorDto] GetById(Int32) on controller LSPApi.Controllers.AuthorController (LSPApi).
+[2023-08-20 09:50:34.623 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.AuthorController.GetById (LSPApi) in 3121.932ms
+[2023-08-20 09:50:34.626 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-20 09:50:34.662 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The entity type 'SoldDto' requires a primary key to be defined. If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'. For more information on keyless entity types, see https://go.microsoft.com/fwlink/?linkid=2141943.
+   at Microsoft.EntityFrameworkCore.Infrastructure.ModelValidator.ValidateNonNullPrimaryKeys(IModel model, IDiagnosticsLogger`1 logger)
+   at Microsoft.EntityFrameworkCore.Infrastructure.ModelValidator.Validate(IModel model, IDiagnosticsLogger`1 logger)
+   at Microsoft.EntityFrameworkCore.Infrastructure.RelationalModelValidator.Validate(IModel model, IDiagnosticsLogger`1 logger)
+   at Microsoft.EntityFrameworkCore.Infrastructure.ModelRuntimeInitializer.Initialize(IModel model, Boolean designTime, IDiagnosticsLogger`1 validationLogger)
+   at Microsoft.EntityFrameworkCore.Infrastructure.ModelSource.GetModel(DbContext context, ModelCreationDependencies modelCreationDependencies, Boolean designTime)
+   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.CreateModel(Boolean designTime)
+   at Microsoft.EntityFrameworkCore.Internal.DbContextServices.get_Model()
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitCache(ServiceCallSite callSite, RuntimeResolverContext context, ServiceProviderEngineScope serviceProviderEngine, RuntimeResolverLock lockType)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass2_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.EntityFrameworkCore.DbContext.get_DbContextDependencies()
+   at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+   at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ExecuteAsync[TSource,TResult](MethodInfo operatorMethodInfo, IQueryable`1 source, Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ExecuteAsync[TSource,TResult](MethodInfo operatorMethodInfo, IQueryable`1 source, LambdaExpression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync[TSource](IQueryable`1 source, Expression`1 predicate, CancellationToken cancellationToken)
+   at LSPApi.DataLayer.AuthorRepository.GetById(Int32 id) in D:\Migrate\repos\LSPApi\DataLayer\Author\AuthorRepository.cs:line 16
+   at LSPApi.Controllers.AuthorController.GetById(Int32 id) in D:\Migrate\repos\LSPApi\LSPApi\Controllers\AuthorController.cs:line 24
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-20 09:50:34.670 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Author/1 - - - 500 - text/plain;+charset=utf-8 3227.4293ms
+[2023-08-20 09:54:19.535 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 09:54:19.821 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 296.3400ms
+[2023-08-20 09:54:19.823 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 09:54:19.830 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.0348ms
+[2023-08-20 09:54:19.833 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 09:54:19.844 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 10.9497ms
+[2023-08-20 09:54:19.881 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 09:54:19.960 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 78.6575ms
+[2023-08-20 09:54:28.025 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Author - -
+[2023-08-20 09:54:28.048 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.AuthorController.GetAll (LSPApi)'
+[2023-08-20 09:54:28.066 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetAll", controller = "Author"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.Collections.Generic.IEnumerable`1[LSPApi.DataLayer.Model.AuthorDto]] GetAll() on controller LSPApi.Controllers.AuthorController (LSPApi).
+[2023-08-20 09:55:47.877 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 09:55:48.165 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 09:55:48.171 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 4.9880ms
+[2023-08-20 09:55:48.172 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 302.6985ms
+[2023-08-20 09:55:48.177 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 09:55:48.189 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 12.0652ms
+[2023-08-20 09:55:48.235 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 09:55:48.322 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 87.0496ms
+[2023-08-20 09:55:58.042 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Book/1 - -
+[2023-08-20 09:55:58.066 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 09:55:58.090 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Book"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.BookDto] GetById(Int32) on controller LSPApi.Controllers.BookController (LSPApi).
+[2023-08-20 09:55:58.099 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.BookController.GetById (LSPApi) in 1.433ms
+[2023-08-20 09:55:58.103 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 09:55:58.126 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'LSPApi.DataLayer.IBookRepository' while attempting to activate 'LSPApi.Controllers.BookController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-20 09:55:58.129 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Book/1 - - - 500 - text/plain;+charset=utf-8 86.6216ms
+[2023-08-20 09:59:21.372 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 09:59:21.640 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 275.5551ms
+[2023-08-20 09:59:21.645 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 09:59:21.650 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 4.5568ms
+[2023-08-20 09:59:21.653 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 09:59:21.663 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 10.7163ms
+[2023-08-20 09:59:21.701 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 09:59:21.777 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 76.0167ms
+[2023-08-20 09:59:27.458 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Book/1 - -
+[2023-08-20 09:59:27.482 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 09:59:27.506 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Book"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.BookDto] GetById(Int32) on controller LSPApi.Controllers.BookController (LSPApi).
+[2023-08-20 09:59:27.514 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.BookController.GetById (LSPApi) in 1.7279ms
+[2023-08-20 09:59:27.518 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 09:59:27.540 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'LSPApi.DataLayer.IBookRepository' while attempting to activate 'LSPApi.Controllers.BookController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-20 09:59:27.543 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Book/1 - - - 500 - text/plain;+charset=utf-8 85.1611ms
+[2023-08-20 10:01:00.862 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 10:01:01.145 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 290.6196ms
+[2023-08-20 10:01:01.147 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 10:01:01.152 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 5.3555ms
+[2023-08-20 10:01:01.157 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 10:01:01.168 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 11.2122ms
+[2023-08-20 10:01:01.206 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 10:01:01.284 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 78.3504ms
+[2023-08-20 10:01:06.863 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Book/1 - -
+[2023-08-20 10:01:06.886 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 10:01:06.910 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Book"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.BookDto] GetById(Int32) on controller LSPApi.Controllers.BookController (LSPApi).
+[2023-08-20 10:01:06.918 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.BookController.GetById (LSPApi) in 1.5781ms
+[2023-08-20 10:01:06.922 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 10:01:06.944 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'LSPApi.DataLayer.IBookRepository' while attempting to activate 'LSPApi.Controllers.BookController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-20 10:01:06.947 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Book/1 - - - 500 - text/plain;+charset=utf-8 83.8831ms
+[2023-08-20 10:05:15.022 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 10:05:15.302 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 10:05:15.305 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 290.3296ms
+[2023-08-20 10:05:15.309 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.8905ms
+[2023-08-20 10:05:15.311 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 10:05:15.322 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 11.6051ms
+[2023-08-20 10:05:15.362 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 10:05:15.443 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 81.4391ms
+[2023-08-20 10:05:20.495 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Book/1 - -
+[2023-08-20 10:05:20.518 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 10:05:20.542 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Book"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.BookDto] GetById(Int32) on controller LSPApi.Controllers.BookController (LSPApi).
+[2023-08-20 10:05:30.274 -07:00  INF] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (64ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT `b`.`BookID`, `b`.`AuthorBio`, `b`.`AuthorID`, `b`.`AuthorPhoto`, `b`.`Cover`, `b`.`CoverIdea`, `b`.`DateCreated`, `b`.`DateUpdated`, `b`.`Description`, `b`.`ISBN`, `b`.`Interior`, `b`.`Subtitle`, `b`.`Title`
+FROM `Book` AS `b`
+WHERE `b`.`BookID` = @__id_0
+LIMIT 1
+[2023-08-20 10:05:30.329 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor: Executing ObjectResult, writing value of type 'null'.
+[2023-08-20 10:05:30.337 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.BookController.GetById (LSPApi) in 9788.3412ms
+[2023-08-20 10:05:30.340 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 10:05:30.352 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Book/1 - - - 204 0 - 9856.2236ms
+[2023-08-20 10:05:53.301 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Book/4 - -
+[2023-08-20 10:05:53.303 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 10:05:53.304 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Book"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.BookDto] GetById(Int32) on controller LSPApi.Controllers.BookController (LSPApi).
+[2023-08-20 10:05:59.365 -07:00  INF] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (30ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT `b`.`BookID`, `b`.`AuthorBio`, `b`.`AuthorID`, `b`.`AuthorPhoto`, `b`.`Cover`, `b`.`CoverIdea`, `b`.`DateCreated`, `b`.`DateUpdated`, `b`.`Description`, `b`.`ISBN`, `b`.`Interior`, `b`.`Subtitle`, `b`.`Title`
+FROM `Book` AS `b`
+WHERE `b`.`BookID` = @__id_0
+LIMIT 1
+[2023-08-20 10:05:59.410 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor: Executing ObjectResult, writing value of type 'LSPApi.DataLayer.Model.BookDto'.
+[2023-08-20 10:05:59.419 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.BookController.GetById (LSPApi) in 6114.0021ms
+[2023-08-20 10:05:59.420 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.BookController.GetById (LSPApi)'
+[2023-08-20 10:05:59.421 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Book/4 - - - 200 - application/json;+charset=utf-8 6119.8798ms
+[2023-08-20 10:06:13.533 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Author/1 - -
+[2023-08-20 10:06:13.534 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-20 10:06:13.537 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Author"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.AuthorDto] GetById(Int32) on controller LSPApi.Controllers.AuthorController (LSPApi).
+[2023-08-20 10:06:16.238 -07:00  INF] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (30ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT `a`.`AuthorID`, `a`.`Address1`, `a`.`Address2`, `a`.`Admin`, `a`.`Bio`, `a`.`BusinessPhone`, `a`.`CellPhone`, `a`.`City`, `a`.`Country`, `a`.`DateCreated`, `a`.`DateUpdated`, `a`.`Email`, `a`.`FirstName`, `a`.`HomePhone`, `a`.`LastName`, `a`.`MiddleName`, `a`.`Password`, `a`.`Prefix`, `a`.`State`, `a`.`Suffix`, `a`.`Username`, `a`.`ZIP`
+FROM `Author` AS `a`
+WHERE `a`.`AuthorID` = @__id_0
+LIMIT 1
+[2023-08-20 10:06:16.258 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor: Executing ObjectResult, writing value of type 'LSPApi.DataLayer.Model.AuthorDto'.
+[2023-08-20 10:06:16.262 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.AuthorController.GetById (LSPApi) in 2723.6168ms
+[2023-08-20 10:06:16.263 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-20 10:06:16.264 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Author/1 - - - 200 - application/json;+charset=utf-8 2731.4206ms
+[2023-08-20 10:13:43.603 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 10:13:43.884 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 287.7586ms
+[2023-08-20 10:13:43.900 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 10:13:43.901 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 10:13:43.909 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 8.4709ms
+[2023-08-20 10:13:43.915 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 15.3540ms
+[2023-08-20 10:13:43.953 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 10:13:44.036 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 82.5234ms
+[2023-08-20 10:14:06.363 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Link/12 - -
+[2023-08-20 10:14:06.386 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.LinkController.GetById (LSPApi)'
+[2023-08-20 10:14:06.411 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Link"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.LinkDto] GetById(Int32) on controller LSPApi.Controllers.LinkController (LSPApi).
+[2023-08-20 10:14:07.624 -07:00  ERR] Microsoft.EntityFrameworkCore.Database.Command: Failed executing DbCommand (77ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT `l`.`LinkID`, `l`.`BookID`, `l`.`DateCreated`, `l`.`DateUpdated`, `l`.`Link`, `l`.`LinkDescription`
+FROM `Link` AS `l`
+WHERE `l`.`LinkID` = @__id_0
+LIMIT 1
+[2023-08-20 10:14:07.673 -07:00  ERR] Microsoft.EntityFrameworkCore.Query: An exception occurred while iterating over the results of a query for context type 'LSPApi.DataLayer.LSPContext'.
+MySqlConnector.MySqlException (0x80004005): Table 'lsp.Link' doesn't exist
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsyncAwaited(ValueTask`1 task) in /_/src/MySqlConnector/Core/ServerSession.cs:line 966
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 43
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.CreateAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 468
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(IReadOnlyList`1 commands, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 344
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 337
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySqlConnector.MySqlException (0x80004005): Table 'lsp.Link' doesn't exist
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsyncAwaited(ValueTask`1 task) in /_/src/MySqlConnector/Core/ServerSession.cs:line 966
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 43
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.CreateAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 468
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(IReadOnlyList`1 commands, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 344
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 337
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+[2023-08-20 10:14:07.751 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.LinkController.GetById (LSPApi) in 1332.6682ms
+[2023-08-20 10:14:07.753 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.LinkController.GetById (LSPApi)'
+[2023-08-20 10:14:07.779 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+MySqlConnector.MySqlException (0x80004005): Table 'lsp.Link' doesn't exist
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsyncAwaited(ValueTask`1 task) in /_/src/MySqlConnector/Core/ServerSession.cs:line 966
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 43
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 130
+   at MySqlConnector.MySqlDataReader.CreateAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 468
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(IReadOnlyList`1 commands, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 344
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 337
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at LSPApi.DataLayer.LinkRepository.GetById(Int32 id) in D:\Migrate\repos\LSPApi\DataLayer\Link\LinkRepository.cs:line 16
+   at LSPApi.Controllers.LinkController.GetById(Int32 id) in D:\Migrate\repos\LSPApi\LSPApi\Controllers\LinkController.cs:line 24
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-20 10:14:07.796 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Link/12 - - - 500 - text/plain;+charset=utf-8 1433.3954ms
+[2023-08-20 10:15:02.376 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 10:15:02.658 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 288.4325ms
+[2023-08-20 10:15:02.659 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 10:15:02.667 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 7.2809ms
+[2023-08-20 10:15:02.671 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 10:15:02.683 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 12.5801ms
+[2023-08-20 10:15:02.723 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 10:15:02.808 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 85.5473ms
+[2023-08-20 10:15:08.979 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Link/4 - -
+[2023-08-20 10:15:09.001 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.LinkController.GetById (LSPApi)'
+[2023-08-20 10:15:09.025 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Link"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.LinkDto] GetById(Int32) on controller LSPApi.Controllers.LinkController (LSPApi).
+[2023-08-20 10:15:10.191 -07:00  INF] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (57ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT `l`.`LinkID`, `l`.`BookID`, `l`.`DateCreated`, `l`.`DateUpdated`, `l`.`Link`, `l`.`LinkDescription`
+FROM `Links` AS `l`
+WHERE `l`.`LinkID` = @__id_0
+LIMIT 1
+[2023-08-20 10:15:10.244 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor: Executing ObjectResult, writing value of type 'null'.
+[2023-08-20 10:15:10.251 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.LinkController.GetById (LSPApi) in 1219.7534ms
+[2023-08-20 10:15:10.253 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.LinkController.GetById (LSPApi)'
+[2023-08-20 10:15:10.265 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Link/4 - - - 204 0 - 1285.9751ms
+[2023-08-20 10:15:38.061 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Link - -
+[2023-08-20 10:15:38.063 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.LinkController.GetAll (LSPApi)'
+[2023-08-20 10:15:38.066 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetAll", controller = "Link"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.Collections.Generic.IEnumerable`1[LSPApi.DataLayer.Model.LinkDto]] GetAll() on controller LSPApi.Controllers.LinkController (LSPApi).
+[2023-08-20 10:15:38.147 -07:00  INF] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT `l`.`LinkID`, `l`.`BookID`, `l`.`DateCreated`, `l`.`DateUpdated`, `l`.`Link`, `l`.`LinkDescription`
+FROM `Links` AS `l`
+[2023-08-20 10:15:38.192 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[LSPApi.DataLayer.Model.LinkDto, DataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[2023-08-20 10:15:38.202 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.LinkController.GetAll (LSPApi) in 135.4346ms
+[2023-08-20 10:15:38.203 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.LinkController.GetAll (LSPApi)'
+[2023-08-20 10:15:38.204 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Link - - - 200 - application/json;+charset=utf-8 143.4684ms
+[2023-08-20 10:24:25.391 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 10:24:25.679 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 296.4357ms
+[2023-08-20 10:24:25.681 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 10:24:25.688 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.6793ms
+[2023-08-20 10:24:25.691 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 10:24:25.702 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 11.4825ms
+[2023-08-20 10:24:25.741 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 10:24:25.820 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 78.4655ms
+[2023-08-20 10:24:34.928 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Link/12 - -
+[2023-08-20 10:24:34.952 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.LinkController.GetById (LSPApi)'
+[2023-08-20 10:24:34.976 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Link"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.LinkDto] GetById(Int32) on controller LSPApi.Controllers.LinkController (LSPApi).
+[2023-08-20 10:24:34.984 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.LinkController.GetById (LSPApi) in 1.6831ms
+[2023-08-20 10:24:34.988 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.LinkController.GetById (LSPApi)'
+[2023-08-20 10:24:35.011 -07:00  ERR] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'LSPApi.DataLayer.ILinkRepository' while attempting to activate 'LSPApi.Controllers.LinkController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
+   at lambda_method9(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass7_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+[2023-08-20 10:24:35.014 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Link/12 - - - 500 - text/plain;+charset=utf-8 85.4153ms
+[2023-08-20 10:25:22.369 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 10:25:22.649 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 287.3652ms
+[2023-08-20 10:25:22.650 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 10:25:22.657 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.5842ms
+[2023-08-20 10:25:22.660 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 10:25:22.672 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 11.1598ms
+[2023-08-20 10:25:22.711 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 10:25:22.788 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 76.6298ms
+[2023-08-20 10:25:28.027 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Link - -
+[2023-08-20 10:25:28.049 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.LinkController.GetAll (LSPApi)'
+[2023-08-20 10:25:28.067 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetAll", controller = "Link"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.Collections.Generic.IEnumerable`1[LSPApi.DataLayer.Model.LinkDto]] GetAll() on controller LSPApi.Controllers.LinkController (LSPApi).
+[2023-08-20 10:25:29.176 -07:00  INF] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT `l`.`LinkID`, `l`.`BookID`, `l`.`DateCreated`, `l`.`DateUpdated`, `l`.`Link`, `l`.`LinkDescription`
+FROM `Links` AS `l`
+[2023-08-20 10:25:29.272 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[LSPApi.DataLayer.Model.LinkDto, DataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[2023-08-20 10:25:29.288 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.LinkController.GetAll (LSPApi) in 1214.3296ms
+[2023-08-20 10:25:29.291 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.LinkController.GetAll (LSPApi)'
+[2023-08-20 10:25:29.303 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Link - - - 200 - application/json;+charset=utf-8 1276.0652ms
+[2023-08-20 10:53:49.673 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-20 10:53:49.955 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 290.5973ms
+[2023-08-20 10:53:49.956 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-20 10:53:49.963 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 6.1592ms
+[2023-08-20 10:53:49.966 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-20 10:53:49.977 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 11.3284ms
+[2023-08-20 10:53:50.012 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-20 10:53:50.087 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 74.8278ms
+[2023-08-20 10:53:57.416 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Vendor/1 - -
+[2023-08-20 10:53:57.439 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.VendorController.GetById (LSPApi)'
+[2023-08-20 10:53:57.463 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Vendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.VendorDto] GetById(Int32) on controller LSPApi.Controllers.VendorController (LSPApi).
+[2023-08-20 10:53:58.655 -07:00  INF] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (59ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT `v`.`VendorID`, `v`.`DateCreated`, `v`.`DateUpdated`, `v`.`VendorName`
+FROM `Vendor` AS `v`
+WHERE `v`.`VendorID` = @__id_0
+LIMIT 1
+[2023-08-20 10:53:58.746 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor: Executing ObjectResult, writing value of type 'LSPApi.DataLayer.Model.VendorDto'.
+[2023-08-20 10:53:58.767 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.VendorController.GetById (LSPApi) in 1296.555ms
+[2023-08-20 10:53:58.769 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.VendorController.GetById (LSPApi)'
+[2023-08-20 10:53:58.781 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Vendor/1 - - - 200 - application/json;+charset=utf-8 1364.9815ms
+[2023-08-20 10:54:18.066 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Vendor - -
+[2023-08-20 10:54:18.068 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.VendorController.GetAll (LSPApi)'
+[2023-08-20 10:54:18.071 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetAll", controller = "Vendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.Collections.Generic.IEnumerable`1[LSPApi.DataLayer.Model.VendorDto]] GetAll() on controller LSPApi.Controllers.VendorController (LSPApi).
+[2023-08-20 10:54:18.187 -07:00  INF] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (29ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT `v`.`VendorID`, `v`.`DateCreated`, `v`.`DateUpdated`, `v`.`VendorName`
+FROM `Vendor` AS `v`
+[2023-08-20 10:54:18.189 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[LSPApi.DataLayer.Model.VendorDto, DataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[2023-08-20 10:54:18.191 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.VendorController.GetAll (LSPApi) in 119.2551ms
+[2023-08-20 10:54:18.192 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.VendorController.GetAll (LSPApi)'
+[2023-08-20 10:54:18.193 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Vendor - - - 200 - application/json;+charset=utf-8 126.2864ms

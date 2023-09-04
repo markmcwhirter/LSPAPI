@@ -1,0 +1,31 @@
+[2023-08-23 06:15:21.837 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-23 06:15:22.196 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-23 06:15:22.202 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 4.5717ms
+[2023-08-23 06:15:22.202 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 373.4310ms
+[2023-08-23 06:15:22.204 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-23 06:15:22.229 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 24.8016ms
+[2023-08-23 06:15:22.425 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-23 06:15:22.512 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 87.3001ms
+[2023-08-23 06:15:31.129 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Author/1 - -
+[2023-08-23 06:15:31.153 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-23 06:15:31.180 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Author"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.AuthorDto] GetById(Int32) on controller LSPApi.Controllers.AuthorController (LSPApi).
+[2023-08-23 06:18:39.037 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/index.html - -
+[2023-08-23 06:18:39.328 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - -
+[2023-08-23 06:18:39.333 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 3.7331ms
+[2023-08-23 06:18:39.333 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/index.html - - - 200 - text/html;charset=utf-8 306.7449ms
+[2023-08-23 06:18:39.339 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/_vs/browserLink - -
+[2023-08-23 06:18:39.350 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 11.6746ms
+[2023-08-23 06:18:39.570 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - -
+[2023-08-23 06:18:39.656 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 85.6717ms
+[2023-08-23 06:18:45.226 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/2 GET https://localhost:7253/api/Author/1 - -
+[2023-08-23 06:18:45.249 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-23 06:18:45.274 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "GetById", controller = "Author"}. Executing controller action with signature System.Threading.Tasks.Task`1[LSPApi.DataLayer.Model.AuthorDto] GetById(Int32) on controller LSPApi.Controllers.AuthorController (LSPApi).
+[2023-08-23 06:18:51.766 -07:00  INF] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (75ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT `a`.`AuthorID`, `a`.`Address1`, `a`.`Address2`, `a`.`Admin`, `a`.`Bio`, `a`.`BusinessPhone`, `a`.`CellPhone`, `a`.`City`, `a`.`Country`, `a`.`DateCreated`, `a`.`DateUpdated`, `a`.`Email`, `a`.`FirstName`, `a`.`HomePhone`, `a`.`LastName`, `a`.`MiddleName`, `a`.`Password`, `a`.`Prefix`, `a`.`State`, `a`.`Suffix`, `a`.`Username`, `a`.`ZIP`
+FROM `Author` AS `a`
+WHERE `a`.`AuthorID` = @__id_0
+LIMIT 1
+[2023-08-23 06:18:53.121 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor: Executing ObjectResult, writing value of type 'LSPApi.DataLayer.Model.AuthorDto'.
+[2023-08-23 06:18:53.189 -07:00  INF] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action LSPApi.Controllers.AuthorController.GetById (LSPApi) in 7906.5853ms
+[2023-08-23 06:18:53.191 -07:00  INF] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'LSPApi.Controllers.AuthorController.GetById (LSPApi)'
+[2023-08-23 06:18:53.203 -07:00  INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/2 GET https://localhost:7253/api/Author/1 - - - 200 - application/json;+charset=utf-8 7977.6182ms
