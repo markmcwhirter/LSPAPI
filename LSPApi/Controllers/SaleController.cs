@@ -2,6 +2,7 @@
 using LSPApi.DataLayer;
 using model = LSPApi.DataLayer.Model;
 using LSPApi.DataLayer.Model;
+using System.Collections.Generic;
 
 namespace LSPApi.Controllers
 {
@@ -58,5 +59,9 @@ namespace LSPApi.Controllers
             return result;
 
         }
+
+        [HttpGet, Route("GetSales")]
+        public async Task<List<BookSaleDto>> GetSales() => await _Sale.GetSales();
+
     }
 }
