@@ -9,5 +9,7 @@ public interface ISaleRepository
     Task Add(SaleDto Sale);
     Task Update(SaleDto Sale);
     Task Delete(int id);
+
+    Task<List<BookSaleDto>> GetSales();
 }
 

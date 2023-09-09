@@ -1,5 +1,8 @@
 ﻿using LSPApi.DataLayer.Model;
+
 using Microsoft.EntityFrameworkCore;
+
+using MySqlX.XDevAPI.Common;
 
 namespace LSPApi.DataLayer;
 public class SaleRepository : ISaleRepository
@@ -37,4 +40,62 @@ public class SaleRepository : ISaleRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<List<BookSaleDto>> GetSales()
+    {
+
+        //await _context.Author
+        //    .Join(_context.Book,
+        //        a => a.AuthorID,
+        //        b => b.AuthorID,
+        //        (a, b) => new { Author = a, Book = b })
+        //    .Join(_context.Sales,
+        //        b1 => b1.Book.BookID,
+        //        s1 => s1.SaleID,
+        //        (b1, s1) => new { Book = b1, Sale = s1 })
+        //    .Join(_context.Vendor,
+        //        s2 => s2.Sale.VendorID,
+        //        v1 => v1.VendorID,
+        //        (s2, v1) => new BookSaleDto
+        //        {
+        //             SaleID = s2.Sale.SaleID,
+        //             Author = s2.Book.Author.LastName.Trim() + ", " + s2.Book.Author.FirstName.Trim(),
+        //             Title = s2.Book.Book.Title ?? "",
+        //             VendorName = v1.VendorName ?? "",
+        //             SalesDate = s2.Sale.SalesDate, // .HasValue ? s2.Sale.SalesDate.Value.ToString("yyyy-MM-dd") : "",
+        //             UnitsSold = s2.Sale.UnitsSold ?? 0M,
+        //             UnitsToDate = s2.Sale.UnitsToDate ?? 0M,
+        //             SalesThisPeriod = s2.Sale.SalesThisPeriod ?? 0M,
+        //             SalesToDate = s2.Sale.SalesToDate  ?? 0M,
+        //             Royalty = s2.Sale.Royalty ?? 0M
+        //        })
+        //.ToListAsync();
+
+        var tmpdata = await _context.Sales
+    .Join(_context.Book,
+        a => a.BookID,
+        b => b.BookID,
+        (a, b) => new { Sales = a, Book = b })
+    .Join(_context.Author,
+        b1 => b1.Book.AuthorID,
+        a => a.AuthorID,
+        (b1, a) => new  BookSaleDto
+        {
+            SaleID = b1.Sales.SaleID,
+            Author = a.LastName.Trim() + ", " + a.FirstName.Trim(),
+            Title = b1.Book.Title ?? "",
+            VendorName = "",
+            SalesDate = b1.Sales.SalesDate, 
+            UnitsSold = b1.Sales.UnitsSold ?? 0M,
+            UnitsToDate = b1.Sales.UnitsToDate ?? 0M,
+            SalesThisPeriod = b1.Sales.SalesThisPeriod ?? 0M,
+            SalesToDate = b1.Sales.SalesToDate ?? 0M,
+            Royalty = b1.Sales.Royalty ?? 0M,
+            VendorID = b1.Sales.VendorID ?? 0
+        })
+        .ToListAsync();
+
+        return tmpdata;
+    }
+
 }
