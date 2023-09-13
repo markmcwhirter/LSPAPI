@@ -6,7 +6,8 @@ public interface IAuthorRepository
 {
     Task<AuthorDto> GetById(int id);
 
-    Task<AuthorDto> GetByUsername(string username, string password);
+    Task<AuthorDto> GetByUsernamePassword(string username, string password);
+    Task<AuthorDto> GetByUsername(string username);
     Task<IEnumerable<AuthorDto>> GetAll();
     Task Add(AuthorDto author);
     Task Update(AuthorDto author);

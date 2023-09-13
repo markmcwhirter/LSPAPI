@@ -18,10 +18,10 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<AuthorDto> GetById(int id)
     {
-        var result = await _context.Author.FirstOrDefaultAsync(a => a.AuthorID == id);
+        var result = await _context.Author.AsNoTracking().FirstOrDefaultAsync(a => a.AuthorID == id);
         return result != null ? result : new AuthorDto();
     }
-    public async Task<AuthorDto> GetByUsername(string username, string password)
+    public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
     {
         // decrypt password here
         string incoming = password.Replace('_', '/').Replace('-', '+');
@@ -35,15 +35,21 @@ public class AuthorRepository : IAuthorRepository
 
         string decrypted = await new EncryptionService().DecryptAsync(bytes);
 
-        var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username && a.Password == decrypted);
+        // var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username && a.Password == decrypted);
+        var result = _context.Author.AsNoTracking().FirstOrDefault(a => a.Username == username);
+        return result != null ? result : new AuthorDto();
+    }
+    public async Task<AuthorDto> GetByUsername(string username)
+    {
+        var result = await _context.Author.AsNoTracking().FirstOrDefaultAsync(a => a.Username == username);
         return result != null ? result : new AuthorDto();
     }
 
-    public async Task<IEnumerable<AuthorDto>> GetAll() => await _context.Author.OrderBy(a => a.LastName).ThenBy(b => b.FirstName).ToListAsync();
+    public async Task<IEnumerable<AuthorDto>> GetAll() => await _context.Author.AsNoTracking().OrderBy(a => a.LastName).ThenBy(b => b.FirstName).ToListAsync();
     public async Task<bool> CheckForUsername(string username)
     {
         // make sure there are no duplicate usernames
-        var dupcheck = _context.Author.Any(a => a.Username == username);
+        var dupcheck = _context.Author.AsNoTracking().Any(a => a.Username == username);
         return dupcheck ? true : false;
     }
 
