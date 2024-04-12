@@ -26,7 +26,36 @@ namespace LSPApi.Controllers
         public async Task<model.AuthorDto> GetById(int id) => await _author.GetById(id);
 
         [HttpGet, Route("{username}/{password}")]
-        public async Task<model.AuthorDto> GetByUsernamePassword(string username, string password) => await _author.GetByUsernamePassword(username, password);
+        public async Task<model.AuthorDto> GetByUsernamePassword(string username, string password)
+        {
+            model.AuthorDto status = new model.AuthorDto();
+
+            try
+            {
+                status = await _author.GetByUsernamePassword(username, password);
+            }
+            catch(Exception ex)
+            {
+                var error = ex.Message;
+            }
+            return status;
+        }
+
+        [HttpPost, Route("search")]
+        public async Task<List<model.AuthorListResultsModel>> GetSearch([FromBody] model.AuthorSearchModel searchterm)
+        {
+            List<model.AuthorListResultsModel> result = new List<model.AuthorListResultsModel>();
+
+            try
+            {
+                result = await _author.GetBySearchTerm(searchterm);
+            }
+            catch (Exception ex)
+            {
+                var error = ex.Message;
+            }
+            return result;
+        }
 
         //[HttpGet, Route("{username}")]
         //public async Task<model.AuthorDto> GetByUsername(string username) => await _author.GetByUsername(username);
@@ -64,6 +93,8 @@ namespace LSPApi.Controllers
             var current = await _author.GetByUsername(author.Username);
 
             author.Password = current.Password;
+            author.DateCreated = current.DateCreated;
+            author.DateUpdated = DateTime.Now.ToString();
 
             //if (duplicate) return BadRequest();
 

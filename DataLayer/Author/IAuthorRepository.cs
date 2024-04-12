@@ -5,6 +5,7 @@ namespace LSPApi.DataLayer;
 public interface IAuthorRepository
 {
     Task<AuthorDto> GetById(int id);
+    Task<List<AuthorListResultsModel>> GetBySearchTerm(AuthorSearchModel authorsearch);
 
     Task<AuthorDto> GetByUsernamePassword(string username, string password);
     Task<AuthorDto> GetByUsername(string username);
