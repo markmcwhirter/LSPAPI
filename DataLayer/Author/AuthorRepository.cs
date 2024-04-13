@@ -21,7 +21,10 @@ public class AuthorRepository : IAuthorRepository
         IQueryable<AuthorDto> queryboth;
         IQueryable<AuthorDto> queryfirst;
         IQueryable<AuthorDto> querylast;
+        IQueryable<AuthorDto> querynone;
+
         IQueryable<AuthorDto> query;
+
 
         queryboth = _context.Author.AsNoTracking()
             .Where(a => a.LastName.StartsWith(authorsearch.LastName) && a.FirstName.StartsWith(authorsearch.FirstName));
@@ -32,16 +35,41 @@ public class AuthorRepository : IAuthorRepository
         querylast = _context.Author.AsNoTracking()
             .Where(a => a.LastName.StartsWith(authorsearch.LastName));
 
+        querynone = _context.Author.AsNoTracking();
 
-        if (authorsearch.LastName.Trim() != "" && authorsearch.FirstName.Trim() != "")
+        if (authorsearch.LastName.Trim() == "" && authorsearch.FirstName.Trim() == "")
+            query = querynone;
+        else if (authorsearch.LastName.Trim() != "" && authorsearch.FirstName.Trim() != "")
             query = queryboth;
-        else if (authorsearch.FirstName.Trim() == "")
+        else if (authorsearch.LastName.Trim() != "")
             query = querylast;
-        else
+        else if(authorsearch.FirstName.Trim() != "")
             query = queryfirst;
+        else
+            query = querynone;
 
+        var sortargs = authorsearch.SortOrder.Split(' ');
 
-        var result = await query
+        var sortfield = sortargs[0].ToUpper().Trim();
+        var sortdirection = sortargs.Length > 1 ? sortargs[1].ToUpper().Trim() : "ASC";
+
+        if (sortfield == "LASTNAME")
+        {
+            if (sortdirection == "ASC")
+                query = query.OrderBy(a => a.LastName);
+            else
+                query = query.OrderByDescending(a => a.LastName);
+        }
+        else if (sortfield == "FIRSTNAME")
+        {
+            if (sortdirection == "ASC")
+                query = query.OrderBy(a => a.FirstName);
+            else
+                query = query.OrderByDescending(a => a.FirstName);
+        }
+    
+
+    var result = await query
             .Select(p => new AuthorListResultsModel
             {
                 AuthorID = p.AuthorID,
