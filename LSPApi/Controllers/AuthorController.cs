@@ -23,7 +23,13 @@ namespace LSPApi.Controllers
 
 
         [HttpGet, Route("{id:int}")]
-        public async Task<model.AuthorDto> GetById(int id) => await _author.GetById(id);
+        //public async Task<model.AuthorDto> GetById(int id) => await _author.GetById(id);
+        public async Task<model.AuthorDto> GetById(int id)
+        {
+            var result = await _author.GetById(id);
+            return result;
+        }
+
 
         [HttpGet, Route("{username}/{password}")]
         public async Task<model.AuthorDto> GetByUsernamePassword(string username, string password)
@@ -57,9 +63,6 @@ namespace LSPApi.Controllers
             return result;
         }
 
-        //[HttpGet, Route("{username}")]
-        //public async Task<model.AuthorDto> GetByUsername(string username) => await _author.GetByUsername(username);
-
         [HttpGet]
         public async Task<IEnumerable<model.AuthorDto>> GetAll() => await _author.GetAll();
 
@@ -90,13 +93,7 @@ namespace LSPApi.Controllers
             if (string.IsNullOrEmpty(author.LastName)) return BadRequest();
             if (string.IsNullOrEmpty(author.Email)) return BadRequest();
 
-            var current = await _author.GetByUsername(author.Username);
-
-            author.Password = current.Password;
-            author.DateCreated = current.DateCreated;
             author.DateUpdated = DateTime.Now.ToString();
-
-            //if (duplicate) return BadRequest();
 
             await _author.Update(author);
 

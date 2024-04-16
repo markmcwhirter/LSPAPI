@@ -137,6 +137,9 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task Update(AuthorDto author)
     {
+        _context.Set<AuthorDto>().Attach(author);
+        _context.Entry(author).State = EntityState.Modified;
+
         _context.Author.Update(author);
         await _context.SaveChangesAsync();
     }
