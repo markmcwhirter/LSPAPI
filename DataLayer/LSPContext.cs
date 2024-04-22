@@ -1,12 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LSPApi.DataLayer.Model;
-using Org.BouncyCastle.Asn1.Mozilla;
-using System.Configuration;
+﻿using LSPApi.DataLayer.Model;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace LSPApi.DataLayer;
 

@@ -26,16 +26,16 @@ public class AuthorRepository : IAuthorRepository
         IQueryable<AuthorDto> query;
 
 
-        queryboth = _context.Author.AsNoTracking()
+        queryboth = _context.Author
             .Where(a => a.LastName.StartsWith(authorsearch.LastName) && a.FirstName.StartsWith(authorsearch.FirstName));
 
-        queryfirst = _context.Author.AsNoTracking()
+        queryfirst = _context.Author
             .Where(a => a.FirstName.StartsWith(authorsearch.FirstName));
 
-        querylast = _context.Author.AsNoTracking()
+        querylast = _context.Author
             .Where(a => a.LastName.StartsWith(authorsearch.LastName));
 
-        querynone = _context.Author.AsNoTracking();
+        querynone = _context.Author;
 
         if (authorsearch.LastName.Trim() == "" && authorsearch.FirstName.Trim() == "")
             query = querynone;
@@ -86,7 +86,7 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<AuthorDto> GetById(int id)
     {
-        var result = await _context.Author.AsNoTracking().FirstOrDefaultAsync(a => a.AuthorID == id);
+        var result = await _context.Author.FirstOrDefaultAsync(a => a.AuthorID == id);
         return result != null ? result : new AuthorDto();
     }
     public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
@@ -104,23 +104,21 @@ public class AuthorRepository : IAuthorRepository
         //string decrypted = await new EncryptionService().DecryptAsync(bytes);
 
         // var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username && a.Password == decrypted);
-        var result = _context.Author.AsNoTracking().FirstOrDefault(a => a.Username == username);
-        result.Password = "";
+        var result = _context.Author.FirstOrDefault(a => a.Username == username);
 
-        if (result != null) result.Admin = "1";
         return result != null ? result : new AuthorDto();
     }
     public async Task<AuthorDto> GetByUsername(string username)
     {
-        var result = await _context.Author.AsNoTracking().FirstOrDefaultAsync(a => a.Username == username);
+        var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username);
         return result != null ? result : new AuthorDto();
     }
 
-    public async Task<IEnumerable<AuthorDto>> GetAll() => await _context.Author.AsNoTracking().OrderBy(a => a.LastName).ThenBy(b => b.FirstName).ToListAsync();
+    public async Task<IEnumerable<AuthorDto>> GetAll() => await _context.Author.OrderBy(a => a.LastName).ThenBy(b => b.FirstName).ToListAsync();
     public async Task<bool> CheckForUsername(string username)
     {
         // make sure there are no duplicate usernames
-        var dupcheck = _context.Author.AsNoTracking().Any(a => a.Username == username);
+        var dupcheck = _context.Author.Any(a => a.Username == username);
         return dupcheck ? true : false;
     }
 

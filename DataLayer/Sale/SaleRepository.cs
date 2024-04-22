@@ -2,7 +2,6 @@
 
 using Microsoft.EntityFrameworkCore;
 
-using MySqlX.XDevAPI.Common;
 
 namespace LSPApi.DataLayer;
 public class SaleRepository : ISaleRepository

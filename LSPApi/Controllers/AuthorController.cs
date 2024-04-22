@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LSPApi.DataLayer;
 using model = LSPApi.DataLayer.Model;
-using System.Net;
-using Org.BouncyCastle.Asn1.Ocsp;
+
 
 namespace LSPApi.Controllers
 {
@@ -94,6 +93,16 @@ namespace LSPApi.Controllers
             if (string.IsNullOrEmpty(author.Email)) return BadRequest();
 
             author.DateUpdated = DateTime.Now.ToString();
+
+
+            // hack to accomodate non-priveleged updates
+            if (author.Admin == null || author.Password == null)
+            {
+                var result = await _author.GetById(author.AuthorID);
+                if (author.Admin == null) author.Admin = result.Admin;
+                if( author.Password == null) author.Password = result.Password;
+            }
+
 
             await _author.Update(author);
 

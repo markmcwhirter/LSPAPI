@@ -1,7 +1,5 @@
 ﻿using LSPApi.DataLayer;
 using Microsoft.EntityFrameworkCore;
-using System;
-using MySql.Data;
 using Pomelo.EntityFrameworkCore.MySql;
 
 namespace LSPApi;
@@ -28,8 +26,9 @@ public class Startup
 
         services.AddScoped<IAuthorRepository, AuthorRepository>();
         services.AddDbContext<LSPContext>(options =>
-        {           
-            options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 26)));
+        {
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            //options.UseMySql(connectionString, new MySqlServerVersion(new Version(8,0,26)));
         });
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
