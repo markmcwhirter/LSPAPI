@@ -20,9 +20,6 @@ namespace LSPApi.Controllers
         }
 
 
-        //[HttpGet, Route("{id:int}")]
-        //public async Task<model.SaleDto> GetById(int id) => await _Sale.GetSaleById(id);
-
         [HttpGet]
         public async Task<IEnumerable<model.SaleDto>> GetAll() => await _Sale.GetAll();
 
