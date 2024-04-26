@@ -12,7 +12,6 @@ namespace LSPApi.Controllers
     {
         private readonly ILogger<SaleController> _logger;
         private readonly ISaleRepository _Sale;
-        private readonly IConfiguration _configuration;
 
         public SaleController(ILogger<SaleController> logger, ISaleRepository Sale)
         {
@@ -33,7 +32,7 @@ namespace LSPApi.Controllers
         [HttpGet, Route("GetSales/{bookid:int}")]
         public async Task<SaleDto> LastSales(int bookId)
         {
-            SaleDto result = new SaleDto();
+            SaleDto result = new();
            
 
             try
@@ -43,7 +42,9 @@ namespace LSPApi.Controllers
 
                 if (data != null)
                 {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                     var maxdate = data.MaxBy(x => x.SalesDate).SalesDate;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
                     for (int v = 1; v < 7; v++)
                     {
@@ -53,7 +54,7 @@ namespace LSPApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error in LastSales: {ex.Message}");
+                _logger.LogError(ex, "Error in LastSales");
             }
 
             return result;

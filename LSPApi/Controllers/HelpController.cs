@@ -13,20 +13,22 @@ namespace LSPApi.Controllers;
 [Route("api/[controller]")]
 public class HelpController : ControllerBase
 {
-    private readonly ILogger<HelpController> _logger;
     private readonly IConfiguration _configuration;
 
-    public HelpController(ILogger<HelpController> logger, IConfiguration configuration)
+    public HelpController( IConfiguration configuration)
     {
-        _logger = logger;
         _configuration = configuration;
     }
 
     [HttpPost]
     public async Task<IActionResult> SendEmail([FromBody] EMail data)
     {
-        
-        var sendGridClient = new SendGridClient(_configuration["SendGridKey"].ToString());
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        var creds = _configuration["SendGridKey"].ToString() ?? string.Empty;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+
+        var sendGridClient = new SendGridClient(creds);
 
         if (string.IsNullOrEmpty(data.To)) return BadRequest();
         if (string.IsNullOrEmpty(data.From)) return BadRequest();
@@ -40,7 +42,7 @@ public class HelpController : ControllerBase
         var htmlContent = data.Text;
 
         var message = MailHelper.CreateSingleEmail(from, to, subject, plainText, htmlContent);
-        var response = await sendGridClient.SendEmailAsync(message);
+        _ = await sendGridClient.SendEmailAsync(message);
 
         return Ok();
     }

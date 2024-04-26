@@ -9,15 +9,11 @@ namespace LSPApi.Controllers
     [Route("api/[controller]")]
     public class AuthorController : ControllerBase
     {
-        private readonly ILogger<AuthorController> _logger;
         private readonly IAuthorRepository _author;
-        private readonly IConfiguration _configuration;
 
-        public AuthorController(ILogger<AuthorController> logger, IConfiguration configuration, IAuthorRepository author)
+        public AuthorController(IAuthorRepository author)
         {
-            _logger = logger;
             _author = author;
-            _configuration = configuration;
         }
 
 
@@ -33,7 +29,7 @@ namespace LSPApi.Controllers
         [HttpGet, Route("{username}/{password}")]
         public async Task<model.AuthorDto> GetByUsernamePassword(string username, string password)
         {
-            model.AuthorDto status = new model.AuthorDto();
+            model.AuthorDto status = new();
 
             try
             {
@@ -41,7 +37,7 @@ namespace LSPApi.Controllers
             }
             catch(Exception ex)
             {
-                var error = ex.Message;
+                _ = ex.Message;
             }
             return status;
         }
@@ -49,7 +45,7 @@ namespace LSPApi.Controllers
         [HttpPost, Route("search")]
         public async Task<List<model.AuthorListResultsModel>> GetSearch([FromBody] model.AuthorSearchModel searchterm)
         {
-            List<model.AuthorListResultsModel> result = new List<model.AuthorListResultsModel>();
+            List<model.AuthorListResultsModel> result = new();
 
             try
             {
@@ -57,13 +53,13 @@ namespace LSPApi.Controllers
             }
             catch (Exception ex)
             {
-                var error = ex.Message;
+                _ = ex.Message;
             }
             return result;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<model.AuthorDto>> GetAll() => await _author.GetAll();
+        //[HttpGet]
+        //public async Task<IEnumerable<model.AuthorDto>> GetAll() => await _author.GetAll();
 
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody] model.AuthorDto author)
@@ -99,8 +95,8 @@ namespace LSPApi.Controllers
             if (author.Admin == null || author.Password == null)
             {
                 var result = await _author.GetById(author.AuthorID);
-                if (author.Admin == null) author.Admin = result.Admin;
-                if( author.Password == null) author.Password = result.Password;
+                author.Admin ??= result.Admin;
+                author.Password ??= result.Password;
             }
 
 

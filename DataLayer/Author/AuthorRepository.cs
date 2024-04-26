@@ -18,22 +18,30 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<List<AuthorListResultsModel>> GetBySearchTerm(AuthorSearchModel authorsearch)
     {
-        IQueryable<AuthorDto> queryboth;
-        IQueryable<AuthorDto> queryfirst;
-        IQueryable<AuthorDto> querylast;
-        IQueryable<AuthorDto> querynone;
+        IQueryable<AuthorDto>? queryboth = null;
+        IQueryable<AuthorDto>? queryfirst = null;
+        IQueryable<AuthorDto>? querylast = null;
+        IQueryable<AuthorDto>? querynone = null;
 
-        IQueryable<AuthorDto> query;
+        IQueryable<AuthorDto>? query = null;
 
+        if (authorsearch.LastName != null && authorsearch.FirstName != null)
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            queryboth = _context.Author
+                .Where(a => a.LastName.StartsWith(authorsearch.LastName) && a.FirstName.StartsWith(authorsearch.FirstName));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
-        queryboth = _context.Author
-            .Where(a => a.LastName.StartsWith(authorsearch.LastName) && a.FirstName.StartsWith(authorsearch.FirstName));
-
-        queryfirst = _context.Author
+        if (authorsearch.FirstName != null)
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            queryfirst = _context.Author
             .Where(a => a.FirstName.StartsWith(authorsearch.FirstName));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
-        querylast = _context.Author
+        if (authorsearch.LastName != null)
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            querylast = _context.Author
             .Where(a => a.LastName.StartsWith(authorsearch.LastName));
+
 
         querynone = _context.Author;
 
@@ -41,22 +49,35 @@ public class AuthorRepository : IAuthorRepository
             query = querynone;
         else if (authorsearch.LastName.Trim() != "" && authorsearch.FirstName.Trim() != "")
             query = queryboth;
+
         else if (authorsearch.LastName.Trim() != "")
             query = querylast;
-        else if(authorsearch.FirstName.Trim() != "")
+        else if (authorsearch.FirstName.Trim() != "")
             query = queryfirst;
         else
             query = querynone;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
-        var sortargs = authorsearch.SortOrder.Split(' ');
+        string[]? sortargs = null;
 
-        var sortfield = sortargs[0].ToUpper().Trim();
-        var sortdirection = sortargs.Length > 1 ? sortargs[1].ToUpper().Trim() : "ASC";
+        if(authorsearch.SortOrder  != null)
+            sortargs =  authorsearch.SortOrder.Split(' ');
+
+        string? sortfield = null;
+
+        if(sortargs != null )
+            sortfield = sortargs[0].ToUpper().Trim();
+
+        string? sortdirection = null;
+        if( sortargs != null)
+            sortdirection = sortargs.Length > 1 ? sortargs[1].ToUpper().Trim() : "ASC";
 
         if (sortfield == "LASTNAME")
         {
             if (sortdirection == "ASC")
+#pragma warning disable CS8604 // Possible null reference argument.
                 query = query.OrderBy(a => a.LastName);
+
             else
                 query = query.OrderByDescending(a => a.LastName);
         }
@@ -67,27 +88,27 @@ public class AuthorRepository : IAuthorRepository
             else
                 query = query.OrderByDescending(a => a.FirstName);
         }
-    
 
-    var result = await query
-            .Select(p => new AuthorListResultsModel
-            {
-                AuthorID = p.AuthorID,
-                FirstName = p.FirstName,
-                LastName = p.LastName,
-                MiddleName = p.MiddleName,
-                Prefix = p.Prefix,
-                Suffix = p.Suffix
-            })
-            .ToListAsync();
 
-        return result != null ? result : new List<AuthorListResultsModel>();
+        var result = await query
+                .Select(p => new AuthorListResultsModel
+                {
+                    AuthorID = p.AuthorID,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    MiddleName = p.MiddleName,
+                    Prefix = p.Prefix,
+                    Suffix = p.Suffix
+                })
+                .ToListAsync();
+#pragma warning restore CS8604 // Possible null reference argument.
+        return result ?? new List<AuthorListResultsModel>();
     }
 
     public async Task<AuthorDto> GetById(int id)
     {
         var result = await _context.Author.FirstOrDefaultAsync(a => a.AuthorID == id);
-        return result != null ? result : new AuthorDto();
+        return result ?? new AuthorDto();
     }
     public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
     {
@@ -104,23 +125,19 @@ public class AuthorRepository : IAuthorRepository
         //string decrypted = await new EncryptionService().DecryptAsync(bytes);
 
         // var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username && a.Password == decrypted);
-        var result = _context.Author.FirstOrDefault(a => a.Username == username);
+        var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username);
 
-        return result != null ? result : new AuthorDto();
+        return result ?? new AuthorDto();
     }
     public async Task<AuthorDto> GetByUsername(string username)
     {
         var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username);
-        return result != null ? result : new AuthorDto();
+        return result ?? new AuthorDto();
     }
 
     public async Task<IEnumerable<AuthorDto>> GetAll() => await _context.Author.OrderBy(a => a.LastName).ThenBy(b => b.FirstName).ToListAsync();
-    public async Task<bool> CheckForUsername(string username)
-    {
-        // make sure there are no duplicate usernames
-        var dupcheck = _context.Author.Any(a => a.Username == username);
-        return dupcheck ? true : false;
-    }
+    public async Task<bool> CheckForUsername(string username) =>
+        await _context.Author.AnyAsync(a => a.Username == username);
 
     public async Task Add(AuthorDto author)
     {

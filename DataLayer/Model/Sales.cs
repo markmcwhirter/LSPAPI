@@ -7,7 +7,7 @@ public partial class SaleDto
     public int SaleID { get; set; }
 	public int BookID { get; set; }
 	public int? VendorID { get; set; }
-	public string SalesDate { get; set; }
+	public string? SalesDate { get; set; }
 	public int? UnitsSold { get; set; }
 	public decimal? Royalty { get; set; }
 	public string? DateCreated { get; set; }

@@ -1,41 +1,43 @@
 ﻿using LSPApi.DataLayer;
 using Microsoft.EntityFrameworkCore;
 
+namespace LSPApi.DataLayer;
 public class Repository<T> : IRepository<T> where T : class
 {
-    public DbContext _dbContext { get; set; }
+    public DbContext DbContext { get; set; }
 
     public Repository(DbContext dbContext)
     {
-        _dbContext = dbContext;
+        DbContext = dbContext;
     }
 
-    public async Task<T> GetByIdAsync(int id)
-    {
-        return await _dbContext.Set<T>().FindAsync(id);
-    }
+#pragma warning disable CS8603 // Possible null reference return.
+    public async Task<T> GetByIdAsync(int id) =>
+        await DbContext.Set<T>().FindAsync(id);
+#pragma warning restore CS8603 // Possible null reference return.
+
 
     public async Task<IEnumerable<T>> GetAllAsync()
     {
-        return await _dbContext.Set<T>().ToListAsync();
+        return await DbContext.Set<T>().ToListAsync();
     }
 
     public async Task AddAsync(T entity)
     {
-        await _dbContext.Set<T>().AddAsync(entity);
-        await _dbContext.SaveChangesAsync();
+        await DbContext.Set<T>().AddAsync(entity);
+        await DbContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(T entity)
     {
-        _dbContext.Entry(entity).State = EntityState.Modified;
-        await _dbContext.SaveChangesAsync();
+        DbContext.Entry(entity).State = EntityState.Modified;
+        await DbContext.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(T entity)
     {
-        _dbContext.Set<T>().Remove(entity);
-        await _dbContext.SaveChangesAsync();
+        DbContext.Set<T>().Remove(entity);
+        await DbContext.SaveChangesAsync();
     }
 
 }

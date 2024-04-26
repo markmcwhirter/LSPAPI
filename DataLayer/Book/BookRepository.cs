@@ -11,7 +11,9 @@ public class BookRepository : IBookRepository
         _context = context;
     }
 
+#pragma warning disable CS8603 // Possible null reference return.
     public async Task<BookDto> GetById(int id) =>  await _context.Book.FirstOrDefaultAsync(a => a.BookID == id);
+#pragma warning restore CS8603 // Possible null reference return.
 
     public async Task<List<BookDto>> GetByAuthorId(int id) => await _context.Book.Where(a => a.AuthorID == id).ToListAsync();
 

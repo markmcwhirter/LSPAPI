@@ -14,13 +14,7 @@ public class Startup
     {
         Configuration = configuration;
     }
-    //private ILogger<Startup> _logger;
 
-    public Startup(IConfiguration configuration, ILogger<Startup> logger)
-    {
-        Configuration = configuration;
-        // _logger = logger;
-    }
 
     public void ConfigureServices(IServiceCollection services)
     {

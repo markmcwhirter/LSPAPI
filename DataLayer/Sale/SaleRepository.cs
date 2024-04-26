@@ -13,7 +13,9 @@ public class SaleRepository : ISaleRepository
         _context = context;
     }
 
+#pragma warning disable CS8603 // Possible null reference return.
     public async Task<SaleDto> GetById(int id) => await _context.Sales.FirstOrDefaultAsync(a => a.SaleID == id);
+#pragma warning restore CS8603 // Possible null reference return.
 
     public async Task<IEnumerable<SaleDto>> GetAll() => await _context.Sales.ToListAsync();
 
@@ -70,6 +72,7 @@ public class SaleRepository : ISaleRepository
         //        })
         //.ToListAsync();
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         var tmpdata = await _context.Sales
     .Join(_context.Book,
         a => a.BookID,
@@ -93,6 +96,7 @@ public class SaleRepository : ISaleRepository
             VendorID = b1.Sales.VendorID ?? 0
         })
         .ToListAsync();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         return tmpdata;
     }
