@@ -1,4 +1,6 @@
 ﻿using LSPApi.DataLayer;
+
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
 
@@ -72,8 +74,13 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        // using Microsoft.AspNetCore.HttpOverrides;
 
-        //app.UseHttpsRedirection();
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        });
+
         app.UseRouting();
         app.UseAuthorization();
 
