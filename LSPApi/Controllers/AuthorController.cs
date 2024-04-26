@@ -18,12 +18,7 @@ namespace LSPApi.Controllers
 
 
         [HttpGet, Route("{id:int}")]
-        //public async Task<model.AuthorDto> GetById(int id) => await _author.GetById(id);
-        public async Task<model.AuthorDto> GetById(int id)
-        {
-            var result = await _author.GetById(id);
-            return result;
-        }
+        public async Task<model.AuthorDto> GetById(int id) => await _author.GetById(id);
 
 
         [HttpGet, Route("{username}/{password}")]
