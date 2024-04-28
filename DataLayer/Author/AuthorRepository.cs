@@ -110,6 +110,10 @@ public class AuthorRepository : IAuthorRepository
         var result = await _context.Author.FirstOrDefaultAsync(a => a.AuthorID == id);
         return result ?? new AuthorDto();
     }
+
+    public bool CheckUsername(string username) =>
+        _context.Author.Where(a => a.Username == username).Any();
+
     public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
     {
         // decrypt password here
