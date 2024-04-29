@@ -104,8 +104,8 @@ public class AuthorController : ControllerBase
         return Ok();
     }
 }
-public class CheckUsername
-{
-    public string Username { get; set; }
-    // ... other properties as needed
-}
+//public class CheckUsername
+//{
+//    public string Username { get; set; }
+//    // ... other properties as needed
+//}
