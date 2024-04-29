@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using LSPApi.DataLayer;
-using model = LSPApi.DataLayer.Model;
+﻿using LSPApi.DataLayer;
+
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace LSPApi.Controllers;
@@ -11,15 +11,15 @@ public class UserController : ControllerBase
 {
     private readonly IAuthorRepository _user;
 
-    public UserController(IAuthorRepository author)
+    public UserController(IAuthorRepository user)
     {
-        _user = author;
+        _user = user;
     }
 
 
     [HttpGet, Route("{username}")]
-    public bool CheckUsername(string checkUsername) =>
-            _user.CheckUsername(checkUsername);
+    public bool CheckUsername(string username) =>
+            _user.CheckUsername(username);
 
   
 }
