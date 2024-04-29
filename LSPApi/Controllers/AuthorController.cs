@@ -20,9 +20,6 @@ public class AuthorController : ControllerBase
     [HttpGet, Route("{id:int}")]
     public async Task<model.AuthorDto> GetById(int id) => await _author.GetById(id);
 
-    [HttpGet]
-    public bool CheckUsername([FromQuery] CheckUsername checkUsername) =>
-            _author.CheckUsername(checkUsername.Username);
     
 
     [HttpGet, Route("{username}/{password}")]
