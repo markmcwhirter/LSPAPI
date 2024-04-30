@@ -21,5 +21,8 @@ public class UserController : ControllerBase
     public bool CheckUsername(string username) =>
             _user.CheckUsername(username);
 
-  
+	[HttpGet, Route("email/{username}")]
+	public string GetEmail(string username) =>
+		_user.GetEmail(username);
+
 }

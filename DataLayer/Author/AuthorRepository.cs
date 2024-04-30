@@ -114,7 +114,11 @@ public class AuthorRepository : IAuthorRepository
     public bool CheckUsername(string username) =>
         _context.Author.Where(a => a.Username == username).Any();
 
-    public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
+	public string GetEmail(string email) =>
+	 _context.Author.Where(a => a.Username == email).FirstOrDefault().Email;
+
+
+	public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
     {
         // decrypt password here
         //string incoming = password.Replace('_', '/').Replace('-', '+');
