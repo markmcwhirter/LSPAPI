@@ -6,7 +6,7 @@ public interface IAuthorRepository
 {
     Task<AuthorDto> GetById(int id);
     public bool CheckUsername(string username);
-    public string GetEmail(string username);
+    public string GetUsername(string email);
     Task<List<AuthorListResultsModel>> GetBySearchTerm(AuthorSearchModel authorsearch);
 
     Task<AuthorDto> GetByUsernamePassword(string username, string password);
