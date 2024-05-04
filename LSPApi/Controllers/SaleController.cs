@@ -3,6 +3,8 @@ using LSPApi.DataLayer;
 using model = LSPApi.DataLayer.Model;
 using LSPApi.DataLayer.Model;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using System.Globalization;
 
 namespace LSPApi.Controllers
 {
@@ -21,16 +23,36 @@ namespace LSPApi.Controllers
 
 
         [HttpGet]
-        public async Task<IEnumerable<model.SaleDto>> GetAll() => await _Sale.GetAll();
+        public async Task<IEnumerable<SaleDto>> GetAll() => await _Sale.GetAll();
 
         [HttpPost]
-        public async Task Insert([FromBody] model.SaleDto Sale) => await _Sale.Add(Sale);
+        public async Task Insert([FromBody] SalePostModel sale)
+        {
+            DateTime dateTime = DateTime.ParseExact(sale.InputDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+
+            SaleDto tmpsale = new SaleDto
+            {
+                BookID = sale.BookId,
+                DateCreated = dateTime.ToString("MMM dd yyyy hh:mm tt"),
+                DateUpdated = sale.InputDate,
+                Royalty = sale.Royalty,
+                SalesDate = sale.InputDate,
+                SalesThisPeriod = sale.SalesThisPeriod,
+                SalesToDate = sale.SalesToDate,
+                UnitsSold = sale.Units,
+                UnitsToDate = sale.UnitsToDate
+
+            };
+
+            await _Sale.Add(tmpsale);
+        }
+
 
         [HttpGet, Route("GetSales/{bookid:int}")]
         public async Task<SaleDto> LastSales(int bookId)
         {
             SaleDto result = new();
-           
+
 
             try
             {

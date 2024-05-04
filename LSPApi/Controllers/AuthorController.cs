@@ -54,8 +54,6 @@ public class AuthorController : ControllerBase
         return result;
     }
 
-    //[HttpGet]
-    //public async Task<IEnumerable<model.AuthorDto>> GetAll() => await _author.GetAll();
 
     [HttpPost]
     public async Task<IActionResult> Insert([FromBody] model.AuthorDto author)
@@ -101,8 +99,4 @@ public class AuthorController : ControllerBase
         return Ok();
     }
 }
-//public class CheckUsername
-//{
-//    public string Username { get; set; }
-//    // ... other properties as needed
-//}
+
