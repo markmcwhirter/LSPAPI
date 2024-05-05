@@ -101,4 +101,6 @@ public class SaleRepository : ISaleRepository
         return tmpdata;
     }
 
+    public async Task<int> GetLastSaleId() => await _context.Sales.MaxAsync(e => e.SaleID);
+    
 }

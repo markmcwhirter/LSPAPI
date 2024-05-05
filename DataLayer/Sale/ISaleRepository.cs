@@ -11,5 +11,7 @@ public interface ISaleRepository
     Task Delete(int id);
 
     Task<List<BookSaleDto>> GetSales();
+
+    Task<int> GetLastSaleId();
 }
 

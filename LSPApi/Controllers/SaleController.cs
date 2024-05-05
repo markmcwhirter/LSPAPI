@@ -28,23 +28,34 @@ namespace LSPApi.Controllers
         [HttpPost]
         public async Task Insert([FromBody] SalePostModel sale)
         {
-            DateTime dateTime = DateTime.ParseExact(sale.InputDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-
-            SaleDto tmpsale = new SaleDto
+            try
             {
-                BookID = sale.BookId,
-                DateCreated = dateTime.ToString("MMM dd yyyy hh:mm tt"),
-                DateUpdated = sale.InputDate,
-                Royalty = sale.Royalty,
-                SalesDate = sale.InputDate,
-                SalesThisPeriod = sale.SalesThisPeriod,
-                SalesToDate = sale.SalesToDate,
-                UnitsSold = sale.Units,
-                UnitsToDate = sale.UnitsToDate
 
-            };
+                int maxid = await _Sale.GetLastSaleId();
 
-            await _Sale.Add(tmpsale);
+                DateTime dateTime = DateTime.ParseExact(sale.InputDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+
+                SaleDto tmpsale = new SaleDto
+                {
+                    SaleID = maxid + 1,
+                    BookID = sale.BookId,
+                    DateCreated = dateTime.ToString("MMM dd yyyy hh:mm tt"),
+                    DateUpdated = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Royalty = sale.Royalty,
+                    SalesDate = sale.InputDate,
+                    SalesThisPeriod = sale.SalesThisPeriod,
+                    SalesToDate = sale.SalesToDate,
+                    UnitsSold = sale.Units,
+                    UnitsToDate = sale.UnitsToDate,
+                    VendorID = sale.BookType
+                };
+
+                await _Sale.Add(tmpsale);
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+            }
         }
 
 
