@@ -1,5 +1,10 @@
 ﻿namespace LSPApi.DataLayer.Model;
 
+public class SalePostModelList
+{
+    public List<SalePostModel>? SaleList { get; set; }
+}
+
 public class SalePostModel
 {
     public int BookType { get; set; }

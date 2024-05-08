@@ -5,6 +5,7 @@ using LSPApi.DataLayer.Model;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using System.Globalization;
+using System.Text.Json;
 
 namespace LSPApi.Controllers
 {
@@ -26,35 +27,44 @@ namespace LSPApi.Controllers
         public async Task<IEnumerable<SaleDto>> GetAll() => await _Sale.GetAll();
 
         [HttpPost]
-        public async Task Insert([FromBody] SalePostModel sale)
+        public async Task Insert([FromBody] List<SalePostModel> dataList) 
         {
+
             try
             {
+                if( dataList == null || dataList.Count == 0) return;
+
 
                 int maxid = await _Sale.GetLastSaleId();
+                maxid++;
 
-                DateTime dateTime = DateTime.ParseExact(sale.InputDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-
-                SaleDto tmpsale = new SaleDto
+                foreach (var sale in dataList)
                 {
-                    SaleID = maxid + 1,
-                    BookID = sale.BookId,
-                    DateCreated = dateTime.ToString("MMM dd yyyy hh:mm tt"),
-                    DateUpdated = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    Royalty = sale.Royalty,
-                    SalesDate = sale.InputDate,
-                    SalesThisPeriod = sale.SalesThisPeriod,
-                    SalesToDate = sale.SalesToDate,
-                    UnitsSold = sale.Units,
-                    UnitsToDate = sale.UnitsToDate,
-                    VendorID = sale.BookType
-                };
+                    DateTime dateTime = DateTime.ParseExact(sale.InputDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
-                await _Sale.Add(tmpsale);
+                    SaleDto tmpsale = new SaleDto
+                    {
+                        SaleID = maxid,
+                        BookID = sale.BookId,
+                        DateCreated = dateTime.ToString("MMM dd yyyy hh:mm tt"),
+                        DateUpdated = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        Royalty = sale.Royalty,
+                        SalesDate = sale.InputDate,
+                        SalesThisPeriod = sale.SalesThisPeriod,
+                        SalesToDate = sale.SalesToDate,
+                        UnitsSold = sale.Units,
+                        UnitsToDate = sale.UnitsToDate,
+                        VendorID = sale.BookType
+                    };
+
+                    await _Sale.Add(tmpsale);
+
+                    maxid++;
+                }
             }
             catch (Exception ex)
             {
-                _ = ex.Message;
+                _logger.LogError(ex, "Error in Bulk Sales Entry");
             }
         }
 
