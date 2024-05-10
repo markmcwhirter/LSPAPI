@@ -1,10 +1,6 @@
-﻿using DataLayer;
-
-using LSPApi.DataLayer.Model;
+﻿using LSPApi.DataLayer.Model;
 
 using Microsoft.EntityFrameworkCore;
-
-using System.Text;
 
 namespace LSPApi.DataLayer;
 public class AuthorRepository : IAuthorRepository

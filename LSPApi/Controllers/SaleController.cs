@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using LSPApi.DataLayer;
-using model = LSPApi.DataLayer.Model;
+﻿using LSPApi.DataLayer;
 using LSPApi.DataLayer.Model;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+
+using Microsoft.AspNetCore.Mvc;
+
 using System.Globalization;
-using System.Text.Json;
 
 namespace LSPApi.Controllers
 {

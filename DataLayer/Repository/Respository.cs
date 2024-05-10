@@ -1,5 +1,4 @@
-﻿using LSPApi.DataLayer;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace LSPApi.DataLayer;
 public class Repository<T> : IRepository<T> where T : class

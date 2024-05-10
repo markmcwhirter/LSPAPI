@@ -1,7 +1,6 @@
 ﻿using LSPApi.DataLayer.Model;
-using Microsoft.EntityFrameworkCore;
 
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.EntityFrameworkCore;
 
 namespace LSPApi.DataLayer;
 public class BookRepository : IBookRepository
