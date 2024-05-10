@@ -1,6 +1,8 @@
 ﻿using LSPApi.DataLayer.Model;
 using Microsoft.EntityFrameworkCore;
 
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 namespace LSPApi.DataLayer;
 public class BookRepository : IBookRepository
 {
@@ -32,6 +34,18 @@ public class BookRepository : IBookRepository
         _context.Book.Update(Book);
         await _context.SaveChangesAsync();
     }
+
+    public async Task DeleteByAuthorId(int id)
+    {
+        var bookList =  _context.Book.Where(a => a.AuthorID == id).ToList();
+
+        if (bookList != null)
+        {
+            _context.Book.RemoveRange(bookList);
+            await _context.SaveChangesAsync();
+        }
+    }
+
 
     public async Task Delete(int id)
     {

@@ -12,6 +12,7 @@ namespace LSPApi.DataLayer.Model
         public string? LastName { get; set; }
 
         public string? SortOrder { get; set; }
+        public string? Direction { get; set; }
 
     }
 }

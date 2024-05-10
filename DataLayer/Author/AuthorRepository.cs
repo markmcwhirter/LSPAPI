@@ -21,88 +21,79 @@ public class AuthorRepository : IAuthorRepository
         IQueryable<AuthorDto>? queryboth = null;
         IQueryable<AuthorDto>? queryfirst = null;
         IQueryable<AuthorDto>? querylast = null;
-        IQueryable<AuthorDto>? querynone = null;
+        IQueryable<AuthorDto>? querynone = _context.Author;
 
         IQueryable<AuthorDto>? query = null;
 
-        if (authorsearch.LastName != null && authorsearch.FirstName != null)
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            queryboth = _context.Author
-                .Where(a => a.LastName.StartsWith(authorsearch.LastName) && a.FirstName.StartsWith(authorsearch.FirstName));
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        List<AuthorListResultsModel> result = new();
 
-        if (authorsearch.FirstName != null)
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            queryfirst = _context.Author
-            .Where(a => a.FirstName.StartsWith(authorsearch.FirstName));
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-
-        if (authorsearch.LastName != null)
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            querylast = _context.Author
-            .Where(a => a.LastName.StartsWith(authorsearch.LastName));
-
-
-        querynone = _context.Author;
-
-        if (authorsearch.LastName.Trim() == "" && authorsearch.FirstName.Trim() == "")
-            query = querynone;
-        else if (authorsearch.LastName.Trim() != "" && authorsearch.FirstName.Trim() != "")
-            query = queryboth;
-
-        else if (authorsearch.LastName.Trim() != "")
-            query = querylast;
-        else if (authorsearch.FirstName.Trim() != "")
-            query = queryfirst;
-        else
-            query = querynone;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-
-        string[]? sortargs = null;
-
-        if(authorsearch.SortOrder  != null)
-            sortargs =  authorsearch.SortOrder.Split(' ');
-
-        string? sortfield = null;
-
-        if(sortargs != null )
-            sortfield = sortargs[0].ToUpper().Trim();
-
-        string? sortdirection = null;
-        if( sortargs != null)
-            sortdirection = sortargs.Length > 1 ? sortargs[1].ToUpper().Trim() : "ASC";
-
-        if (sortfield == "LASTNAME")
+        try
         {
-            if (sortdirection == "ASC")
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            if (string.IsNullOrEmpty(authorsearch.LastName.Trim()) && string.IsNullOrEmpty(authorsearch.FirstName.Trim()))
+
+                queryboth = _context.Author;
+
+            else if (!string.IsNullOrEmpty(authorsearch.LastName.Trim()) && !string.IsNullOrEmpty(authorsearch.FirstName.Trim()))
+                queryboth = _context.Author
+                    .Where(a => a.LastName.StartsWith(authorsearch.LastName) && a.FirstName.StartsWith(authorsearch.FirstName));
+
+            else if (authorsearch.FirstName != null)
+                queryfirst = _context.Author
+                .Where(a => a.FirstName.StartsWith(authorsearch.FirstName));
+
+            else if (authorsearch.LastName != null)
+                querylast = _context.Author
+                .Where(a => a.LastName.StartsWith(authorsearch.LastName));
+
+            else
+                querynone = _context.Author.Where(a => a.LastName != null);
+
+            if (string.IsNullOrEmpty(authorsearch.LastName.Trim()) && string.IsNullOrEmpty(authorsearch.FirstName.Trim()))
+                query = querynone;
+            else if (authorsearch.LastName.Trim() != "" && authorsearch.FirstName.Trim() != "")
+                query = queryboth;
+            else if (authorsearch.LastName.Trim() != "")
+                query = querylast;
+            else if (authorsearch.FirstName.Trim() != "")
+                query = queryfirst;
+            else
+                query = querynone;
+
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+
 #pragma warning disable CS8604 // Possible null reference argument.
-                query = query.OrderBy(a => a.LastName);
 
-            else
-                query = query.OrderByDescending(a => a.LastName);
+            if (authorsearch.SortOrder.ToUpper() == "LASTNAME")
+                query = authorsearch.Direction.ToUpper() == "ASC" ? query.OrderBy(a => a.LastName) :
+                    query.OrderByDescending(a => a.LastName);
+            else if (authorsearch.SortOrder.ToUpper() == "FIRSTNAME")
+                query = authorsearch.Direction.ToUpper() == "ASC" ? query.OrderBy(a => a.FirstName) : query.OrderByDescending(a => a.FirstName);
+            else if (authorsearch.SortOrder.ToUpper() == "AUTHORID")
+                query = authorsearch.Direction.ToUpper() == "ASC" ? query.OrderBy(a => a.AuthorID) : query.OrderByDescending(a => a.AuthorID);
+            else if (authorsearch.SortOrder.ToUpper() == "EMAIL")
+                query = authorsearch.Direction.ToUpper() == "ASC" ? query.OrderBy(a => a.Email) : query.OrderByDescending(a => a.Email);
+
+            result = await query
+                    .Select(p => new AuthorListResultsModel
+                    {
+                        AuthorID = p.AuthorID,
+                        FirstName = p.FirstName,
+                        LastName = p.LastName,
+                        MiddleName = p.MiddleName,
+                        Prefix = p.Prefix,
+                        Suffix = p.Suffix,
+                        EMail = p.Email
+                    })
+                    .ToListAsync();
         }
-        else if (sortfield == "FIRSTNAME")
+        catch(Exception ex)
         {
-            if (sortdirection == "ASC")
-                query = query.OrderBy(a => a.FirstName);
-            else
-                query = query.OrderByDescending(a => a.FirstName);
+            _ = ex.Message;
         }
-
-
-        var result = await query
-                .Select(p => new AuthorListResultsModel
-                {
-                    AuthorID = p.AuthorID,
-                    FirstName = p.FirstName,
-                    LastName = p.LastName,
-                    MiddleName = p.MiddleName,
-                    Prefix = p.Prefix,
-                    Suffix = p.Suffix
-                })
-                .ToListAsync();
-#pragma warning restore CS8604 // Possible null reference argument.
         return result ?? new List<AuthorListResultsModel>();
+
+#pragma warning restore CS8604 // Possible null reference argument.
     }
 
     public async Task<AuthorDto> GetById(int id)
@@ -114,11 +105,11 @@ public class AuthorRepository : IAuthorRepository
     public bool CheckUsername(string username) =>
         _context.Author.Where(a => a.Username == username).Any();
 
-	public string GetUsername(string email) =>
-	 _context.Author.Where(a => a.Email == email).FirstOrDefault().Username;
+    public string GetUsername(string email) =>
+     _context.Author.Where(a => a.Email == email).FirstOrDefault().Username;
 
 
-	public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
+    public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
     {
         // decrypt password here
         //string incoming = password.Replace('_', '/').Replace('-', '+');

@@ -10,6 +10,7 @@ public interface IBookRepository
     Task Add(BookDto Book);
     Task Update(BookDto Book);
     Task Delete(int id);
+    Task DeleteByAuthorId(int id);
     Task<List<BookDto>> GetByAuthorId(int id);
 }
 

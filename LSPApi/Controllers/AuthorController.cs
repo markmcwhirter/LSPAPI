@@ -10,10 +10,12 @@ namespace LSPApi.Controllers;
 public class AuthorController : ControllerBase
 {
     private readonly IAuthorRepository _author;
+    private readonly IBookRepository _book;
 
-    public AuthorController(IAuthorRepository author)
+    public AuthorController(IAuthorRepository author, IBookRepository book)
     {
         _author = author;
+        _book = book;
     }
 
 
@@ -36,6 +38,20 @@ public class AuthorController : ControllerBase
             _ = ex.Message;
         }
         return status;
+    }
+    [HttpGet, Route("delete/{id:int}")]
+    public async Task Delete(int id)
+    {
+        try
+        {
+            await _book.DeleteByAuthorId(id);
+            await _author.Delete(id);
+        }
+        catch (Exception ex)
+        {
+            _ = ex.Message;
+        }
+
     }
 
     [HttpPost, Route("search")]
