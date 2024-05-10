@@ -31,7 +31,6 @@ public class Startup
         services.AddScoped<IAuthorRepository, AuthorRepository>();
         services.AddScoped<IBookRepository, BookRepository>();
         services.AddScoped<ILinkRepository, LinkRepository>();
-        services.AddScoped<ISoldRepository, SoldRepository>();
         services.AddScoped<IVendorRepository, VendorRepository>();
         services.AddScoped<ISaleRepository, SaleRepository>();
 

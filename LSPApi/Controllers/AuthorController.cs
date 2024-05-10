@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LSPApi.DataLayer;
 using model = LSPApi.DataLayer.Model;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 
 namespace LSPApi.Controllers;
@@ -22,7 +24,24 @@ public class AuthorController : ControllerBase
     [HttpGet, Route("{id:int}")]
     public async Task<model.AuthorDto> GetById(int id) => await _author.GetById(id);
 
-    
+
+    [HttpGet("gridsearch")]
+    public async Task<List<model.AuthorListResultsModel>> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection)
+    {
+        List<model.AuthorListResultsModel> results = new();
+
+        try
+        {
+            results = await _author.GetAuthors(startRow, endRow, sortColumn, sortDirection);
+        }
+        catch (Exception ex)
+        {
+            _ = ex.Message;
+        }
+
+        return results;
+    }
+
 
     [HttpGet, Route("{username}/{password}")]
     public async Task<model.AuthorDto> GetByUsernamePassword(string username, string password)

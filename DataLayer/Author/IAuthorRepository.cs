@@ -4,6 +4,8 @@ namespace LSPApi.DataLayer;
 
 public interface IAuthorRepository
 {
+    Task<List<AuthorListResultsModel>> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection);
+
     Task<AuthorDto> GetById(int id);
     public bool CheckUsername(string username);
     public string GetUsername(string email);

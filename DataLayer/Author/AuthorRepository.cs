@@ -12,6 +12,56 @@ public class AuthorRepository : IAuthorRepository
         _context = context;
     }
 
+    public async Task<List<AuthorListResultsModel>> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection)
+    {
+        List<AuthorListResultsModel> result = new();
+
+        try
+        {
+            var query = _context.Author.AsQueryable(); // Start with IQueryable
+
+            sortColumn = sortColumn == "null" ? "AuthorID" : sortColumn;
+            sortColumn = sortColumn.ToUpper();
+
+            sortDirection = sortDirection == "null" ? "ASC" : sortDirection.ToUpper();
+
+
+            if (sortColumn == "LASTNAME")
+                query = sortDirection == "ASC" ? query.OrderBy(a => a.LastName) :
+                    query.OrderByDescending(a => a.LastName);
+            else if (sortColumn == "FIRSTNAME")
+                query = sortDirection == "ASC" ? query.OrderBy(a => a.FirstName) : query.OrderByDescending(a => a.FirstName);
+            else if (sortColumn == "AUTHORID")
+                query = sortDirection == "ASC" ? query.OrderBy(a => a.AuthorID) : query.OrderByDescending(a => a.AuthorID);
+            else if (sortColumn == "EMAIL")
+                query = sortDirection == "ASC" ? query.OrderBy(a => a.Email) : query.OrderByDescending(a => a.Email);
+
+
+            // List<AuthorDto> result = query.Skip(startRow).Take(endRow - startRow).ToList();
+            result = await query.Skip(startRow).Take(endRow - startRow)
+                    .Select(p => new AuthorListResultsModel
+                    {
+                        AuthorID = p.AuthorID,
+                        FirstName = p.FirstName,
+                        LastName = p.LastName,
+                        MiddleName = p.MiddleName,
+                        Prefix = p.Prefix,
+                        Suffix = p.Suffix,
+                        EMail = p.Email
+                    })
+                    .ToListAsync();
+
+        }
+        catch (Exception ex) 
+        {
+            _ = ex.Message;
+        }
+
+
+        return result;
+
+    }
+
     public async Task<List<AuthorListResultsModel>> GetBySearchTerm(AuthorSearchModel authorsearch)
     {
         IQueryable<AuthorDto>? queryboth = null;
