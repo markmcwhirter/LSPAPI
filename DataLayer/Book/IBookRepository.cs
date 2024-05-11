@@ -11,6 +11,6 @@ public interface IBookRepository
     Task Update(BookDto Book);
     Task Delete(int id);
     Task DeleteByAuthorId(int id);
-    Task<List<BookDto>> GetByAuthorId(int id);
+    Task<List<BookSummaryModel>> GetByAuthorId(int id);
 }
 

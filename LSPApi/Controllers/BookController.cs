@@ -25,7 +25,7 @@ namespace LSPApi.Controllers
 
 
         [HttpGet, Route("author/{id:int}")]
-        public async Task<List<model.BookDto>> GetByAuthorId(int id) => await _Book.GetByAuthorId(id);
+        public async Task<List<model.BookSummaryModel>> GetByAuthorId(int id) => await _Book.GetByAuthorId(id);
 
         [HttpGet]
         public async Task<IEnumerable<model.BookDto>> GetAll() => await _Book.GetAll();
