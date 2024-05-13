@@ -3,6 +3,7 @@ using LSPApi.DataLayer;
 using model = LSPApi.DataLayer.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Microsoft.Extensions.Caching.Memory;
 
 
 namespace LSPApi.Controllers;
@@ -13,11 +14,13 @@ public class AuthorController : ControllerBase
 {
     private readonly IAuthorRepository _author;
     private readonly IBookRepository _book;
+    private readonly IMemoryCache _cache;
 
-    public AuthorController(IAuthorRepository author, IBookRepository book)
+    public AuthorController(IAuthorRepository author, IBookRepository book, IMemoryCache cache)
     {
         _author = author;
         _book = book;
+        _cache = cache;
     }
 
 
@@ -74,13 +77,23 @@ public class AuthorController : ControllerBase
     }
 
     [HttpPost, Route("search")]
-    public async Task<List<model.AuthorListResultsModel>> GetSearch([FromBody] model.AuthorSearchModel searchterm)
+    public async Task<List<model.AuthorListResultsModel>> GetSearch([FromBody] model.AuthorSearchModel s)
     {
         List<model.AuthorListResultsModel> result = new();
 
         try
         {
-            result = await _author.GetBySearchTerm(searchterm);
+            string key = $"{s.LastName.PadLeft(20)}{s.FirstName.PadLeft(20)}{s.SortOrder.PadLeft(20)}{s.Direction.PadLeft(5)}";
+
+            if (!_cache.TryGetValue(key, out result))
+            {
+                result = await _author.GetBySearchTerm(s);
+
+                MemoryCacheEntryOptions cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromHours(1));
+
+                _cache.Set(key, result, cacheEntryOptions);
+            }            
         }
         catch (Exception ex)
         {

@@ -1,4 +1,5 @@
-﻿using LSPApi.DataLayer;
+﻿
+using LSPApi.DataLayer;
 
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +21,13 @@ public class Startup
     {
         var connectionString = Configuration.GetConnectionString("LSPConnection");
 
-        services.AddScoped<IAuthorRepository, AuthorRepository>();
+        services.AddLogging(builder => builder.AddConsole());
+        services.AddMemoryCache();
+
+ 
         services.AddDbContext<LSPContext>(options =>
         {
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-            //options.UseMySql(connectionString, new MySqlServerVersion(new Version(8,0,26)));
         });
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
