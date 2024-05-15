@@ -47,7 +47,9 @@ public class AuthorRepository : IAuthorRepository
                         MiddleName = p.MiddleName,
                         Prefix = p.Prefix,
                         Suffix = p.Suffix,
-                        EMail = p.Email
+                        EMail = p.Email,
+                        EditLink = p.AuthorID.ToString(),
+                        DeleteLink = p.AuthorID.ToString()
                     })
                     .ToListAsync();
 
@@ -64,47 +66,36 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<List<AuthorListResultsModel>> GetBySearchTerm(AuthorSearchModel authorsearch)
     {
-        IQueryable<AuthorDto>? queryboth = null;
-        IQueryable<AuthorDto>? queryfirst = null;
-        IQueryable<AuthorDto>? querylast = null;
-        IQueryable<AuthorDto>? querynone = _context.Author;
-
         IQueryable<AuthorDto>? query = null;
 
         List<AuthorListResultsModel> result = new();
 
         try
         {
+            authorsearch.FirstName = authorsearch.FirstName.Trim();
+            authorsearch.LastName = authorsearch.LastName.Trim();
+            bool firstNameEmpty = string.IsNullOrEmpty(authorsearch.FirstName);
+            bool lastNameEmpty = string.IsNullOrEmpty(authorsearch.LastName);
+
+
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            if (string.IsNullOrEmpty(authorsearch.LastName.Trim()) && string.IsNullOrEmpty(authorsearch.FirstName.Trim()))
+            if (lastNameEmpty && firstNameEmpty)
+                query = _context.Author;
 
-                queryboth = _context.Author;
+            else if (!lastNameEmpty && !firstNameEmpty)
+                //query = _context.Author.Where(a => a.LastName.StartsWith(authorsearch.LastName) && a.FirstName.StartsWith(authorsearch.FirstName));
+                query = _context.Author.Where(item => EF.Functions.Like(item.LastName.ToLower(), $"%{authorsearch.LastName.ToLower()}%") &&
+                        EF.Functions.Like(item.FirstName.ToLower(), $"%{authorsearch.FirstName.ToLower()}%"));
 
-            else if (!string.IsNullOrEmpty(authorsearch.LastName.Trim()) && !string.IsNullOrEmpty(authorsearch.FirstName.Trim()))
-                queryboth = _context.Author
-                    .Where(a => a.LastName.StartsWith(authorsearch.LastName) && a.FirstName.StartsWith(authorsearch.FirstName));
+            else if (!firstNameEmpty)
+                query = _context.Author.Where(item => EF.Functions.Like(item.FirstName.ToLower(), $"%{authorsearch.FirstName.ToLower()}%"));
 
-            else if (authorsearch.FirstName != null)
-                queryfirst = _context.Author
-                .Where(a => a.FirstName.StartsWith(authorsearch.FirstName));
-
-            else if (authorsearch.LastName != null)
-                querylast = _context.Author
-                .Where(a => a.LastName.StartsWith(authorsearch.LastName));
+            else if (!lastNameEmpty)
+                query = _context.Author.Where(item => EF.Functions.Like(item.LastName.ToLower(), $"%{authorsearch.LastName.ToLower()}%"));
 
             else
-                querynone = _context.Author.Where(a => a.LastName != null);
+                query = _context.Author.Where(a => a.LastName != null);
 
-            if (string.IsNullOrEmpty(authorsearch.LastName.Trim()) && string.IsNullOrEmpty(authorsearch.FirstName.Trim()))
-                query = querynone;
-            else if (authorsearch.LastName.Trim() != "" && authorsearch.FirstName.Trim() != "")
-                query = queryboth;
-            else if (authorsearch.LastName.Trim() != "")
-                query = querylast;
-            else if (authorsearch.FirstName.Trim() != "")
-                query = queryfirst;
-            else
-                query = querynone;
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
@@ -129,7 +120,9 @@ public class AuthorRepository : IAuthorRepository
                         MiddleName = p.MiddleName,
                         Prefix = p.Prefix,
                         Suffix = p.Suffix,
-                        EMail = p.Email
+                        EMail = p.Email,
+                        EditLink = $"<a href='ProfileModify?id={p.AuthorID}'>Edit</a>",
+                        DeleteLink = $"<a href='DeleteAuthor?id={p.AuthorID}'>Delete</a>"
                     })
                     .ToListAsync();
         }
@@ -158,19 +151,19 @@ public class AuthorRepository : IAuthorRepository
     public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
     {
         // decrypt password here
-        //string incoming = password.Replace('_', '/').Replace('-', '+');
-        //switch (password.Length % 4)
-        //{
-        //    case 2: incoming += "=="; break;
-        //    case 3: incoming += "="; break;
-        //}
-        //byte[] bytes = Convert.FromBase64String(incoming);
+        string incoming = password.Replace('_', '/').Replace('-', '+');
+        switch (password.Length % 4)
+        {
+            case 2: incoming += "=="; break;
+            case 3: incoming += "="; break;
+        }
+        byte[] bytes = Convert.FromBase64String(incoming);
 
 
-        //string decrypted = await new EncryptionService().DecryptAsync(bytes);
+        string decrypted = await new EncryptionService().DecryptAsync(bytes);
 
-        // var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username && a.Password == decrypted);
-        var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username);
+        var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username && a.Password == decrypted);
+        //var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username);
 
         return result ?? new AuthorDto();
     }

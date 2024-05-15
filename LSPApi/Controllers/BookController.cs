@@ -31,6 +31,32 @@ namespace LSPApi.Controllers
         public async Task<IEnumerable<model.BookDto>> GetAll() => await _Book.GetAll();
 
         [HttpPost]
-        public async Task Insert([FromBody] model.BookDto Book) => await _Book.Add(Book);
+        public async Task Insert([FromBody] model.BookDto Book)
+        {
+            Book.DateCreated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+            await _Book.Add(Book);
+        }
+
+        [HttpPost, Route("update")]
+        public async Task Update([FromBody] model.BookDto Book)
+        {
+            try
+            {
+                if (Book.BookID == 0)
+                {
+                    Book.DateCreated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+                    await _Book.Add(Book);
+                }
+                else
+                {
+                    Book.DateUpdated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+                    await _Book.Update(Book);
+                }
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+            }
+        }
     }
 }

@@ -101,6 +101,9 @@ public class BookRepository : IBookRepository
 
     public async Task Add(BookDto Book)
     {
+        int maxBook = _context.Book.Max(p => p.BookID);
+        Book.BookID = maxBook + 1;
+
         _context.Book.Add(Book);
         await _context.SaveChangesAsync();
     }

@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace DataLayer;
+namespace LSPApi.DataLayer;
 
 public class EncryptionService
 {

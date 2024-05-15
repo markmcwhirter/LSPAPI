@@ -31,18 +31,30 @@ public class AuthorController : ControllerBase
     [HttpGet("gridsearch")]
     public async Task<List<model.AuthorListResultsModel>> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection)
     {
-        List<model.AuthorListResultsModel> results = new();
+        List<model.AuthorListResultsModel> result = new();
 
         try
         {
-            results = await _author.GetAuthors(startRow, endRow, sortColumn, sortDirection);
+            string key = $"{sortColumn.PadLeft(20)}{sortDirection.PadLeft(20)}{startRow.ToString().PadLeft(20)}{endRow.ToString().PadLeft(5)}";
+
+
+            if (!_cache.TryGetValue(key, out result))
+            {
+                result = await _author.GetAuthors(startRow, endRow, sortColumn, sortDirection);
+
+                MemoryCacheEntryOptions cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromHours(1));
+
+                _cache.Set(key, result, cacheEntryOptions);
+            }
         }
         catch (Exception ex)
         {
             _ = ex.Message;
         }
 
-        return results;
+
+        return result;
     }
 
 
@@ -85,6 +97,7 @@ public class AuthorController : ControllerBase
         {
             string key = $"{s.LastName.PadLeft(20)}{s.FirstName.PadLeft(20)}{s.SortOrder.PadLeft(20)}{s.Direction.PadLeft(5)}";
 
+
             if (!_cache.TryGetValue(key, out result))
             {
                 result = await _author.GetBySearchTerm(s);
@@ -93,7 +106,7 @@ public class AuthorController : ControllerBase
                     .SetSlidingExpiration(TimeSpan.FromHours(1));
 
                 _cache.Set(key, result, cacheEntryOptions);
-            }            
+            }
         }
         catch (Exception ex)
         {

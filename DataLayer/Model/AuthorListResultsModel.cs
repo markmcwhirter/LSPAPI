@@ -29,6 +29,14 @@ public class AuthorListResultsModel
     [Display(Name = "EMail")]
     [DataType(DataType.Text)]
     public string? EMail { get; set; }
+
+    [Display(Name = "EditLink")]
+    [DataType(DataType.Text)]
+    public string? EditLink { get; set; }
+
+    [Display(Name = "DeleteLink")]
+    [DataType(DataType.Text)]
+    public string? DeleteLink { get; set; }
 }
 
 
