@@ -58,5 +58,20 @@ namespace LSPApi.Controllers
                 _ = ex.Message;
             }
         }
+
+        [HttpGet, Route("delete/{id:int}")]
+        public async Task Delete(int id)
+        {
+            try
+            {
+                await _Book.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+            }
+
+        }
+
     }
 }
