@@ -2,6 +2,7 @@
 using LSPApi.DataLayer.Model;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 using System.Globalization;
 
@@ -13,11 +14,13 @@ namespace LSPApi.Controllers
     {
         private readonly ILogger<SaleController> _logger;
         private readonly ISaleRepository _Sale;
+        private readonly IMemoryCache _cache;
 
-        public SaleController(ILogger<SaleController> logger, ISaleRepository Sale)
+        public SaleController(ILogger<SaleController> logger, ISaleRepository Sale,IMemoryCache cache)
         {
             _logger = logger;
             _Sale = Sale;
+            _cache = cache;
         }
 
 
@@ -102,5 +105,34 @@ namespace LSPApi.Controllers
         [HttpGet, Route("GetSales")]
         public async Task<List<BookSaleDto>> GetSales() => await _Sale.GetSales();
 
+
+        [HttpGet("gridsearch")]
+        public async Task<List<BookSaleDto>> GetSales(int startRow, int endRow, string sortColumn, string sortDirection)
+        {
+            List<BookSaleDto> result = new();
+
+            try
+            {
+                string key = $"{sortColumn.PadLeft(20)}{sortDirection.PadLeft(20)}{startRow.ToString().PadLeft(20)}{endRow.ToString().PadLeft(5)}";
+
+
+                if (!_cache.TryGetValue(key, out result))
+                {
+                    result = await _Sale.GetSales(startRow, endRow, sortColumn, sortDirection);
+
+                    MemoryCacheEntryOptions cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromHours(1));
+
+                    _cache.Set(key, result, cacheEntryOptions);
+                }
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+            }
+
+
+            return result;
+        }
     }
 }

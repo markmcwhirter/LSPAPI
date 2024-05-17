@@ -18,5 +18,4 @@ public class BookSaleDto
     public decimal SalesThisPeriod { get; set; }
     public string? DateCreated { get; set; }
     public string? DateUpdated { get; set; }
-    public int TotalCount { get; set; }
 }
