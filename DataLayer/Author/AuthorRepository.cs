@@ -147,6 +147,8 @@ public class AuthorRepository : IAuthorRepository
     public string GetUsername(string email) =>
      _context.Author.Where(a => a.Email == email).FirstOrDefault().Username;
 
+    public string GetEmail(string username) =>
+        _context.Author.Where(a => a.Username == username).FirstOrDefault().Email;
 
     public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
     {

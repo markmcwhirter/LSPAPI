@@ -25,4 +25,9 @@ public class UserController : ControllerBase
 	public string GetUsername(string email) =>
 		_user.GetUsername(email);
 
+    [HttpGet, Route("username/{username}")]
+    public string GetEmail(string username) =>
+        _user.GetEmail(username);
+
+
 }
