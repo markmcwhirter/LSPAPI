@@ -35,6 +35,9 @@ public class AuthorController : ControllerBase
 
         try
         {
+            sortColumn = sortColumn  == "null" ? "lastName" : sortColumn;
+            sortDirection = sortDirection == "null" ? "ASC" : sortDirection;
+
             string key = $"{sortColumn.PadLeft(20)}{sortDirection.PadLeft(20)}{startRow.ToString().PadLeft(20)}{endRow.ToString().PadLeft(5)}";
 
 

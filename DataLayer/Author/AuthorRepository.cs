@@ -48,6 +48,7 @@ public class AuthorRepository : IAuthorRepository
                         Prefix = p.Prefix,
                         Suffix = p.Suffix,
                         EMail = p.Email,
+                        InfoLink = p.AuthorID.ToString(),
                         EditLink = p.AuthorID.ToString(),
                         DeleteLink = p.AuthorID.ToString()
                     })
