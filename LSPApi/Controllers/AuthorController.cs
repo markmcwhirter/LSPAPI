@@ -132,6 +132,7 @@ public class AuthorController : ControllerBase
 
         if (duplicate) return BadRequest();
 
+        // TODO: encrypt password here
         await _author.Add(author);
 
         return Ok();
@@ -141,10 +142,10 @@ public class AuthorController : ControllerBase
     public async Task<IActionResult> Update([FromBody] model.AuthorDto author)
     {
 
-        if (string.IsNullOrEmpty(author.Username)) return BadRequest();
-        if (string.IsNullOrEmpty(author.FirstName)) return BadRequest();
-        if (string.IsNullOrEmpty(author.LastName)) return BadRequest();
-        if (string.IsNullOrEmpty(author.Email)) return BadRequest();
+        //if (string.IsNullOrEmpty(author.Username)) return BadRequest();
+        //if (string.IsNullOrEmpty(author.FirstName)) return BadRequest();
+        //if (string.IsNullOrEmpty(author.LastName)) return BadRequest();
+        //if (string.IsNullOrEmpty(author.Email)) return BadRequest();
 
         author.DateUpdated = DateTime.Now.ToString();
 

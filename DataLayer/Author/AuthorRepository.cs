@@ -166,8 +166,8 @@ public class AuthorRepository : IAuthorRepository
         string decrypted = await new EncryptionService().DecryptAsync(bytes);
 
         var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username && a.Password == decrypted);
-        //var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username);
 
+        // TODO:  decrypt stored encrypted password
         return result ?? new AuthorDto();
     }
     public async Task<AuthorDto> GetByUsername(string username)
