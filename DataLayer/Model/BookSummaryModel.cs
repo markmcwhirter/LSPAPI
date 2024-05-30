@@ -24,8 +24,11 @@ public class BookSummaryModel
     public int? EBooksSoldToDate { get; set; }
     public int? EBooksSoldThisPeriod { get; set; }
     public decimal? EBooksSalesThisPeriod { get; set; }
-    public decimal? EBooksSalesToDate { get; set; }
-
-    
+    public decimal? EBooksSalesToDate { get; set; }    
     public decimal? EBookRoyalties { get; set; }
+    public int? AudioBooksSoldToDate { get; set; }
+    public int? AudioBooksSoldThisPeriod { get; set; }
+    public decimal? AudioBooksSalesThisPeriod { get; set; }
+    public decimal? AudioBooksSalesToDate { get; set; }
+    public decimal? AudioBookRoyalties { get; set; }
 }

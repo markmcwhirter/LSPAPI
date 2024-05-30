@@ -65,7 +65,7 @@ public class BookRepository : IBookRepository
 
                 // get ebook sales
                 SaleDto? data2 = _context.Sales
-                    .Where(sale => sale.BookID == b.BookID && sale.VendorID == 5)
+                    .Where(sale => sale.BookID == b.BookID && sale.VendorID == 6)
                     .OrderByDescending(sale => sale.SaleID)
                     .FirstOrDefault();
 
@@ -78,6 +78,20 @@ public class BookRepository : IBookRepository
                     summary.EBookRoyalties = data2.Royalty;
                 }
 
+                // get audio book sales
+                SaleDto? data3 = _context.Sales
+                    .Where(sale => sale.BookID == b.BookID && sale.VendorID == 7)
+                    .OrderByDescending(sale => sale.SaleID)
+                    .FirstOrDefault();
+
+                if (data3 != null)
+                {
+                    summary.AudioBooksSalesThisPeriod = data3.SalesThisPeriod;
+                    summary.AudioBooksSalesToDate = data3.SalesToDate;
+                    summary.AudioBooksSoldThisPeriod = data3.UnitsSold;
+                    summary.AudioBooksSoldToDate = data3.UnitsToDate;
+                    summary.AudioBookRoyalties = data3.Royalty;
+                }
                 result.Add(summary);
             }
             catch (Exception ex)
