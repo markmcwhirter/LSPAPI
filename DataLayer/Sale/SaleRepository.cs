@@ -8,10 +8,7 @@ public class SaleRepository : ISaleRepository
 {
     private readonly LSPContext _context;
 
-    public SaleRepository(LSPContext context)
-    {
-        _context = context;
-    }
+    public SaleRepository(LSPContext context) => _context = context;
 
 #pragma warning disable CS8603 // Possible null reference return.
     public async Task<SaleDto> GetById(int id) => await _context.Sales.FirstOrDefaultAsync(a => a.SaleID == id);
@@ -41,6 +38,8 @@ public class SaleRepository : ISaleRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<int> GetLastSaleId() => await _context.Sales.MaxAsync(e => e.SaleID);
 
     public async Task<List<BookSaleDto>> GetSales()
     {
@@ -75,11 +74,10 @@ public class SaleRepository : ISaleRepository
         return tmpdata;
     }
 
-    public async Task<int> GetLastSaleId() => await _context.Sales.MaxAsync(e => e.SaleID);
 
     public async Task<List<BookSaleDto>> GetSales(int startRow, int endRow, string sortColumn, string sortDirection)
     {
-        List<BookSaleDto> result = new();
+        List<BookSaleDto> result = [];
 
         try
         {
@@ -98,7 +96,7 @@ public class SaleRepository : ISaleRepository
                        SaleID = b1.Sales.SaleID,
                        DateCreated = b1.Sales.DateCreated,
                        DateUpdated  = b1.Sales.DateUpdated,
-                       Author = a.LastName.Trim() + ", " + a.FirstName.Trim(),
+                       Author = a.LastName + ", " + a.FirstName,
                        Title = b1.Book.Title ?? "",
                        VendorName = "",
                        SalesDate = b1.Sales.SalesDate,
@@ -129,42 +127,24 @@ public class SaleRepository : ISaleRepository
             else
                 query = query.OrderBy(a => a.SaleID);
 
-
-            // List<AuthorDto> result = query.Skip(startRow).Take(endRow - startRow).ToList();
             result = await query.Skip(startRow).Take(endRow - startRow).ToListAsync();
             foreach( var item in result)
             {
-                item.SalesDate = item.SalesDate.Substring(0, 10);
+                item.SalesDate = item.SalesDate[..10];
                 item.Title = item.Title.Replace("&amp;", "&");
                 item.Title = item.Title.Replace("&#39;", "'");
 
-                switch (item.VendorID)
+                item.VendorName = item.VendorID switch
                 {
-                    case 1:
-                        item.VendorName = "Amazon";
-                        break;
-                    case 2:
-                        item.VendorName = "Kindle";
-                        break;
-                    case 3:
-                        item.VendorName = "Barnes and Noble";
-                        break;
-                    case 4:
-                        item.VendorName = "Nook";
-                        break;
-                    case 5:
-                        item.VendorName = "Paperbook";
-                        break;
-                    case 6:
-                        item.VendorName = "EBook";
-                        break;
-                    default:
-                        item.VendorName = "";
-                        break;
-                }
+                    1 => "Amazon",
+                    2 => "Kindle",
+                    3 => "Barnes and Noble",
+                    4 => "Nook",
+                    5 => "Paperbook",
+                    6 => "EBook",
+                    _ => ""
+                };
             }
-
-
         }
         catch (Exception ex)
         {

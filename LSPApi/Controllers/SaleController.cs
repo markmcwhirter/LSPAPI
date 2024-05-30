@@ -41,9 +41,12 @@ namespace LSPApi.Controllers
 
                 foreach (var sale in dataList)
                 {
+                    if (string.IsNullOrEmpty(sale.InputDate))
+                        sale.InputDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
                     DateTime dateTime = DateTime.ParseExact(sale.InputDate, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
-                    SaleDto tmpsale = new SaleDto
+                    SaleDto tmpsale = new()
                     {
                         SaleID = maxid,
                         BookID = sale.BookId,
@@ -78,7 +81,6 @@ namespace LSPApi.Controllers
 
             try
             {
-                // DateTime? maxdate = DateTime.MinValue;
                 var data = await _Sale.GetAll();
 
                 if (data != null)
@@ -107,16 +109,16 @@ namespace LSPApi.Controllers
 
 
         [HttpGet("gridsearch")]
-        public async Task<List<BookSaleDto>> GetSales(int startRow, int endRow, string sortColumn, string sortDirection)
+        public async Task<List<BookSaleDto>?> GetSales(int startRow, int endRow, string sortColumn, string sortDirection)
         {
-            List<BookSaleDto> result = new();
+            List<BookSaleDto>? result = [];
 
             try
             {
-                string key = $"{sortColumn.PadLeft(20)}{sortDirection.PadLeft(20)}{startRow.ToString().PadLeft(20)}{endRow.ToString().PadLeft(5)}";
+                string key = $"{sortColumn,20}{sortDirection,20}{startRow,20}{endRow,5}";
 
 
-                if (!_cache.TryGetValue(key, out result))
+                if (!_cache.TryGetValue(key, value: out result))
                 {
                     result = await _Sale.GetSales(startRow, endRow, sortColumn, sortDirection);
 

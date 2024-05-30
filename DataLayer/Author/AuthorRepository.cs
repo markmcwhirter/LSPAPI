@@ -7,22 +7,17 @@ public class AuthorRepository : IAuthorRepository
 {
     private readonly LSPContext _context;
 
-    public AuthorRepository(LSPContext context)
-    {
-        _context = context;
-    }
+    public AuthorRepository(LSPContext context) => _context = context;
 
     public async Task<List<AuthorListResultsModel>> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection)
     {
-        List<AuthorListResultsModel> result = new();
+        List<AuthorListResultsModel> result = [];
 
         try
         {
             var query = _context.Author.AsQueryable(); // Start with IQueryable
 
-            sortColumn = sortColumn == "null" ? "AuthorID" : sortColumn;
-            sortColumn = sortColumn.ToUpper();
-
+            sortColumn = sortColumn == "null" ? "AuthorID" : sortColumn.ToUpper();
             sortDirection = sortDirection == "null" ? "ASC" : sortDirection.ToUpper();
 
 
@@ -37,7 +32,6 @@ public class AuthorRepository : IAuthorRepository
                 query = sortDirection == "ASC" ? query.OrderBy(a => a.Email) : query.OrderByDescending(a => a.Email);
 
 
-            // List<AuthorDto> result = query.Skip(startRow).Take(endRow - startRow).ToList();
             result = await query.Skip(startRow).Take(endRow - startRow)
                     .Select(p => new AuthorListResultsModel
                     {
@@ -53,64 +47,71 @@ public class AuthorRepository : IAuthorRepository
                         DeleteLink = p.AuthorID.ToString()
                     })
                     .ToListAsync();
-
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             _ = ex.Message;
         }
-
 
         return result;
 
     }
 
-    public async Task<List<AuthorListResultsModel>> GetBySearchTerm(AuthorSearchModel authorsearch)
+    public async Task<List<AuthorListResultsModel>> GetBySearchTerm(AuthorSearchModel? authorsearch)
     {
         IQueryable<AuthorDto>? query = null;
 
-        List<AuthorListResultsModel> result = new();
+        List<AuthorListResultsModel> result = [];
 
         try
         {
-            authorsearch.FirstName = authorsearch.FirstName.Trim();
-            authorsearch.LastName = authorsearch.LastName.Trim();
-            bool firstNameEmpty = string.IsNullOrEmpty(authorsearch.FirstName);
-            bool lastNameEmpty = string.IsNullOrEmpty(authorsearch.LastName);
-
+            if (authorsearch == null)
+            {
+                authorsearch = new AuthorSearchModel();
+                return result;
+            }
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
+
+            authorsearch.FirstName = string.IsNullOrEmpty(authorsearch?.FirstName) ? " " : authorsearch?.FirstName.Trim();
+            authorsearch.LastName = string.IsNullOrEmpty(authorsearch?.LastName) ? " " : authorsearch?.LastName.Trim();
+            authorsearch.Direction = string.IsNullOrEmpty(authorsearch?.Direction) ? "ASC" : authorsearch?.Direction.Trim();
+            authorsearch.SortOrder = string.IsNullOrEmpty(authorsearch?.SortOrder) ? "LASTNAME" : authorsearch?.SortOrder.Trim();
+
+
+            bool firstNameEmpty = string.IsNullOrEmpty(authorsearch?.FirstName);
+            bool lastNameEmpty = string.IsNullOrEmpty(authorsearch?.LastName);
+
+
+
             if (lastNameEmpty && firstNameEmpty)
                 query = _context.Author;
 
             else if (!lastNameEmpty && !firstNameEmpty)
-                //query = _context.Author.Where(a => a.LastName.StartsWith(authorsearch.LastName) && a.FirstName.StartsWith(authorsearch.FirstName));
                 query = _context.Author.Where(item => EF.Functions.Like(item.LastName.ToLower(), $"%{authorsearch.LastName.ToLower()}%") &&
                         EF.Functions.Like(item.FirstName.ToLower(), $"%{authorsearch.FirstName.ToLower()}%"));
 
-            else if (!firstNameEmpty)
+            else if (!string.IsNullOrEmpty(authorsearch?.FirstName))
                 query = _context.Author.Where(item => EF.Functions.Like(item.FirstName.ToLower(), $"%{authorsearch.FirstName.ToLower()}%"));
 
-            else if (!lastNameEmpty)
+            else if (!string.IsNullOrEmpty(authorsearch?.LastName))
                 query = _context.Author.Where(item => EF.Functions.Like(item.LastName.ToLower(), $"%{authorsearch.LastName.ToLower()}%"));
 
             else
                 query = _context.Author.Where(a => a.LastName != null);
 
 
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-
-#pragma warning disable CS8604 // Possible null reference argument.
-
-            if (authorsearch.SortOrder.ToUpper() == "LASTNAME")
-                query = authorsearch.Direction.ToUpper() == "ASC" ? query.OrderBy(a => a.LastName) :
+            if (authorsearch.SortOrder.Equals("LASTNAME", StringComparison.CurrentCultureIgnoreCase))
+                query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.LastName) :
                     query.OrderByDescending(a => a.LastName);
-            else if (authorsearch.SortOrder.ToUpper() == "FIRSTNAME")
-                query = authorsearch.Direction.ToUpper() == "ASC" ? query.OrderBy(a => a.FirstName) : query.OrderByDescending(a => a.FirstName);
-            else if (authorsearch.SortOrder.ToUpper() == "AUTHORID")
-                query = authorsearch.Direction.ToUpper() == "ASC" ? query.OrderBy(a => a.AuthorID) : query.OrderByDescending(a => a.AuthorID);
-            else if (authorsearch.SortOrder.ToUpper() == "EMAIL")
-                query = authorsearch.Direction.ToUpper() == "ASC" ? query.OrderBy(a => a.Email) : query.OrderByDescending(a => a.Email);
+            else if (authorsearch.SortOrder.Equals("FIRSTNAME", StringComparison.CurrentCultureIgnoreCase))
+                query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.FirstName) : query.OrderByDescending(a => a.FirstName);
+            else if (authorsearch.SortOrder.Equals("AUTHORID", StringComparison.CurrentCultureIgnoreCase))
+                query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.AuthorID) : query.OrderByDescending(a => a.AuthorID);
+            else if (authorsearch.SortOrder.Equals("EMAIL", StringComparison.CurrentCultureIgnoreCase))
+                query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.Email) : query.OrderByDescending(a => a.Email);
+
+
 
             result = await query
                     .Select(p => new AuthorListResultsModel
@@ -127,13 +128,12 @@ public class AuthorRepository : IAuthorRepository
                     })
                     .ToListAsync();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             _ = ex.Message;
         }
-        return result ?? new List<AuthorListResultsModel>();
+        return result ?? [];
 
-#pragma warning restore CS8604 // Possible null reference argument.
     }
 
     public async Task<AuthorDto> GetById(int id)
@@ -146,10 +146,12 @@ public class AuthorRepository : IAuthorRepository
         _context.Author.Where(a => a.Username == username).Any();
 
     public string GetUsername(string email) =>
-     _context.Author.Where(a => a.Email == email).FirstOrDefault().Username;
+        string.IsNullOrEmpty(email) ? "" : _context.Author.Where(a => a.Email == email).FirstOrDefault().Username;
 
     public string GetEmail(string username) =>
-        _context.Author.Where(a => a.Username == username).FirstOrDefault().Email;
+        string.IsNullOrEmpty(username) ? "" : _context.Author.Where(a => a.Username == username).FirstOrDefault().Email;
+
+#pragma warning restore CS8602 // Dereference of a possibly null reference
 
     public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
     {
@@ -167,7 +169,7 @@ public class AuthorRepository : IAuthorRepository
 
         var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username && a.Password == decrypted);
 
-        // TODO:  decrypt stored encrypted password
+
         return result ?? new AuthorDto();
     }
     public async Task<AuthorDto> GetByUsername(string username)

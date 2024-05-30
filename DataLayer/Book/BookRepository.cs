@@ -9,10 +9,7 @@ public class BookRepository : IBookRepository
 {
     private readonly LSPContext _context;
 
-    public BookRepository(LSPContext context)
-    {
-        _context = context;
-    }
+    public BookRepository(LSPContext context) => _context = context;
 
 #pragma warning disable CS8603 // Possible null reference return.
     public async Task<BookDto> GetById(int id) => await _context.Book.FirstOrDefaultAsync(a => a.BookID == id);
@@ -24,11 +21,10 @@ public class BookRepository : IBookRepository
 
         var books = await _context.Book.Where(a => a.AuthorID == id).ToListAsync();
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
 
         foreach (var b in books)
         {
-            BookSummaryModel? summary = new BookSummaryModel
+            BookSummaryModel? summary = new()
             {
                 AuthorID = b.AuthorID,
                 AuthorBio = b.AuthorBio,
@@ -90,7 +86,6 @@ public class BookRepository : IBookRepository
             }
 
         }
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         return result;
     }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LSPApi.DataLayer;
-using model = LSPApi.DataLayer.Model;
+using Model = LSPApi.DataLayer.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Microsoft.Extensions.Caching.Memory;
@@ -10,35 +10,27 @@ namespace LSPApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthorController : ControllerBase
+public class AuthorController(IAuthorRepository author, IBookRepository book, IMemoryCache cache) : ControllerBase
 {
-    private readonly IAuthorRepository _author;
-    private readonly IBookRepository _book;
-    private readonly IMemoryCache _cache;
-
-    public AuthorController(IAuthorRepository author, IBookRepository book, IMemoryCache cache)
-    {
-        _author = author;
-        _book = book;
-        _cache = cache;
-    }
-
+    private readonly IAuthorRepository _author = author;
+    private readonly IBookRepository _book = book;
+    private readonly IMemoryCache _cache = cache;
 
     [HttpGet, Route("{id:int}")]
-    public async Task<model.AuthorDto> GetById(int id) => await _author.GetById(id);
+    public async Task<Model.AuthorDto> GetById(int id) => await _author.GetById(id);
 
 
     [HttpGet("gridsearch")]
-    public async Task<List<model.AuthorListResultsModel>> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection)
+    public async Task<List<Model.AuthorListResultsModel>?> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection)
     {
-        List<model.AuthorListResultsModel> result = new();
+        List<Model.AuthorListResultsModel>? result = [];
 
         try
         {
             sortColumn = sortColumn  == "null" ? "lastName" : sortColumn;
             sortDirection = sortDirection == "null" ? "ASC" : sortDirection;
 
-            string key = $"{sortColumn.PadLeft(20)}{sortDirection.PadLeft(20)}{startRow.ToString().PadLeft(20)}{endRow.ToString().PadLeft(5)}";
+            string key = $"{sortColumn,20}{sortDirection,20}{startRow,20}{endRow,5}";
 
 
             if (!_cache.TryGetValue(key, out result))
@@ -62,9 +54,9 @@ public class AuthorController : ControllerBase
 
 
     [HttpGet, Route("{username}/{password}")]
-    public async Task<model.AuthorDto> GetByUsernamePassword(string username, string password)
+    public async Task<Model.AuthorDto> GetByUsernamePassword(string username, string password)
     {
-        model.AuthorDto status = new();
+        Model.AuthorDto status = new();
 
         try
         {
@@ -92,16 +84,21 @@ public class AuthorController : ControllerBase
     }
 
     [HttpPost, Route("search")]
-    public async Task<List<model.AuthorListResultsModel>> GetSearch([FromBody] model.AuthorSearchModel s)
+    public async Task<List<Model.AuthorListResultsModel>?> GetSearch([FromBody] Model.AuthorSearchModel? s)
     {
-        List<model.AuthorListResultsModel> result = new();
+        List<Model.AuthorListResultsModel>? result = [];
 
         try
         {
-            string key = $"{s.LastName.PadLeft(20)}{s.FirstName.PadLeft(20)}{s.SortOrder.PadLeft(20)}{s.Direction.PadLeft(5)}";
+            s.LastName = string.IsNullOrEmpty(s.LastName) ?  "" : s.LastName;
+            s.FirstName = string.IsNullOrEmpty(s.FirstName) ? "" : s.FirstName;
+            s.SortOrder = string.IsNullOrEmpty(s.SortOrder) ? "" : "LastName";
+            s.Direction = string.IsNullOrEmpty(s.Direction) ? "" : "ASC";
+
+            string key = $"{s.LastName,20}{s.FirstName,20}{s.SortOrder,20}{s.Direction,20}";
 
 
-            if (!_cache.TryGetValue(key, out result))
+            if (!_cache.TryGetValue(key, value: out result))
             {
                 result = await _author.GetBySearchTerm(s);
 
@@ -119,8 +116,8 @@ public class AuthorController : ControllerBase
     }
 
 
-    [HttpPost]
-    public async Task<IActionResult> Insert([FromBody] model.AuthorDto author)
+    [HttpPost, Route("add")]
+    public async Task<IActionResult> Insert([FromBody] Model.AuthorDto author)
     {
 
         if ( string.IsNullOrEmpty(author.Username) ) return BadRequest();
@@ -132,20 +129,14 @@ public class AuthorController : ControllerBase
 
         if (duplicate) return BadRequest();
 
-        // TODO: encrypt password here
         await _author.Add(author);
 
         return Ok();
     }
 
     [HttpPost, Route("update")]
-    public async Task<IActionResult> Update([FromBody] model.AuthorDto author)
+    public async Task<IActionResult> Update([FromBody] Model.AuthorDto author)
     {
-
-        //if (string.IsNullOrEmpty(author.Username)) return BadRequest();
-        //if (string.IsNullOrEmpty(author.FirstName)) return BadRequest();
-        //if (string.IsNullOrEmpty(author.LastName)) return BadRequest();
-        //if (string.IsNullOrEmpty(author.Email)) return BadRequest();
 
         author.DateUpdated = DateTime.Now.ToString();
 
