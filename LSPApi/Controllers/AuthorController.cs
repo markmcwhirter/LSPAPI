@@ -92,8 +92,8 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
         {
             s.LastName = string.IsNullOrEmpty(s.LastName) ?  "" : s.LastName;
             s.FirstName = string.IsNullOrEmpty(s.FirstName) ? "" : s.FirstName;
-            s.SortOrder = string.IsNullOrEmpty(s.SortOrder) ? "" : "LastName";
-            s.Direction = string.IsNullOrEmpty(s.Direction) ? "" : "ASC";
+            s.SortOrder = string.IsNullOrEmpty(s.SortOrder) ? "LastName" : s.SortOrder;
+            s.Direction = string.IsNullOrEmpty(s.Direction) ? "ASC" : s.Direction;
 
             string key = $"{s.LastName,20}{s.FirstName,20}{s.SortOrder,20}{s.Direction,20}";
 
