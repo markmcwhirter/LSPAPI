@@ -28,6 +28,7 @@ public class Startup
         services.AddDbContext<LSPContext>(options =>
         {
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            options.EnableSensitiveDataLogging();
         });
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

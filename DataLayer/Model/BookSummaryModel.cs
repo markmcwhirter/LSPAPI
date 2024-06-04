@@ -15,6 +15,7 @@ public class BookSummaryModel
     public string? AuthorPhoto { get; set; }
     public string? AuthorBio { get; set; }
     public string? CoverIdea { get; set; }
+    public string? Notes { get; set; }
 
     public int? BooksSoldToDate { get; set; }
     public int? BooksSoldThisPeriod { get; set; }

@@ -155,20 +155,15 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
     [HttpPost, Route("update")]
     public async Task<IActionResult> Update([FromBody] Model.AuthorDto author)
     {
-
-        author.DateUpdated = DateTime.Now.ToString();
-
-
-        // hack to accomodate non-priveleged updates
-        if (author.Admin == null || author.Password == null)
+        try
         {
-            var result = await _author.GetById(author.AuthorID);
-            author.Admin ??= result.Admin;
-            author.Password ??= result.Password;
+ 
+            await _author.Update(author);
         }
-
-
-        await _author.Update(author);
+        catch(Exception ex)
+        {
+            _ = ex.Message;
+        }
 
         return Ok();
     }

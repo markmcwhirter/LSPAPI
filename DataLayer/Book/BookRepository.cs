@@ -38,7 +38,8 @@ public class BookRepository : IBookRepository
                 Interior = b.Interior,
                 ISBN = b.ISBN,
                 Subtitle = b.Subtitle,
-                Title = b.Title
+                Title = b.Title,
+                Notes = b.Notes
             };
 
             // assign bookdto data

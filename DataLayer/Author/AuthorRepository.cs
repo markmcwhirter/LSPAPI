@@ -152,6 +152,7 @@ public class AuthorRepository : IAuthorRepository
                         Prefix = p.Prefix,
                         Suffix = p.Suffix,
                         EMail = p.Email,
+                        Notes = p.Notes,
                         InfoLink = p.AuthorID.ToString(),
                         EditLink = p.AuthorID.ToString(),
                         DeleteLink = p.AuthorID.ToString()
@@ -314,7 +315,7 @@ public class AuthorRepository : IAuthorRepository
     {
         int maxAge = _context.Author.Max(p => p.AuthorID);
         author.AuthorID = maxAge + 1;
-        author.DateCreated = DateTime.Now.ToString();
+        author.DateCreated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
 
 
         _context.Author.Add(author);
@@ -323,11 +324,27 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task Update(AuthorDto author)
     {
-        _context.Set<AuthorDto>().Attach(author);
-        _context.Entry(author).State = EntityState.Modified;
+        var current = _context.Author.Find(author.AuthorID);
 
-        _context.Author.Update(author);
+        current.DateUpdated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+
+        if (author.Admin == null || author.Password == null)
+        {
+            author.Admin ??= current.Admin;
+            author.Password ??= current.Password;
+        }
+
+        if (current != null)
+        {
+            _context.Entry(current).CurrentValues.SetValues(author);
+        }
+        else
+        {
+            _context.Author.Add(author);
+        }
+
         await _context.SaveChangesAsync();
+
     }
 
     public async Task Delete(int id)

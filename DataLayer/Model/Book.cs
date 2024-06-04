@@ -17,4 +17,5 @@ public partial class BookDto
 	public string? AuthorPhoto { get; set; }
 	public string? AuthorBio { get; set; }
 	public string? CoverIdea { get; set; }
+    public string? Notes { get; set; }
 }

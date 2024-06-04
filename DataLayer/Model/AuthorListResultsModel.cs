@@ -30,7 +30,11 @@ public class AuthorListResultsModel
     [DataType(DataType.Text)]
     public string? EMail { get; set; }
 
-	[Display(Name = "InfoLink")]
+    [Display(Name = "Notes")]
+    [DataType(DataType.Text)]
+    public string? Notes { get; set; }
+
+    [Display(Name = "InfoLink")]
 	[DataType(DataType.Text)]
 	public string? InfoLink { get; set; }
 
