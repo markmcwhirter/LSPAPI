@@ -35,18 +35,35 @@ public class AuthorRepository : IAuthorRepository
             {
                 if( filterList.authorID != null)
                 {
+                    // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
+
                     string? filtertype = filterList.authorID.type.ToLower();
                     int filterValue = filterList.authorID.filter;
 
-                    if (filtertype.Equals("beginswith"))
-                        query = query.Where(a => a.AuthorID == filterValue);
-                    else if (filtertype.Equals("equals"))
-                        query = query.Where(a => a.AuthorID == filterValue);
-                    else if (filtertype.Equals("does not equal"))
-                        query = query.Where(a => a.AuthorID != filterValue);
-                    else if (filtertype.Equals("blank"))
-                        query = query.Where(a => a.AuthorID == 0);
+                    if (filterList.authorID.type.ToLower().Equals("inrange"))
+                        query = query.Where(a => a.AuthorID >= filterList.authorID.filter && a.AuthorID <= filterList.authorID.filterTo);
+                    else
+                    {
 
+                        if (filtertype.Equals("equals"))
+                            query = query.Where(a => a.AuthorID == filterValue);
+                        else if (filtertype.Equals("doesnotequal"))
+                            query = query.Where(a => a.AuthorID != filterValue);
+                        else if (filtertype.Equals("greaterthan"))
+                            query = query.Where(a => a.AuthorID > filterValue);
+                        else if (filtertype.Equals("greaterthanorequal"))
+                            query = query.Where(a => a.AuthorID >= filterValue);
+                        else if (filtertype.Equals("lessthan"))
+                            query = query.Where(a => a.AuthorID < filterValue);
+                        else if (filtertype.Equals("lessthanorequal"))
+                            query = query.Where(a => a.AuthorID <= filterValue);
+                        else if (filtertype.Equals("between"))
+                            query = query.Where(a => a.AuthorID >= filterValue);
+                        else if (filtertype.Equals("blank"))
+                            query = query.Where(a => a.AuthorID == 0);
+                        else if (filtertype.Equals("notblank"))
+                            query = query.Where(a => a.AuthorID != 0);
+                    }
                 }
                 if (filterList.lastName != null)
                 {

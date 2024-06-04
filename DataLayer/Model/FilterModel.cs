@@ -5,6 +5,7 @@ public class AuthorId
     public string filterType { get; set; }
     public string type { get; set; }
     public int filter { get; set; }
+    public int filterTo { get; set; }
 }
 
 public class FirstName
