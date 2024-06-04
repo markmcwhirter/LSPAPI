@@ -326,7 +326,8 @@ public class AuthorRepository : IAuthorRepository
     {
         var current = _context.Author.Find(author.AuthorID);
 
-        current.DateUpdated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+        author.DateUpdated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+        author.Username = current.Username;
 
         if (author.Admin == null || author.Password == null)
         {
