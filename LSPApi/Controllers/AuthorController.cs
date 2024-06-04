@@ -19,9 +19,38 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
     [HttpGet, Route("{id:int}")]
     public async Task<Model.AuthorDto> GetById(int id) => await _author.GetById(id);
 
+    [HttpGet("GetAll")]
+    public async Task<List<Model.AuthorListResultsModel>?> GetAll()
+    {
+        List<Model.AuthorListResultsModel>? result = [];
+
+        try
+        {
+            string key = $"GetAll";
+
+
+            if (!_cache.TryGetValue(key, out result))
+            {
+                result = await _author.GetAll();
+
+                MemoryCacheEntryOptions cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromHours(1));
+
+                _cache.Set(key, result, cacheEntryOptions);
+            }
+        }
+        catch (Exception ex)
+        {
+            _ = ex.Message;
+        }
+
+
+        return result;
+    }
+
 
     [HttpGet("gridsearch")]
-    public async Task<List<Model.AuthorListResultsModel>?> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection)
+    public async Task<List<Model.AuthorListResultsModel>?> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
     {
         List<Model.AuthorListResultsModel>? result = [];
 
@@ -30,18 +59,7 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
             sortColumn = sortColumn  == "null" ? "lastName" : sortColumn;
             sortDirection = sortDirection == "null" ? "ASC" : sortDirection;
 
-            string key = $"{sortColumn,20}{sortDirection,20}{startRow,20}{endRow,5}";
-
-
-            if (!_cache.TryGetValue(key, out result))
-            {
-                result = await _author.GetAuthors(startRow, endRow, sortColumn, sortDirection);
-
-                MemoryCacheEntryOptions cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromHours(1));
-
-                _cache.Set(key, result, cacheEntryOptions);
-            }
+            result = await _author.GetAuthors(startRow, endRow, sortColumn, sortDirection, filter);
         }
         catch (Exception ex)
         {

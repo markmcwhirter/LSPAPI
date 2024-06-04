@@ -1,6 +1,11 @@
 ﻿using LSPApi.DataLayer.Model;
+using DataLayer.Model;
 
 using Microsoft.EntityFrameworkCore;
+
+using System.Text.Json;
+
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace LSPApi.DataLayer;
 public class AuthorRepository : IAuthorRepository
@@ -9,7 +14,7 @@ public class AuthorRepository : IAuthorRepository
 
     public AuthorRepository(LSPContext context) => _context = context;
 
-    public async Task<List<AuthorListResultsModel>> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection)
+    public async Task<List<AuthorListResultsModel>> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection, string filter)
     {
         List<AuthorListResultsModel> result = [];
 
@@ -20,6 +25,94 @@ public class AuthorRepository : IAuthorRepository
             sortColumn = sortColumn == "null" ? "AuthorID" : sortColumn.ToUpper();
             sortDirection = sortDirection == "null" ? "ASC" : sortDirection.ToUpper();
 
+            FilterModel? filterList = new();
+
+            // parse filter and add to a where clause
+            if( !string.IsNullOrEmpty(filter) && filter != "{}")
+                filterList = JsonSerializer.Deserialize<FilterModel>(filter);
+
+            if (filterList != null)
+            {
+                if( filterList.authorID != null)
+                {
+                    string? filtertype = filterList.authorID.type.ToLower();
+                    int filterValue = filterList.authorID.filter;
+
+                    if (filtertype.Equals("beginswith"))
+                        query = query.Where(a => a.AuthorID == filterValue);
+                    else if (filtertype.Equals("equals"))
+                        query = query.Where(a => a.AuthorID == filterValue);
+                    else if (filtertype.Equals("does not equal"))
+                        query = query.Where(a => a.AuthorID != filterValue);
+                    else if (filtertype.Equals("blank"))
+                        query = query.Where(a => a.AuthorID == 0);
+
+                }
+                if (filterList.lastName != null)
+                {
+                    string? filtertype = filterList.lastName.type.ToLower();
+                    string? filterValue = filterList.lastName.filter;
+                   
+
+                    if (filtertype.Equals("startswith"))
+                        query = query.Where(a => EF.Functions.Like(a.LastName, $"{filterValue}%"));
+                    else if (filtertype.Equals("endswith"))
+                        query = query.Where(a => EF.Functions.Like(a.LastName, $"%{filterValue}"));
+                    else if (filtertype.Equals("equals"))
+                        query = query.Where(a => a.LastName == filterValue);
+                    else if (filtertype.Equals("does not equal"))
+                        query = query.Where(a => a.LastName != filterValue);
+                    else if (filtertype.Equals("blank"))
+                        query = query.Where(a => a.LastName == null);
+                    else if (filtertype.Equals("contains"))
+                        query = query.Where(a => EF.Functions.Like(a.LastName, $"%{filterValue}%"));
+                    else if (filtertype.Equals("notcontains"))
+                        query = query.Where(a => !EF.Functions.Like(a.LastName, $"%{filterValue}%"));
+                }
+                if (filterList.firstName != null)
+                {
+                    string? filtertype = filterList.firstName.type.ToLower();
+                    string? filterValue = filterList.firstName.filter;
+
+
+                    if (filtertype.Equals("startswith"))
+                        query = query.Where(a => EF.Functions.Like(a.FirstName, $"{filterValue}%"));
+                    else if (filtertype.Equals("endswith"))
+                        query = query.Where(a => EF.Functions.Like(a.FirstName, $"%{filterValue}"));
+                    else if (filtertype.Equals("equals"))
+                        query = query.Where(a => a.FirstName == filterValue);
+                    else if (filtertype.Equals("does not equal"))
+                        query = query.Where(a => a.FirstName != filterValue);
+                    else if (filtertype.Equals("blank"))
+                        query = query.Where(a => a.FirstName == null);
+                    else if (filtertype.Equals("contains"))
+                        query = query.Where(a => EF.Functions.Like(a.FirstName, $"%{filterValue}%"));
+                    else if (filtertype.Equals("notcontains"))
+                        query = query.Where(a => !EF.Functions.Like(a.FirstName, $"%{filterValue}%"));
+
+                }
+                if (filterList.eMail != null)
+                {
+                    string? filtertype = filterList.eMail.type.ToLower();
+                    string? filterValue = filterList.eMail.filter;
+
+
+                    if (filtertype.Equals("startswith"))
+                        query = query.Where(a => EF.Functions.Like(a.Email, $"{filterValue}%"));
+                    else if (filtertype.Equals("endswith"))
+                        query = query.Where(a => EF.Functions.Like(a.Email, $"%{filterValue}"));
+                    else if (filtertype.Equals("equals"))
+                        query = query.Where(a => a.Email == filterValue);
+                    else if (filtertype.Equals("does not equal"))
+                        query = query.Where(a => a.Email != filterValue);
+                    else if (filtertype.Equals("blank"))
+                        query = query.Where(a => a.Email == null);
+                    else if (filtertype.Equals("contains"))
+                        query = query.Where(a => EF.Functions.Like(a.Email, $"%{filterValue}%"));
+                    else if (filtertype.Equals("notcontains"))
+                        query = query.Where(a => !EF.Functions.Like(a.Email, $"%{filterValue}%"));
+                }
+            }
 
             if (sortColumn == "LASTNAME")
                 query = sortDirection == "ASC" ? query.OrderBy(a => a.LastName) :
@@ -178,7 +271,25 @@ public class AuthorRepository : IAuthorRepository
         return result ?? new AuthorDto();
     }
 
-    public async Task<IEnumerable<AuthorDto>> GetAll() => await _context.Author.OrderBy(a => a.LastName).ThenBy(b => b.FirstName).ToListAsync();
+    public async Task<List<AuthorListResultsModel>> GetAll() =>
+    
+        await _context.Author.OrderBy(a => a.AuthorID)
+        .Select(p => new AuthorListResultsModel
+        {
+            AuthorID = p.AuthorID,
+            FirstName = p.FirstName,
+            LastName = p.LastName,
+            MiddleName = p.MiddleName,
+            Prefix = p.Prefix,
+            Suffix = p.Suffix,
+            EMail = p.Email,
+            EditLink = $"<a href='ProfileModify?id={p.AuthorID}'>Edit</a>",
+            DeleteLink = $"<a href='DeleteAuthor?id={p.AuthorID}'>Delete</a>"
+        })
+        .ToListAsync();
+
+    
+
     public async Task<bool> CheckForUsername(string username) =>
         await _context.Author.AnyAsync(a => a.Username == username);
 

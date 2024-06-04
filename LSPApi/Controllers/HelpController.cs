@@ -25,7 +25,7 @@ public class HelpController : ControllerBase
     {
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-        var creds = _configuration["SendGridKey"].ToString() ?? string.Empty;
+        var creds = _configuration["SendGridKey"].ToString();
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         var sendGridClient = new SendGridClient(creds);
