@@ -1,10 +1,13 @@
-﻿using LSPApi.DataLayer.Model;
+﻿using DataLayer.Model;
+
+using LSPApi.DataLayer.Model;
 
 namespace LSPApi.DataLayer;
 
 public interface ISaleRepository
 {
     Task<List<BookSaleDto>> GetSales(int startRow, int endRow, string sortColumn, string sortDirection);
+    Task<List<SaleSummaryGridModel>> GetSales2(int startRow, int endRow, string sortColumn, string sortDirection, string filter);
 
     Task<SaleDto> GetById(int id);
     Task<IEnumerable<SaleDto>> GetAll();

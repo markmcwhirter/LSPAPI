@@ -1,4 +1,6 @@
-﻿using LSPApi.DataLayer;
+﻿using DataLayer.Model;
+
+using LSPApi.DataLayer;
 using LSPApi.DataLayer.Model;
 
 using Microsoft.AspNetCore.Mvc;
@@ -107,26 +109,18 @@ namespace LSPApi.Controllers
         [HttpGet, Route("GetSales")]
         public async Task<List<BookSaleDto>> GetSales() => await _Sale.GetSales();
 
+        // Task<List<SaleSummaryGridModel>>
 
         [HttpGet("gridsearch")]
-        public async Task<List<BookSaleDto>?> GetSales(int startRow, int endRow, string sortColumn, string sortDirection)
+        public async Task<List<SaleSummaryGridModel>?> GetSales(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
         {
-            List<BookSaleDto>? result = [];
+            List<SaleSummaryGridModel>? result = [];
 
             try
             {
-                string key = $"{sortColumn,20}{sortDirection,20}{startRow,20}{endRow,5}";
 
 
-                if (!_cache.TryGetValue(key, value: out result))
-                {
-                    result = await _Sale.GetSales(startRow, endRow, sortColumn, sortDirection);
-
-                    MemoryCacheEntryOptions cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromHours(1));
-
-                    _cache.Set(key, result, cacheEntryOptions);
-                }
+                result = await _Sale.GetSales2(startRow, endRow, sortColumn, sortDirection, filter);
             }
             catch (Exception ex)
             {
@@ -136,5 +130,22 @@ namespace LSPApi.Controllers
 
             return result;
         }
+
+        //public async Task<List<BookSaleDto>?> GetSales(int startRow, int endRow, string sortColumn, string sortDirection)
+        //{
+        //    List<BookSaleDto>? result = [];
+
+        //    try
+        //    {
+        //        result = await _Sale.GetSales(startRow, endRow, sortColumn, sortDirection);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _ = ex.Message;
+        //    }
+
+
+        //    return result;
+        //}
     }
 }

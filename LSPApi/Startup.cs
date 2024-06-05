@@ -34,7 +34,6 @@ public class Startup
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IAuthorRepository, AuthorRepository>();
         services.AddScoped<IBookRepository, BookRepository>();
-        services.AddScoped<ILinkRepository, LinkRepository>();
         services.AddScoped<IVendorRepository, VendorRepository>();
         services.AddScoped<ISaleRepository, SaleRepository>();
 
