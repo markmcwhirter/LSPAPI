@@ -5,6 +5,7 @@ namespace LSPApi.DataLayer;
 public interface IBookRepository
 {
     Task<BookDto> GetById(int id);
+    Task<List<BookListResultsModel>> GetBooks(int startRow, int endRow, string sortColumn, string sortDirection, string filter);
 
     Task<IEnumerable<BookDto>> GetAll();
     Task Add(BookDto Book);

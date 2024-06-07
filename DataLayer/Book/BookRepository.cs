@@ -1,10 +1,13 @@
-﻿using LSPApi.DataLayer.Model;
+﻿using DataLayer.Model;
+
+using LSPApi.DataLayer.Model;
 
 using Microsoft.EntityFrameworkCore;
 
-using System.Net;
+using System.Text.Json;
 
 namespace LSPApi.DataLayer;
+
 public class BookRepository : IBookRepository
 {
     private readonly LSPContext _context;
@@ -15,6 +18,92 @@ public class BookRepository : IBookRepository
     public async Task<BookDto> GetById(int id) => await _context.Book.FirstOrDefaultAsync(a => a.BookID == id);
 #pragma warning restore CS8603 // Possible null reference return.
 
+    public async Task<List<BookListResultsModel>> GetBooks(int startRow, int endRow, string sortColumn, string sortDirection, string filter)
+    {
+        List<BookListResultsModel> result = [];
+
+        try
+        {
+            sortColumn = sortColumn == "null" ? "title" : sortColumn;
+            sortDirection = sortDirection == "null" ? "ASC" : sortDirection;
+
+            var query = _context.Author
+                .Join(_context.Book, a => a.AuthorID, b => b.AuthorID,
+                    (a, b) => new 
+                    {
+                        AuthorId = a.AuthorID,
+                        Author = a.LastName + ", " + a.FirstName,
+                        BookId = b.BookID,
+                        Title = b.Title,
+                        SubTitle = b.Subtitle,
+                        ISBN = b.ISBN,
+                        Notes = b.Notes
+                    })
+                .Select(p => new BookListResultsModel
+                {
+                    AuthorID = p.AuthorId,
+                    BookID = p.BookId,
+                    Author = p.Author,
+                    Title = p.Title,
+                    SubTitle = p.SubTitle,
+                    ISBN = p.ISBN,
+                    Notes = p.Notes
+                })
+                .AsQueryable();
+
+            FilterBookModel? filterList = new();
+
+            // parse filter and add to a where clause
+            if (!string.IsNullOrEmpty(filter) && filter != "{}")
+                filterList = JsonSerializer.Deserialize<FilterBookModel>(filter);
+
+            if (filterList != null)
+            {
+                if (filterList.author != null)
+                    query = query.BuildStringQuery("Author", filterList.author.type.ToLower(), filterList.author.filter);
+                if (filterList.title != null)
+                    query = query.BuildStringQuery("Title", filterList.title.type.ToLower(), filterList.title.filter);
+                if (filterList.subtitle != null)
+                    query = query.BuildStringQuery("SubTitle", filterList.subtitle.type.ToLower(), filterList.subtitle.filter);
+                if (filterList.isbn != null)
+                    query = query.BuildStringQuery("ISBN", filterList.isbn.type.ToLower(), filterList.isbn.filter);
+                if (filterList.notes != null)
+                    query = query.BuildStringQuery("Notes", filterList.notes.type.ToLower(), filterList.notes.filter);
+            }
+
+            if (sortColumn == "AUTHOR")
+                query = sortDirection == "ASC" ? query.OrderBy(a => a.Author) : query.OrderByDescending(a => a.Author);
+            else if (sortColumn == "TITLE")
+                query = sortDirection == "ASC" ? query.OrderBy(a => a.Title) : query.OrderByDescending(a => a.Title);
+            else if (sortColumn == "SUBTITLE")
+                query = sortDirection == "ASC" ? query.OrderBy(a => a.SubTitle) : query.OrderByDescending(a => a.SubTitle);
+            else if (sortColumn == "ISBN")
+                query = sortDirection == "ASC" ? query.OrderBy(a => a.ISBN) : query.OrderByDescending(a => a.ISBN);
+            else if (sortColumn == "NOTES")
+                query = sortDirection == "ASC" ? query.OrderBy(a => a.Notes) : query.OrderByDescending(a => a.Notes);
+
+
+            result = await query.Skip(startRow).Take(endRow - startRow)
+                    .Select(p => new BookListResultsModel
+                    {
+                        AuthorID = p.AuthorID,
+                        BookID = p.BookID,
+                        Author = p.Author,
+                        Title = p.Title,
+                        SubTitle = p.SubTitle,
+                        ISBN = p.ISBN,
+                        Notes = p.Notes
+                    })
+                    .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            _ = ex.Message;
+        }
+
+        return result;
+
+    }
     public async Task<List<BookSummaryModel>> GetByAuthorId(int id)
     {
         var result = new List<BookSummaryModel>();
@@ -60,7 +149,7 @@ public class BookRepository : IBookRepository
                     summary.BooksSalesThisPeriod = data.SalesThisPeriod;
                     summary.BooksSalesToDate = data.SalesToDate;
                     summary.BooksSoldThisPeriod = data.UnitsSold;
-                    summary.BooksSoldToDate  =data.UnitsToDate;
+                    summary.BooksSoldToDate = data.UnitsToDate;
                     summary.BookRoyalties = data.Royalty;
                 }
 
@@ -145,4 +234,6 @@ public class BookRepository : IBookRepository
             await _context.SaveChangesAsync();
         }
     }
+
+ 
 }

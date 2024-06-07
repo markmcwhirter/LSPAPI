@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using LSPApi.DataLayer;
-using Model = LSPApi.DataLayer.Model;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using LSPApi.DataLayer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+
+using Model = LSPApi.DataLayer.Model;
 
 
 namespace LSPApi.Controllers;

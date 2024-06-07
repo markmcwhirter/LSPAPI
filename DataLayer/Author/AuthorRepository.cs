@@ -4,6 +4,7 @@ using DataLayer.Model;
 using Microsoft.EntityFrameworkCore;
 
 using System.Text.Json;
+using LinqKit;
 
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -28,12 +29,12 @@ public class AuthorRepository : IAuthorRepository
             FilterModel? filterList = new();
 
             // parse filter and add to a where clause
-            if( !string.IsNullOrEmpty(filter) && filter != "{}")
+            if (!string.IsNullOrEmpty(filter) && filter != "{}")
                 filterList = JsonSerializer.Deserialize<FilterModel>(filter);
 
             if (filterList != null)
             {
-                if( filterList.authorID != null)
+                if (filterList.authorID != null)
                 {
                     // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
 
@@ -65,70 +66,13 @@ public class AuthorRepository : IAuthorRepository
                             query = query.Where(a => a.AuthorID != 0);
                     }
                 }
+               
                 if (filterList.lastName != null)
-                {
-                    string? filtertype = filterList.lastName.type.ToLower();
-                    string? filterValue = filterList.lastName.filter;
-                   
-
-                    if (filtertype.Equals("startswith"))
-                        query = query.Where(a => EF.Functions.Like(a.LastName, $"{filterValue}%"));
-                    else if (filtertype.Equals("endswith"))
-                        query = query.Where(a => EF.Functions.Like(a.LastName, $"%{filterValue}"));
-                    else if (filtertype.Equals("equals"))
-                        query = query.Where(a => a.LastName == filterValue);
-                    else if (filtertype.Equals("does not equal"))
-                        query = query.Where(a => a.LastName != filterValue);
-                    else if (filtertype.Equals("blank"))
-                        query = query.Where(a => a.LastName == null);
-                    else if (filtertype.Equals("contains"))
-                        query = query.Where(a => EF.Functions.Like(a.LastName, $"%{filterValue}%"));
-                    else if (filtertype.Equals("notcontains"))
-                        query = query.Where(a => !EF.Functions.Like(a.LastName, $"%{filterValue}%"));
-                }
+                    query = query.BuildStringQuery("LastName", filterList.lastName.type.ToLower(), filterList.lastName.filter);
                 if (filterList.firstName != null)
-                {
-                    string? filtertype = filterList.firstName.type.ToLower();
-                    string? filterValue = filterList.firstName.filter;
-
-
-                    if (filtertype.Equals("startswith"))
-                        query = query.Where(a => EF.Functions.Like(a.FirstName, $"{filterValue}%"));
-                    else if (filtertype.Equals("endswith"))
-                        query = query.Where(a => EF.Functions.Like(a.FirstName, $"%{filterValue}"));
-                    else if (filtertype.Equals("equals"))
-                        query = query.Where(a => a.FirstName == filterValue);
-                    else if (filtertype.Equals("does not equal"))
-                        query = query.Where(a => a.FirstName != filterValue);
-                    else if (filtertype.Equals("blank"))
-                        query = query.Where(a => a.FirstName == null);
-                    else if (filtertype.Equals("contains"))
-                        query = query.Where(a => EF.Functions.Like(a.FirstName, $"%{filterValue}%"));
-                    else if (filtertype.Equals("notcontains"))
-                        query = query.Where(a => !EF.Functions.Like(a.FirstName, $"%{filterValue}%"));
-
-                }
+                    query = query.BuildStringQuery("FirstName", filterList.firstName.type.ToLower(), filterList.firstName.filter);
                 if (filterList.eMail != null)
-                {
-                    string? filtertype = filterList.eMail.type.ToLower();
-                    string? filterValue = filterList.eMail.filter;
-
-
-                    if (filtertype.Equals("startswith"))
-                        query = query.Where(a => EF.Functions.Like(a.Email, $"{filterValue}%"));
-                    else if (filtertype.Equals("endswith"))
-                        query = query.Where(a => EF.Functions.Like(a.Email, $"%{filterValue}"));
-                    else if (filtertype.Equals("equals"))
-                        query = query.Where(a => a.Email == filterValue);
-                    else if (filtertype.Equals("does not equal"))
-                        query = query.Where(a => a.Email != filterValue);
-                    else if (filtertype.Equals("blank"))
-                        query = query.Where(a => a.Email == null);
-                    else if (filtertype.Equals("contains"))
-                        query = query.Where(a => EF.Functions.Like(a.Email, $"%{filterValue}%"));
-                    else if (filtertype.Equals("notcontains"))
-                        query = query.Where(a => !EF.Functions.Like(a.Email, $"%{filterValue}%"));
-                }
+                    query = query.BuildStringQuery("Email", filterList.eMail.type.ToLower(), filterList.eMail.filter);
             }
 
             if (sortColumn == "LASTNAME")
@@ -290,7 +234,7 @@ public class AuthorRepository : IAuthorRepository
     }
 
     public async Task<List<AuthorListResultsModel>> GetAll() =>
-    
+
         await _context.Author.OrderBy(a => a.AuthorID)
         .Select(p => new AuthorListResultsModel
         {
@@ -306,7 +250,7 @@ public class AuthorRepository : IAuthorRepository
         })
         .ToListAsync();
 
-    
+
 
     public async Task<bool> CheckForUsername(string username) =>
         await _context.Author.AnyAsync(a => a.Username == username);
