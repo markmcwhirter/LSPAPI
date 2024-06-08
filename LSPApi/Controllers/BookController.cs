@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using LSPApi.DataLayer;
+﻿using LSPApi.DataLayer;
+
+using Microsoft.AspNetCore.Mvc;
+
 using Model = LSPApi.DataLayer.Model;
-using LSPApi.DataLayer.Model;
 
 
 namespace LSPApi.Controllers;
@@ -24,24 +25,8 @@ public class BookController : ControllerBase
 
 
     [HttpGet("gridsearch")]
-    public async Task<List<Model.BookListResultsModel>?> GetBooks(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
-    {
-        List<Model.BookListResultsModel>? result = [];
-
-        try
-        {
-
-
-            result = await _book.GetBooks(startRow, endRow, sortColumn, sortDirection, filter);
-        }
-        catch (Exception ex)
-        {
-            _ = ex.Message;
-        }
-
-
-        return result;
-    }
+    public async Task<List<Model.BookListResultsModel>?> GetBooks(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "") =>
+            await _book.GetBooks(startRow, endRow, sortColumn, sortDirection, filter);
 
     [HttpGet, Route("author/{id:int}")]
     public async Task<List<Model.BookSummaryModel>> GetByAuthorId(int id) => await _book.GetByAuthorId(id);

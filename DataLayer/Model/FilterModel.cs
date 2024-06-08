@@ -11,7 +11,7 @@ public class FilterModel        // for Author grid
 
 public class FilterSalesModel
 {
-    public BookId bookId { get; set; }
+    public BookId bookID { get; set; }
     public Title title { get; set; }
     public ISBN isbn { get; set; }
     public VendorName vendorName { get; set; }
@@ -25,6 +25,7 @@ public class FilterSalesModel
 
 public class FilterBookModel
 {
+    public BookId bookID { get; set; }
     public Author author { get; set; }
     public Title title { get; set; }
     public SubTitle subtitle { get; set; }

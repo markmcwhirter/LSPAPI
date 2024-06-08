@@ -79,93 +79,7 @@ public class SaleRepository : ISaleRepository
         return tmpdata;
     }
 
-
-
-    // ORIGINAL CODE
-    public async Task<List<BookSaleDto>> GetSales(int startRow, int endRow, string sortColumn, string sortDirection)
-    {
-        List<BookSaleDto> result = [];
-
-        try
-        {
-            var query = _context.Sales
-               .Join(_context.Book,
-                   a => a.BookID,
-                   b => b.BookID,
-                   (a, b) => new { Sales = a, Book = b })
-               .Join(_context.Author,
-                   b1 => b1.Book.AuthorID,
-                   a => a.AuthorID,
-                   (b1, a) => new BookSaleDto
-                   {
-                       AuthorID = a.AuthorID,
-                       BookID = b1.Book.BookID,
-                       SaleID = b1.Sales.SaleID,
-                       DateCreated = b1.Sales.DateCreated,
-                       DateUpdated = b1.Sales.DateUpdated,
-                       Author = a.LastName + ", " + a.FirstName,
-                       Title = b1.Book.Title ?? "",
-                       VendorName = "",
-                       SalesDate = b1.Sales.SalesDate,
-                       UnitsSold = b1.Sales.UnitsSold ?? 0M,
-                       UnitsToDate = b1.Sales.UnitsToDate ?? 0M,
-                       SalesThisPeriod = b1.Sales.SalesThisPeriod ?? 0M,
-                       SalesToDate = b1.Sales.SalesToDate ?? 0M,
-                       Royalty = b1.Sales.Royalty ?? 0M,
-                       VendorID = b1.Sales.VendorID ?? 0
-                   }).AsQueryable();
-
-
-            sortColumn = sortColumn == "null" ? "SaleID" : sortColumn;
-            sortColumn = sortColumn.ToUpper();
-
-            sortDirection = sortDirection == "null" ? "ASC" : sortDirection.ToUpper();
-
-
-            if (sortColumn == "SALEID")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.SaleID) :
-                    query.OrderByDescending(a => a.SaleID);
-            else if (sortColumn == "BOOKID")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.BookID) : query.OrderByDescending(a => a.BookID);
-            else if (sortColumn == "VENDORID")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.VendorID) : query.OrderByDescending(a => a.VendorID);
-            else if (sortColumn == "SALESDATE")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.SalesDate) : query.OrderByDescending(a => a.SalesDate);
-            else
-                query = query.OrderBy(a => a.SaleID);
-
-            result = await query.Skip(startRow).Take(endRow - startRow).ToListAsync();
-            foreach (var item in result)
-            {
-                item.SalesDate = item.SalesDate[..10];
-                item.Title = item.Title.Replace("&amp;", "&");
-                item.Title = item.Title.Replace("&#39;", "'");
-
-                item.VendorName = item.VendorID switch
-                {
-                    1 => "Amazon",
-                    2 => "Kindle",
-                    3 => "Barnes and Noble",
-                    4 => "Nook",
-                    5 => "Paperbook",
-                    6 => "EBook",
-                    _ => ""
-                };
-            }
-        }
-        catch (Exception ex)
-        {
-            _ = ex.Message;
-        }
-
-
-        return result;
-
-    }
-
-
-    // NEW CODE
-    public async Task<List<SaleSummaryGridModel>> GetSales2(int startRow, int endRow, string sortColumn, string sortDirection, string filter)
+    public async Task<List<SaleSummaryGridModel>> GetSales(int startRow, int endRow, string sortColumn, string sortDirection, string filter)
     {
         List<SaleSummaryGridModel> result = [];
 
@@ -199,20 +113,17 @@ public class SaleRepository : ISaleRepository
             if (!string.IsNullOrEmpty(filter) && filter != "{}")
                 filterList = JsonSerializer.Deserialize<FilterSalesModel>(filter);
 
-
-
-
             if (filterList != null)
             {
-                if (filterList.bookId != null)
+                if (filterList.bookID != null)
                 {
                     // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
 
-                    string? filtertype = filterList.bookId.type.ToLower();
-                    int? filterValue = filterList.bookId.filter;
+                    string? filtertype = filterList.bookID.type.ToLower();
+                    int? filterValue = filterList.bookID.filter;
 
-                    if (filterList.bookId.type.ToLower().Equals("inrange"))
-                        query = query.Where(a => a.BookID >= filterList.bookId.filter && a.BookID <= filterList.bookId.filterTo);
+                    if (filterList.bookID.type.ToLower().Equals("inrange"))
+                        query = query.Where(a => a.BookID >= filterList.bookID.filter && a.BookID <= filterList.bookID.filterTo);
                     else
                     {
 

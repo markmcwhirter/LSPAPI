@@ -59,6 +59,38 @@ public class BookRepository : IBookRepository
 
             if (filterList != null)
             {
+                if (filterList.bookID != null)
+                {
+                    // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
+
+                    string? filtertype = filterList.bookID.type.ToLower();
+                    int? filterValue = filterList.bookID.filter;
+
+                    if (filterList.bookID.type.ToLower().Equals("inrange"))
+                        query = query.Where(a => a.BookID >= filterList.bookID.filter && a.BookID <= filterList.bookID.filterTo);
+                    else
+                    {
+
+                        if (filtertype.Equals("equals"))
+                            query = query.Where(a => a.BookID == filterValue);
+                        else if (filtertype.Equals("doesnotequal"))
+                            query = query.Where(a => a.BookID != filterValue);
+                        else if (filtertype.Equals("greaterthan"))
+                            query = query.Where(a => a.BookID > filterValue);
+                        else if (filtertype.Equals("greaterthanorequal"))
+                            query = query.Where(a => a.BookID >= filterValue);
+                        else if (filtertype.Equals("lessthan"))
+                            query = query.Where(a => a.BookID < filterValue);
+                        else if (filtertype.Equals("lessthanorequal"))
+                            query = query.Where(a => a.BookID <= filterValue);
+                        else if (filtertype.Equals("between"))
+                            query = query.Where(a => a.BookID >= filterValue);
+                        else if (filtertype.Equals("blank"))
+                            query = query.Where(a => a.BookID == 0);
+                        else if (filtertype.Equals("notblank"))
+                            query = query.Where(a => a.BookID != 0);
+                    }
+                }
                 if (filterList.author != null)
                     query = query.BuildStringQuery("Author", filterList.author.type.ToLower(), filterList.author.filter);
                 if (filterList.title != null)

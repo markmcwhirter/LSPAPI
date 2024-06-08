@@ -112,40 +112,7 @@ namespace LSPApi.Controllers
         // Task<List<SaleSummaryGridModel>>
 
         [HttpGet("gridsearch")]
-        public async Task<List<SaleSummaryGridModel>?> GetSales(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
-        {
-            List<SaleSummaryGridModel>? result = [];
-
-            try
-            {
-
-
-                result = await _Sale.GetSales2(startRow, endRow, sortColumn, sortDirection, filter);
-            }
-            catch (Exception ex)
-            {
-                _ = ex.Message;
-            }
-
-
-            return result;
-        }
-
-        //public async Task<List<BookSaleDto>?> GetSales(int startRow, int endRow, string sortColumn, string sortDirection)
-        //{
-        //    List<BookSaleDto>? result = [];
-
-        //    try
-        //    {
-        //        result = await _Sale.GetSales(startRow, endRow, sortColumn, sortDirection);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _ = ex.Message;
-        //    }
-
-
-        //    return result;
-        //}
+        public async Task<List<SaleSummaryGridModel>?> GetSales(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "") =>
+                await _Sale.GetSales(startRow, endRow, sortColumn, sortDirection, filter);
     }
 }
