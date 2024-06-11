@@ -7,13 +7,19 @@ using System.Text.Json;
 using LinqKit;
 
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.Extensions.Logging;
 
 namespace LSPApi.DataLayer;
 public class AuthorRepository : IAuthorRepository
 {
     private readonly LSPContext _context;
+    private readonly ILogger<AuthorRepository> _logger;
 
-    public AuthorRepository(LSPContext context) => _context = context;
+    public AuthorRepository(LSPContext context, ILogger<AuthorRepository> logger)
+    {
+        _context = context;
+        _logger = logger;
+    }
 
     public async Task<List<AuthorListResultsModel>> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection, string filter)
     {
@@ -210,7 +216,7 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<AuthorDto> GetByUsernamePassword(string username, string password)
     {
-        // decrypt password here
+        _logger.LogInformation($"GetByUsernamePassword: {username}");        // decrypt password here
         string incoming = password.Replace('_', '/').Replace('-', '+');
         switch (password.Length % 4)
         {

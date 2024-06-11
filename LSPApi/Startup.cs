@@ -3,7 +3,8 @@ using LSPApi.DataLayer;
 
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
+
+using Serilog;
 
 namespace LSPApi;
 
@@ -21,7 +22,13 @@ public class Startup
     {
         var connectionString = Configuration.GetConnectionString("LSPConnection");
 
-        services.AddLogging(builder => builder.AddConsole());
+        services.AddLogging(l =>
+        {
+            l.AddSeq("http://209.38.64.145:5341");
+            l.AddConsole();
+            l.AddFile("logs/log-.txt", outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"); 
+        });
+
         services.AddMemoryCache();
 
  
@@ -46,16 +53,6 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-
-        // Register the logger
-        services.AddLogging(loggingBuilder =>
-        {
-            loggingBuilder.ClearProviders();
-            loggingBuilder.AddConsole();
-            loggingBuilder.AddDebug();
-        });
-
-        services.AddLogger();
 
     }
 
