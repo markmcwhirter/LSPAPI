@@ -13,23 +13,61 @@ public class BookController : ControllerBase
 {
 
     private readonly IBookRepository _book;
+    private readonly ILogger<BookController> _logger;
 
-    public BookController( IBookRepository Book)
+    public BookController(IBookRepository Book, ILogger<BookController> logger)
     {
         _book = Book;
+        _logger = logger;
     }
 
 
     [HttpGet, Route("{id:int}")]
-    public async Task<Model.BookDto> GetById(int id) => await _book.GetById(id);
+    public async Task<Model.BookDto> GetById(int id)
+    {
+        try
+        {             
+            _logger.LogInformation($"*** Book GetById: {id}");
+            return await _book.GetById(id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+            return new Model.BookDto();
+        }
+    }
 
 
     [HttpGet("gridsearch")]
-    public async Task<List<Model.BookListResultsModel>?> GetBooks(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "") =>
-            await _book.GetBooks(startRow, endRow, sortColumn, sortDirection, filter);
+    public async Task<List<Model.BookListResultsModel>?> GetBooks(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
+    {
+        try
+        {
+            _logger.LogInformation($"*** Book GridSearch: start: {startRow} end: {endRow} sort: {sortColumn} direction: {sortDirection} filter: {filter}");
+            return await _book.GetBooks(startRow, endRow, sortColumn, sortDirection, filter);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+            return null;
+        }
+    }
 
     [HttpGet, Route("author/{id:int}")]
-    public async Task<List<Model.BookSummaryModel>> GetByAuthorId(int id) => await _book.GetByAuthorId(id);
+    public async Task<List<Model.BookSummaryModel>> GetByAuthorId(int id)
+    { 
+        try
+        {
+            _logger.LogInformation($"*** Book GetByAuthorId: {id}");
+            return await _book.GetByAuthorId(id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+            return new List<Model.BookSummaryModel>();
+        }
+    }
+
 
     [HttpGet]
     public async Task<IEnumerable<Model.BookDto>> GetAll() => await _book.GetAll();
@@ -37,8 +75,16 @@ public class BookController : ControllerBase
     [HttpPost]
     public async Task Insert([FromBody] Model.BookDto Book)
     {
-        Book.DateCreated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
-        await _book.Add(Book);
+        try
+        {
+            Book.DateCreated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+            await _book.Add(Book);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+        }
+
     }
 
     [HttpPost, Route("update")]
@@ -59,7 +105,7 @@ public class BookController : ControllerBase
         }
         catch (Exception ex)
         {
-            _ = ex.Message;
+            _logger.LogError(ex.Message, ex);
         }
     }
 
@@ -72,7 +118,7 @@ public class BookController : ControllerBase
         }
         catch (Exception ex)
         {
-            _ = ex.Message;
+            _logger.LogError(ex.Message, ex);
         }
 
     }

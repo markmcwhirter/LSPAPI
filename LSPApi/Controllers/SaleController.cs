@@ -70,7 +70,7 @@ namespace LSPApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in Bulk Sales Entry");
+                _logger.LogError(ex.Message, ex);
             }
         }
 
@@ -99,7 +99,7 @@ namespace LSPApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in LastSales");
+                _logger.LogError(ex.Message, ex);
             }
 
             return result;
@@ -112,7 +112,17 @@ namespace LSPApi.Controllers
         // Task<List<SaleSummaryGridModel>>
 
         [HttpGet("gridsearch")]
-        public async Task<List<SaleSummaryGridModel>?> GetSales(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "") =>
-                await _Sale.GetSales(startRow, endRow, sortColumn, sortDirection, filter);
+        public async Task<List<SaleSummaryGridModel>?> GetSales(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
+        {
+            try
+            { 
+                return await _Sale.GetSales(startRow, endRow, sortColumn, sortDirection, filter);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+                return new List<SaleSummaryGridModel>();
+            }
+        }
     }
 }

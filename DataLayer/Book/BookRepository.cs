@@ -3,6 +3,7 @@
 using LSPApi.DataLayer.Model;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using System.Text.Json;
 
@@ -11,8 +12,13 @@ namespace LSPApi.DataLayer;
 public class BookRepository : IBookRepository
 {
     private readonly LSPContext _context;
+    private readonly ILogger<BookRepository> _logger;
 
-    public BookRepository(LSPContext context) => _context = context;
+    public BookRepository(LSPContext context, ILogger<BookRepository> logger)
+    {
+        _context = context;
+        _logger = logger;
+    }
 
 #pragma warning disable CS8603 // Possible null reference return.
     public async Task<BookDto> GetById(int id) => await _context.Book.FirstOrDefaultAsync(a => a.BookID == id);
@@ -24,12 +30,12 @@ public class BookRepository : IBookRepository
 
         try
         {
-            sortColumn = sortColumn == "null" ? "title" : sortColumn;
-            sortDirection = sortDirection == "null" ? "ASC" : sortDirection;
+            sortColumn = sortColumn == "null" ? "AUTHOR" : sortColumn;
+            sortDirection = sortDirection == "null" ? "DESC" : sortDirection;
 
             var query = _context.Author
                 .Join(_context.Book, a => a.AuthorID, b => b.AuthorID,
-                    (a, b) => new 
+                    (a, b) => new
                     {
                         AuthorId = a.AuthorID,
                         Author = a.LastName + ", " + a.FirstName,
@@ -130,7 +136,7 @@ public class BookRepository : IBookRepository
         }
         catch (Exception ex)
         {
-            _ = ex.Message;
+            _logger.LogError(ex.Message, ex);
         }
 
         return result;
@@ -140,36 +146,37 @@ public class BookRepository : IBookRepository
     {
         var result = new List<BookSummaryModel>();
 
-        var books = await _context.Book.Where(a => a.AuthorID == id).ToListAsync();
-
-
-        foreach (var b in books)
+        try
         {
-            BookSummaryModel? summary = new()
+            List<BookDto> books = await _context.Book.Where(a => a.AuthorID == id).ToListAsync();
+
+
+            foreach (var b in books)
             {
-                AuthorID = b.AuthorID,
-                AuthorBio = b.AuthorBio,
-                AuthorPhoto = b.AuthorPhoto,
-                BookID = b.BookID,
-                Cover = b.Cover,
-                CoverIdea = b.CoverIdea,
-                DateCreated = b.DateCreated,
-                DateUpdated = b.DateUpdated,
-                Description = b.Description,
-                Interior = b.Interior,
-                ISBN = b.ISBN,
-                Subtitle = b.Subtitle,
-                Title = b.Title,
-                Notes = b.Notes
-            };
+                BookSummaryModel? summary = new()
+                {
+                    AuthorID = b.AuthorID,
+                    AuthorBio = b.AuthorBio,
+                    AuthorPhoto = b.AuthorPhoto,
+                    BookID = b.BookID,
+                    Cover = b.Cover,
+                    CoverIdea = b.CoverIdea,
+                    DateCreated = b.DateCreated,
+                    DateUpdated = b.DateUpdated,
+                    Description = b.Description,
+                    Interior = b.Interior,
+                    ISBN = b.ISBN,
+                    Subtitle = b.Subtitle,
+                    Title = b.Title,
+                    Notes = b.Notes
+                };
 
-            // assign bookdto data
+                // assign bookdto data
 
-            SaleDto sresult = new();
+                SaleDto sresult = new();
 
 
-            try
-            {
+
                 // get book sales
                 SaleDto? data = _context.Sales
                     .Where(sale => sale.BookID == b.BookID && sale.VendorID == 5)
@@ -215,14 +222,14 @@ public class BookRepository : IBookRepository
                     summary.AudioBookRoyalties = data3.Royalty;
                 }
                 result.Add(summary);
-            }
-            catch (Exception ex)
-            {
-                _ = ex.Message;
-            }
 
+
+            }
         }
-
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+        }
         return result;
     }
 
@@ -232,11 +239,20 @@ public class BookRepository : IBookRepository
 
     public async Task Add(BookDto Book)
     {
-        int maxBook = _context.Book.Max(p => p.BookID);
-        Book.BookID = maxBook + 1;
+        try
+        {
 
-        _context.Book.Add(Book);
-        await _context.SaveChangesAsync();
+
+            int maxBook = _context.Book.Max(p => p.BookID);
+            Book.BookID = maxBook + 1;
+
+            _context.Book.Add(Book);
+            await _context.SaveChangesAsync();
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+        }
     }
 
     public async Task Update(BookDto Book)
@@ -267,5 +283,5 @@ public class BookRepository : IBookRepository
         }
     }
 
- 
+
 }

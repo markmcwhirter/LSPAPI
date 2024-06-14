@@ -1,4 +1,6 @@
 ﻿using LSPApi.DataLayer;
+using LSPApi.DataLayer.Model;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -10,14 +12,35 @@ namespace LSPApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthorController(IAuthorRepository author, IBookRepository book, IMemoryCache cache) : ControllerBase
+public class AuthorController : ControllerBase
 {
-    private readonly IAuthorRepository _author = author;
-    private readonly IBookRepository _book = book;
-    private readonly IMemoryCache _cache = cache;
+    private readonly IAuthorRepository _author;
+    private readonly IBookRepository _book;
+    private readonly IMemoryCache _cache;
+    private readonly ILogger<AuthorController> _logger;
+
+    public AuthorController(IAuthorRepository author, IBookRepository book, IMemoryCache cache, ILogger<AuthorController> logger)
+    {
+        _author = author;
+        _book = book;
+        _cache = cache;
+        _logger = logger;
+    }
 
     [HttpGet, Route("{id:int}")]
-    public async Task<Model.AuthorDto> GetById(int id) => await _author.GetById(id);
+    public async Task<Model.AuthorDto> GetById(int id)
+    {
+        try
+        {
+            return await _author.GetById(id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+            return new Model.AuthorDto();
+        }
+    }
+
 
     [HttpGet("GetAll")]
     public async Task<List<Model.AuthorListResultsModel>?> GetAll()
@@ -26,26 +49,14 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
 
         try
         {
-            string key = $"GetAll";
-
-
-            if (!_cache.TryGetValue(key, out result))
-            {
-                result = await _author.GetAll();
-
-                MemoryCacheEntryOptions cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromHours(1));
-
-                _cache.Set(key, result, cacheEntryOptions);
-            }
+                return await _author.GetAll();
         }
         catch (Exception ex)
         {
-            _ = ex.Message;
+            _logger.LogError(ex.Message, ex);
+            return new List<AuthorListResultsModel>();
         }
 
-
-        return result;
     }
 
 
@@ -56,14 +67,14 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
 
         try
         {
-            sortColumn = sortColumn  == "null" ? "lastName" : sortColumn;
+            sortColumn = sortColumn == "null" ? "lastName" : sortColumn;
             sortDirection = sortDirection == "null" ? "ASC" : sortDirection;
 
             result = await _author.GetAuthors(startRow, endRow, sortColumn, sortDirection, filter);
         }
         catch (Exception ex)
         {
-            _ = ex.Message;
+            _logger.LogError(ex.Message, ex);
         }
 
 
@@ -80,9 +91,9 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
         {
             status = await _author.GetByUsernamePassword(username, password);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            _ = ex.Message;
+            _logger.LogError(ex.Message, ex);
         }
         return status;
     }
@@ -96,7 +107,7 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
         }
         catch (Exception ex)
         {
-            _ = ex.Message;
+            _logger.LogError(ex.Message, ex);
         }
 
     }
@@ -108,7 +119,7 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
 
         try
         {
-            s.LastName = string.IsNullOrEmpty(s.LastName) ?  "" : s.LastName;
+            s.LastName = string.IsNullOrEmpty(s.LastName) ? "" : s.LastName;
             s.FirstName = string.IsNullOrEmpty(s.FirstName) ? "" : s.FirstName;
             s.SortOrder = string.IsNullOrEmpty(s.SortOrder) ? "LastName" : s.SortOrder;
             s.Direction = string.IsNullOrEmpty(s.Direction) ? "ASC" : s.Direction;
@@ -128,7 +139,7 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
         }
         catch (Exception ex)
         {
-            _ = ex.Message;
+            _logger.LogError(ex.Message, ex);
         }
         return result;
     }
@@ -137,17 +148,23 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
     [HttpPost, Route("add")]
     public async Task<IActionResult> Insert([FromBody] Model.AuthorDto author)
     {
+        try
+        {
+            if (string.IsNullOrEmpty(author.Username)) return BadRequest();
+            if (string.IsNullOrEmpty(author.FirstName)) return BadRequest();
+            if (string.IsNullOrEmpty(author.LastName)) return BadRequest();
+            if (string.IsNullOrEmpty(author.Email)) return BadRequest();
 
-        if ( string.IsNullOrEmpty(author.Username) ) return BadRequest();
-        if (string.IsNullOrEmpty(author.FirstName)) return BadRequest();
-        if (string.IsNullOrEmpty(author.LastName)) return BadRequest();
-        if (string.IsNullOrEmpty(author.Email)) return BadRequest();
+            var duplicate = await _author.CheckForUsername(author.Username);
 
-        var duplicate = await _author.CheckForUsername(author.Username);
+            if (duplicate) return BadRequest();
 
-        if (duplicate) return BadRequest();
-
-        await _author.Add(author);
+            await _author.Add(author);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+        }
 
         return Ok();
     }
@@ -157,12 +174,12 @@ public class AuthorController(IAuthorRepository author, IBookRepository book, IM
     {
         try
         {
- 
+
             await _author.Update(author);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            _ = ex.Message;
+            _logger.LogError(ex.Message, ex);
         }
 
         return Ok();
