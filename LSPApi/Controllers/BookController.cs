@@ -1,4 +1,5 @@
 ﻿using LSPApi.DataLayer;
+using LSPApi.DataLayer.Model;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,6 +51,21 @@ public class BookController : ControllerBase
         {
             _logger.LogError(ex.Message, ex);
             return null;
+        }
+    }
+
+    [HttpGet, Route("getidbyauthor/{id:int}")]
+    public async Task<List<BookListSummaryModel>> GetByAuthor(int id)
+    {
+        try
+        {
+            _logger.LogInformation($"*** Book GetByAuthor: {id}");
+            return await _book.GetIdsByAuthor(id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message, ex);
+            return new List<BookListSummaryModel>();
         }
     }
 

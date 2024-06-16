@@ -142,6 +142,14 @@ public class BookRepository : IBookRepository
         return result;
 
     }
+
+    public async Task<List<BookListSummaryModel>> GetIdsByAuthor(int id) =>
+        await _context.Book.Where(a => a.AuthorID == id).Select(p => new BookListSummaryModel
+        {
+            BookID = p.BookID,
+            BookTitle = p.Title
+        }).ToListAsync();
+
     public async Task<List<BookSummaryModel>> GetByAuthorId(int id)
     {
         var result = new List<BookSummaryModel>();
@@ -249,7 +257,7 @@ public class BookRepository : IBookRepository
             _context.Book.Add(Book);
             await _context.SaveChangesAsync();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
         }

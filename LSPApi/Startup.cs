@@ -17,33 +17,12 @@ public class Startup
         Configuration = configuration;
     }
 
-    /*
-     builder.Host.UseSerilog((ctx, lc) => lc
-    .WriteTo.File("logs/log-.txt",
-        rollingInterval: RollingInterval.Day,
-        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
-    .MinimumLevel.Debug()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-    // Filter out ASP.NET Core infrastructre logs that are Information and below
-    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-    .Enrich.FromLogContext()
-    .WriteTo.Seq("http://209.38.64.145:5341")
-    .Enrich.WithProperty("Application", "LSP3")
-    .Enrich.WithProperty("Environment", ctx.HostingEnvironment.EnvironmentName)
-);
-     */
+
     public void ConfigureServices(IServiceCollection services)
     {
         var connectionString = Configuration.GetConnectionString("LSPConnection");
 
         services.AddLogger();
-
-        //services.AddLogging(l =>
-        //{
-        //    l.AddSeq("http://209.38.64.145:5341");
-        //    l.AddConsole();
-        //    l.AddFile("logs/log-.txt", outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"); 
-        //});
 
         services.AddMemoryCache();
 
@@ -83,7 +62,6 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-        // using Microsoft.AspNetCore.HttpOverrides;
 
         app.UseForwardedHeaders(new ForwardedHeadersOptions
         {
