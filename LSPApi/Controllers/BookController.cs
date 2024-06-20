@@ -65,7 +65,7 @@ public class BookController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
-            return new List<BookListSummaryModel>();
+            return [];
         }
     }
 

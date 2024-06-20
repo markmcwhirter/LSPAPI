@@ -24,33 +24,16 @@ public static class QueryableExtensions
         Expression<Func<T, bool>> lambda = Expression.Lambda<Func<T, bool>>(comparison, parameter);
 
         // Apply PredicateBuilder and return the query
-        return lambda; //query.AsExpandable().Where(lambda);
+        return lambda; 
     }
 
-
-    //public static Expression<Func<T, bool>> BuildBinary<T>(string propertyName, string pattern, ExpressionType comparisonType = ExpressionType.Equal)
-    //{
-    //    var parameter = Expression.Parameter(typeof(T), "x");
-    //    var property = Expression.Property(parameter, propertyName);
-    //    //var method = typeof(DbFunctionsExtensions).GetMethod(nameof(DbFunctionsExtensions.Like), new[] { typeof(DbFunctions), typeof(string), typeof(string) });
-    //    Expression comparison = Expression.MakeBinary(comparisonType, property, constant);
-
-
-    //    var likeExpression = Expression.Call(method, Expression.Constant(EF.Functions), property, Expression.Constant(pattern));
-    //    return Expression.Lambda<Func<T, bool>>(likeExpression, parameter);
-    //}
-    //public static IQueryable<T> ApplyBinaryPredicate<T>(this IQueryable<T> source, string propertyName, string pattern) where T : class
-    //{
-    //    var predicate = source.BuildBinaryPredicateQuery<T>(propertyName, pattern);
-    //    return source.Where(predicate);
-    //}
 
     // Predicate Builder for EF.Like
     public static Expression<Func<T, bool>> BuildLike<T>(string propertyName, string pattern)
     {
         var parameter = Expression.Parameter(typeof(T), "x");
         var property = Expression.Property(parameter, propertyName);
-        var method = typeof(DbFunctionsExtensions).GetMethod(nameof(DbFunctionsExtensions.Like), new[] { typeof(Microsoft.EntityFrameworkCore.DbFunctions), typeof(string), typeof(string) });
+        var method = typeof(DbFunctionsExtensions).GetMethod(nameof(DbFunctionsExtensions.Like), new[] { typeof(DbFunctions), typeof(string), typeof(string) });
 
         var likeExpression = Expression.Call(method, Expression.Constant(EF.Functions), property, Expression.Constant(pattern));
         return Expression.Lambda<Func<T, bool>>(likeExpression, parameter);

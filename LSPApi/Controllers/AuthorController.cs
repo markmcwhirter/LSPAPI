@@ -67,9 +67,6 @@ public class AuthorController : ControllerBase
 
         try
         {
-            sortColumn = sortColumn == "null" ? "lastName" : sortColumn;
-            sortDirection = sortDirection == "null" ? "ASC" : sortDirection;
-
             result = await _author.GetAuthors(startRow, endRow, sortColumn, sortDirection, filter);
         }
         catch (Exception ex)

@@ -29,7 +29,7 @@ public class AuthorRepository : IAuthorRepository
         {
             var query = _context.Author.AsQueryable(); // Start with IQueryable
 
-            sortColumn = sortColumn == "null" ? "AuthorID" : sortColumn.ToUpper();
+            sortColumn = sortColumn == "null" ? "AUTHORID" : sortColumn.ToUpper();
             sortDirection = sortDirection == "null" ? "ASC" : sortDirection.ToUpper();
 
             FilterModel? filterList = new();
