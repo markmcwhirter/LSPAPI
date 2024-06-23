@@ -1,4 +1,6 @@
-﻿using Serilog;
+﻿/*
+
+using Serilog;
 
 
 namespace LSPApi;
@@ -35,7 +37,7 @@ public static class ServiceCollectionExtensions
 
     }
 }
-
+*/
 /*
  builder.Host.UseSerilog((ctx, lc) => lc
 .WriteTo.File("logs/log-.txt",

@@ -2,7 +2,6 @@
 using LSPApi.DataLayer.Model;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 
 using Model = LSPApi.DataLayer.Model;
 
@@ -16,14 +15,12 @@ public class AuthorController : ControllerBase
 {
     private readonly IAuthorRepository _author;
     private readonly IBookRepository _book;
-    private readonly IMemoryCache _cache;
     private readonly ILogger<AuthorController> _logger;
 
-    public AuthorController(IAuthorRepository author, IBookRepository book, IMemoryCache cache, ILogger<AuthorController> logger)
+    public AuthorController(IAuthorRepository author, IBookRepository book, ILogger<AuthorController> logger)
     {
         _author = author;
         _book = book;
-        _cache = cache;
         _logger = logger;
     }
 
@@ -31,7 +28,7 @@ public class AuthorController : ControllerBase
     public async Task<Model.AuthorDto> GetById(int id)
     {
         try
-        {
+        {            
             return await _author.GetById(id);
         }
         catch (Exception ex)
@@ -49,7 +46,7 @@ public class AuthorController : ControllerBase
 
         try
         {
-                return await _author.GetAll();
+            return await _author.GetAll();
         }
         catch (Exception ex)
         {
@@ -124,15 +121,9 @@ public class AuthorController : ControllerBase
             string key = $"{s.LastName,20}{s.FirstName,20}{s.SortOrder,20}{s.Direction,20}";
 
 
-            if (!_cache.TryGetValue(key, value: out result))
-            {
-                result = await _author.GetBySearchTerm(s);
+            result = await _author.GetBySearchTerm(s);
 
-                MemoryCacheEntryOptions cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromHours(1));
 
-                _cache.Set(key, result, cacheEntryOptions);
-            }
         }
         catch (Exception ex)
         {

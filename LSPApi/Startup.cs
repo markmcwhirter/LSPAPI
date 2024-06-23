@@ -1,4 +1,4 @@
-﻿
+﻿/*
 using LSPApi.DataLayer;
 
 using Microsoft.AspNetCore.HttpOverrides;
@@ -77,3 +77,4 @@ public class Startup
         });
     }
 }
+*/
