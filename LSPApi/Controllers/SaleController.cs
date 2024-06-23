@@ -112,7 +112,7 @@ namespace LSPApi.Controllers
         // Task<List<SaleSummaryGridModel>>
 
         [HttpGet("gridsearch")]
-        public async Task<List<SaleSummaryGridModel>?> GetSales(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
+        public async Task<List<SaleSummaryGridModel>> GetSales(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
         {
             try
             { 

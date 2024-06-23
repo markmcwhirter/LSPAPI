@@ -1,7 +1,6 @@
 using LSPApi.DataLayer;
 
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 using Serilog;
 
@@ -55,10 +54,10 @@ public class Program
         builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 
 
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("corspolicy", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-        });
+        //builder.Services.AddCors(options =>
+        //{
+        //    options.AddPolicy("corspolicy", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        //});
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
@@ -71,6 +70,12 @@ public class Program
         builder.Host.UseSerilog(Log.Logger);
 
         var app = builder.Build();
+
+        app.UseCors(x => x
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(origin => true) // allow any origin
+            .AllowCredentials()); // allow credentials
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

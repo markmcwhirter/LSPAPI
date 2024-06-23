@@ -58,7 +58,7 @@ public class AuthorController : ControllerBase
 
 
     [HttpGet("gridsearch")]
-    public async Task<List<Model.AuthorListResultsModel>?> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
+    public async Task<List<Model.AuthorListResultsModel>> GetAuthors(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
     {
         List<Model.AuthorListResultsModel>? result = [];
 

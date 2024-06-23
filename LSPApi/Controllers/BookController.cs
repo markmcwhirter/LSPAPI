@@ -40,7 +40,7 @@ public class BookController : ControllerBase
 
 
     [HttpGet("gridsearch")]
-    public async Task<List<Model.BookListResultsModel>?> GetBooks(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
+    public async Task<List<Model.BookListResultsModel>> GetBooks(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
     {
         try
         {
