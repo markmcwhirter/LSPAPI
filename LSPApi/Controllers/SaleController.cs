@@ -16,13 +16,11 @@ namespace LSPApi.Controllers
     {
         private readonly ILogger<SaleController> _logger;
         private readonly ISaleRepository _Sale;
-        private readonly IMemoryCache _cache;
 
-        public SaleController(ILogger<SaleController> logger, ISaleRepository Sale,IMemoryCache cache)
+        public SaleController(ILogger<SaleController> logger, ISaleRepository Sale)
         {
             _logger = logger;
             _Sale = Sale;
-            _cache = cache;
         }
 
 
@@ -109,20 +107,22 @@ namespace LSPApi.Controllers
         [HttpGet, Route("GetSales")]
         public async Task<List<BookSaleDto>> GetSales() => await _Sale.GetSales();
 
-        // Task<List<SaleSummaryGridModel>>
 
         [HttpGet("gridsearch")]
         public async Task<List<SaleSummaryGridModel>> GetSales(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
         {
+            List<SaleSummaryGridModel>? result = [];
+
             try
             { 
-                return await _Sale.GetSales(startRow, endRow, sortColumn, sortDirection, filter);
+                result =  await _Sale.GetSales(startRow, endRow, sortColumn, sortDirection, filter);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex);
-                return new List<SaleSummaryGridModel>();
             }
+
+            return result;
         }
     }
 }

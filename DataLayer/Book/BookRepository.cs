@@ -33,8 +33,6 @@ public class BookRepository : IBookRepository
             sortColumn = sortColumn == "null" ? "AUTHOR" : sortColumn;
             sortDirection = sortDirection == "null" ? "DESC" : sortDirection;
 
-            _logger.LogInformation($"*** Book GridSearch: start: {startRow} end: {endRow} sort: {sortColumn} direction: {sortDirection} filter: {filter}");
-
             var query = _context.Author
                 .Join(_context.Book, a => a.AuthorID, b => b.AuthorID,
                     (a, b) => new
