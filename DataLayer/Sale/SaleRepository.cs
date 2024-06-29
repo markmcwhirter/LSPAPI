@@ -85,7 +85,7 @@ public class SaleRepository : ISaleRepository
 
         try
         {
-            sortColumn = sortColumn == "null" ? "BOOKID" : sortColumn.ToUpper();
+            sortColumn = sortColumn == "null" ? "TITLE" : sortColumn.ToUpper();
             sortDirection = sortDirection == "null" ? "ASC" : sortDirection.ToUpper();
 
             var query = from sale in _context.Sales
