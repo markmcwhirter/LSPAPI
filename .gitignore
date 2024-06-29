@@ -4,3 +4,5 @@
 
 /.vs
 /LSPApi/log.txt
+/DataLayer/bin/Debug/net8.0
+/LSPApi/logs

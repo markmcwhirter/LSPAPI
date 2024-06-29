@@ -1,5 +1,6 @@
 using LSPApi.DataLayer;
 
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 
 using Serilog;
@@ -17,6 +18,8 @@ public class Program
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
             .Build();
 
+        var sequrl = configuration.GetValue<string>("seq");
+
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Console()
             .Enrich.WithThreadId()
@@ -29,11 +32,10 @@ public class Program
             .Enrich.WithEnvironmentUserName()
             .Enrich.WithClientIp()
             .Enrich.WithRequestHeader("User-Agent")
-            //.Enrich.WithExceptionDetails()
-            .WriteTo.File("log.txt",
+            .WriteTo.File("logs/log-.txt",
                 rollingInterval: RollingInterval.Day,
                 rollOnFileSizeLimit: true)
-            .WriteTo.Seq("http://209.38.64.145:5341")
+            .WriteTo.Seq(sequrl)
             .ReadFrom.Configuration(configuration)
             .CreateLogger();
 
@@ -76,6 +78,11 @@ public class Program
             .AllowAnyHeader()
             .SetIsOriginAllowed(origin => true) // allow any origin
             .AllowCredentials()); // allow credentials
+
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        });
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSPApi", "LSPApi\LSPApi.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{2FAD584D-0E89-42D6-83F2-CB8B8952DDBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSPAPITEST", "LSPAPITEST\LSPAPITEST.csproj", "{7E419C21-5758-45E1-AF50-6AF875E18EB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2FAD584D-0E89-42D6-83F2-CB8B8952DDBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FAD584D-0E89-42D6-83F2-CB8B8952DDBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FAD584D-0E89-42D6-83F2-CB8B8952DDBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E419C21-5758-45E1-AF50-6AF875E18EB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E419C21-5758-45E1-AF50-6AF875E18EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E419C21-5758-45E1-AF50-6AF875E18EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E419C21-5758-45E1-AF50-6AF875E18EB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
