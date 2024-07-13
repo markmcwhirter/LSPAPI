@@ -230,7 +230,11 @@ public class AuthorRepository : IAuthorRepository
 
         var result = await _context.Author.FirstOrDefaultAsync(a => a.Username == username && a.Password == decrypted);
 
-
+        // if sucessfull, update last login date
+        if (result != null)
+        { 
+            await Update(result);
+        }
         return result ?? new AuthorDto();
     }
     public async Task<AuthorDto> GetByUsername(string username)

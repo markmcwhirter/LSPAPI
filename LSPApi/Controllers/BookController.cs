@@ -3,6 +3,8 @@ using LSPApi.DataLayer.Model;
 
 using Microsoft.AspNetCore.Mvc;
 
+using System.Configuration;
+
 using Model = LSPApi.DataLayer.Model;
 
 
@@ -15,11 +17,13 @@ public class BookController : ControllerBase
 
     private readonly IBookRepository _book;
     private readonly ILogger<BookController> _logger;
+    private readonly IConfiguration _configuration;
 
-    public BookController(IBookRepository Book, ILogger<BookController> logger)
+    public BookController(IBookRepository Book, ILogger<BookController> logger, IConfiguration configuration)
     {
         _book = Book;
         _logger = logger;
+        _configuration = configuration;
     }
 
 
@@ -137,6 +141,39 @@ public class BookController : ControllerBase
             _logger.LogError(ex.Message, ex);
         }
 
+    }
+
+    [HttpPost("upload")]
+    public async Task<IActionResult> UploadFiles(List<IFormFile> files)
+    {
+        try
+        {
+            if (files == null || files.Count == 0)
+            {
+                return BadRequest("No files received.");
+            }
+
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    //var filePath = Path.Combine("uploads", file.FileName); // Adjust "uploads" folder path as needed
+                    var sequrl = _configuration.GetValue<string>("seq");
+                    var filePath = Path.Combine(sequrl, "data", file.FileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+            }
+
+            return Ok("Files uploaded successfully.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
 
 }
