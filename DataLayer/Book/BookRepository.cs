@@ -172,6 +172,7 @@ public class BookRepository : IBookRepository
                     DateCreated = b.DateCreated,
                     DateUpdated = b.DateUpdated,
                     Description = b.Description,
+                    Document = b.Document,
                     Interior = b.Interior,
                     ISBN = b.ISBN,
                     Subtitle = b.Subtitle,
