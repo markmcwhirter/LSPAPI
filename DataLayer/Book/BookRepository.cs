@@ -22,7 +22,7 @@ public class BookRepository : IBookRepository
 
 #pragma warning disable CS8603 // Possible null reference return.
     public async Task<BookDto> GetById(int id) => await _context.Book.FirstOrDefaultAsync(a => a.BookID == id);
-#pragma warning restore CS8603 // Possible null reference return.
+#pragma warning restore CS8603 
 
     public async Task<List<BookListResultsModel>> GetBooks(int startRow, int endRow, string sortColumn, string sortDirection, string filter)
     {
@@ -30,7 +30,7 @@ public class BookRepository : IBookRepository
 
         try
         {
-            sortColumn = sortColumn == "null" ? "AUTHOR" : sortColumn;
+            sortColumn = sortColumn == "null" ? "AUTHOR" : sortColumn.ToUpper();
             sortDirection = sortDirection == "null" ? "DESC" : sortDirection;
 
             var query = _context.Author
@@ -65,6 +65,39 @@ public class BookRepository : IBookRepository
 
             if (filterList != null)
             {
+                if (filterList.authorId != null)
+                {
+                    // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
+
+                    string? filtertype = filterList.authorId.type.ToLower();
+                    int? filterValue = filterList.authorId.filter;
+
+                    if (filterList.authorId.type.ToLower().Equals("inrange"))
+                        query = query.Where(a => a.AuthorID >= filterList.authorId.filter && a.AuthorID <= filterList.authorId.filterTo);
+                    else
+                    {
+
+                        if (filtertype.Equals("equals"))
+                            query = query.Where(a => a.BookID == filterValue);
+                        else if (filtertype.Equals("doesnotequal"))
+                            query = query.Where(a => a.BookID != filterValue);
+                        else if (filtertype.Equals("greaterthan"))
+                            query = query.Where(a => a.BookID > filterValue);
+                        else if (filtertype.Equals("greaterthanorequal"))
+                            query = query.Where(a => a.BookID >= filterValue);
+                        else if (filtertype.Equals("lessthan"))
+                            query = query.Where(a => a.BookID < filterValue);
+                        else if (filtertype.Equals("lessthanorequal"))
+                            query = query.Where(a => a.BookID <= filterValue);
+                        else if (filtertype.Equals("between"))
+                            query = query.Where(a => a.BookID >= filterValue);
+                        else if (filtertype.Equals("blank"))
+                            query = query.Where(a => a.BookID == 0);
+                        else if (filtertype.Equals("notblank"))
+                            query = query.Where(a => a.BookID != 0);
+                    }
+                }
+
                 if (filterList.bookID != null)
                 {
                     // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
@@ -109,7 +142,11 @@ public class BookRepository : IBookRepository
                     query = query.BuildStringQuery("Notes", filterList.notes.type.ToLower(), filterList.notes.filter);
             }
 
-            if (sortColumn == "AUTHOR")
+            if (sortColumn == "AUTHORID")
+                query = sortDirection == "ASC" ? query.OrderBy(a => a.AuthorID) : query.OrderByDescending(a => a.AuthorID);
+            else if (sortColumn == "BOOKID")
+                query = sortDirection == "ASC" ? query.OrderBy(a => a.BookID) : query.OrderByDescending(a => a.BookID);
+            else if (sortColumn == "AUTHOR")
                 query = sortDirection == "ASC" ? query.OrderBy(a => a.Author) : query.OrderByDescending(a => a.Author);
             else if (sortColumn == "TITLE")
                 query = sortDirection == "ASC" ? query.OrderBy(a => a.Title) : query.OrderByDescending(a => a.Title);

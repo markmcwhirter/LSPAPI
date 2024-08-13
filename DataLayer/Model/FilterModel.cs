@@ -25,6 +25,7 @@ public class FilterSalesModel
 
 public class FilterBookModel
 {
+    public AuthorId authorId { get; set; }
     public BookId bookID { get; set; }
     public Author author { get; set; }
     public Title title { get; set; }
@@ -32,7 +33,6 @@ public class FilterBookModel
     public ISBN isbn { get; set; }
     public Notes notes { get; set; }
 }
-
 
 public class BookId
 {
