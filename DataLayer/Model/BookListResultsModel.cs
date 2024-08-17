@@ -1,4 +1,6 @@
-﻿namespace LSPApi.DataLayer.Model;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LSPApi.DataLayer.Model;
 
 
 public class BookListResultsModel
@@ -10,4 +12,7 @@ public class BookListResultsModel
     public string ISBN { get; set; }
     public string Author { get; set; }
     public string Notes { get; set; }
+    public string? InfoLink { get; set; }
+    public string? EditLink { get; set; }
+    public string? DeleteLink { get; set; }
 }

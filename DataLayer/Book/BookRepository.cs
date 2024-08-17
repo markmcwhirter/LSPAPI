@@ -167,7 +167,11 @@ public class BookRepository : IBookRepository
                         Title = p.Title,
                         SubTitle = p.SubTitle,
                         ISBN = p.ISBN,
-                        Notes = p.Notes
+                        Notes = p.Notes,
+                        InfoLink = $"bookid={p.BookID.ToString()}&authorid={p.AuthorID.ToString()}",
+                        EditLink = $"bookid={p.BookID.ToString()}&authorid={p.AuthorID.ToString()}",
+                        DeleteLink = $"bookid={p.BookID.ToString()}"
+
                     })
                     .ToListAsync();
         }
