@@ -98,6 +98,8 @@ public class Program
 
         app.MapControllers();
 
+        app.UseMiddleware<ScanRequest>();
+
         app.Run();
     }
 
