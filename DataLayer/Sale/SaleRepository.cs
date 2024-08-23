@@ -83,262 +83,255 @@ public class SaleRepository : ISaleRepository
     {
         List<SaleSummaryGridModel> result = [];
 
-        try
+        sortColumn = sortColumn == "null" ? "TITLE" : sortColumn.ToUpper();
+        sortDirection = sortDirection == "null" ? "ASC" : sortDirection.ToUpper();
+
+        var query = from sale in _context.Sales
+                    join vendor in _context.Vendor on sale.VendorID equals vendor.VendorID into vendorGroup
+                    from vendor in vendorGroup.DefaultIfEmpty()
+                    join book in _context.Book on sale.BookID equals book.BookID into bookGroup
+                    from book in bookGroup.DefaultIfEmpty()
+                    select new SaleSummaryGridModel
+                    {
+                        BookID = sale.BookID,
+                        Title = book.Title,
+                        ISBN = book.ISBN,
+                        VendorName = vendor.VendorName,
+                        SalesDate = sale.SalesDate,
+                        UnitsSold = sale.UnitsSold,
+                        UnitsToDate = sale.UnitsToDate,
+                        SalesThisPeriod = sale.SalesThisPeriod,
+                        SalesToDate = sale.SalesToDate,
+                        Royalty = sale.Royalty
+                    };
+
+        FilterSalesModel? filterList = new();
+
+        // parse filter and add to a where clause
+        if (!string.IsNullOrEmpty(filter) && filter != "{}")
+            filterList = JsonSerializer.Deserialize<FilterSalesModel>(filter);
+
+        if (filterList != null)
         {
-            sortColumn = sortColumn == "null" ? "TITLE" : sortColumn.ToUpper();
-            sortDirection = sortDirection == "null" ? "ASC" : sortDirection.ToUpper();
-
-            var query = from sale in _context.Sales
-                        join vendor in _context.Vendor on sale.VendorID equals vendor.VendorID into vendorGroup
-                        from vendor in vendorGroup.DefaultIfEmpty()
-                        join book in _context.Book on sale.BookID equals book.BookID into bookGroup
-                        from book in bookGroup.DefaultIfEmpty()
-                        select new SaleSummaryGridModel
-                        {
-                            BookID = sale.BookID,
-                            Title = book.Title,
-                            ISBN = book.ISBN,
-                            VendorName = vendor.VendorName,
-                            SalesDate = sale.SalesDate,
-                            UnitsSold = sale.UnitsSold,
-                            UnitsToDate = sale.UnitsToDate,
-                            SalesThisPeriod = sale.SalesThisPeriod,
-                            SalesToDate = sale.SalesToDate,
-                            Royalty = sale.Royalty
-                        };
-
-            FilterSalesModel? filterList = new();
-
-            // parse filter and add to a where clause
-            if (!string.IsNullOrEmpty(filter) && filter != "{}")
-                filterList = JsonSerializer.Deserialize<FilterSalesModel>(filter);
-
-            if (filterList != null)
+            if (filterList.bookID != null)
             {
-                if (filterList.bookID != null)
+                // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
+
+                string? filtertype = filterList.bookID.type.ToLower();
+                int? filterValue = filterList.bookID.filter;
+
+                if (filterList.bookID.type.ToLower().Equals("inrange"))
+                    query = query.Where(a => a.BookID >= filterList.bookID.filter && a.BookID <= filterList.bookID.filterTo);
+                else
                 {
-                    // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
 
-                    string? filtertype = filterList.bookID.type.ToLower();
-                    int? filterValue = filterList.bookID.filter;
-
-                    if (filterList.bookID.type.ToLower().Equals("inrange"))
-                        query = query.Where(a => a.BookID >= filterList.bookID.filter && a.BookID <= filterList.bookID.filterTo);
-                    else
-                    {
-
-                        if (filtertype.Equals("equals"))
-                            query = query.Where(a => a.BookID == filterValue);
-                        else if (filtertype.Equals("doesnotequal"))
-                            query = query.Where(a => a.BookID != filterValue);
-                        else if (filtertype.Equals("greaterthan"))
-                            query = query.Where(a => a.BookID > filterValue);
-                        else if (filtertype.Equals("greaterthanorequal"))
-                            query = query.Where(a => a.BookID >= filterValue);
-                        else if (filtertype.Equals("lessthan"))
-                            query = query.Where(a => a.BookID < filterValue);
-                        else if (filtertype.Equals("lessthanorequal"))
-                            query = query.Where(a => a.BookID <= filterValue);
-                        else if (filtertype.Equals("between"))
-                            query = query.Where(a => a.BookID >= filterValue);
-                        else if (filtertype.Equals("blank"))
-                            query = query.Where(a => a.BookID == 0);
-                        else if (filtertype.Equals("notblank"))
-                            query = query.Where(a => a.BookID != 0);
-                    }
+                    if (filtertype.Equals("equals"))
+                        query = query.Where(a => a.BookID == filterValue);
+                    else if (filtertype.Equals("doesnotequal"))
+                        query = query.Where(a => a.BookID != filterValue);
+                    else if (filtertype.Equals("greaterthan"))
+                        query = query.Where(a => a.BookID > filterValue);
+                    else if (filtertype.Equals("greaterthanorequal"))
+                        query = query.Where(a => a.BookID >= filterValue);
+                    else if (filtertype.Equals("lessthan"))
+                        query = query.Where(a => a.BookID < filterValue);
+                    else if (filtertype.Equals("lessthanorequal"))
+                        query = query.Where(a => a.BookID <= filterValue);
+                    else if (filtertype.Equals("between"))
+                        query = query.Where(a => a.BookID >= filterValue);
+                    else if (filtertype.Equals("blank"))
+                        query = query.Where(a => a.BookID == 0);
+                    else if (filtertype.Equals("notblank"))
+                        query = query.Where(a => a.BookID != 0);
                 }
-                if (filterList.title != null)
-                    query = query.BuildStringQuery("Title", filterList.title.type.ToLower(), filterList.title.filter);
-                if (filterList.isbn != null)
-                    query = query.BuildStringQuery("ISBN", filterList.isbn.type.ToLower(), filterList.isbn.filter);
-                if (filterList.vendorName != null)
-                    query = query.BuildStringQuery("VendorName", filterList.vendorName.type.ToLower(), filterList.vendorName.filter);
-                if (filterList.salesDate != null)
-                    query = query.BuildStringQuery("SalesDate", filterList.salesDate.type.ToLower(), filterList.salesDate.filter);
+            }
+            if (filterList.title != null)
+                query = query.BuildStringQuery("Title", filterList.title.type.ToLower(), filterList.title.filter);
+            if (filterList.isbn != null)
+                query = query.BuildStringQuery("ISBN", filterList.isbn.type.ToLower(), filterList.isbn.filter);
+            if (filterList.vendorName != null)
+                query = query.BuildStringQuery("VendorName", filterList.vendorName.type.ToLower(), filterList.vendorName.filter);
+            if (filterList.salesDate != null)
+                query = query.BuildStringQuery("SalesDate", filterList.salesDate.type.ToLower(), filterList.salesDate.filter);
 
-                if (filterList.unitsSold != null)
+            if (filterList.unitsSold != null)
+            {
+                // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
+
+                string? filtertype = filterList.unitsSold.type.ToLower();
+                int? filterValue = filterList.unitsSold.filter;
+
+                if (filterList.unitsSold.type.ToLower().Equals("inrange"))
+                    query = query.Where(a => a.UnitsSold >= filterList.unitsSold.filter && a.UnitsSold <= filterList.unitsSold.filterTo);
+                else
                 {
-                    // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
 
-                    string? filtertype = filterList.unitsSold.type.ToLower();
-                    int? filterValue = filterList.unitsSold.filter;
-
-                    if (filterList.unitsSold.type.ToLower().Equals("inrange"))
-                        query = query.Where(a => a.UnitsSold >= filterList.unitsSold.filter && a.UnitsSold <= filterList.unitsSold.filterTo);
-                    else
-                    {
-
-                        if (filtertype.Equals("equals"))
-                            query = query.Where(a => a.UnitsSold == filterValue);
-                        else if (filtertype.Equals("doesnotequal"))
-                            query = query.Where(a => a.UnitsSold != filterValue);
-                        else if (filtertype.Equals("greaterthan"))
-                            query = query.Where(a => a.UnitsSold > filterValue);
-                        else if (filtertype.Equals("greaterthanorequal"))
-                            query = query.Where(a => a.UnitsSold >= filterValue);
-                        else if (filtertype.Equals("lessthan"))
-                            query = query.Where(a => a.UnitsSold < filterValue);
-                        else if (filtertype.Equals("lessthanorequal"))
-                            query = query.Where(a => a.UnitsSold <= filterValue);
-                        else if (filtertype.Equals("between"))
-                            query = query.Where(a => a.UnitsSold >= filterValue);
-                        else if (filtertype.Equals("blank"))
-                            query = query.Where(a => a.UnitsSold == 0);
-                        else if (filtertype.Equals("notblank"))
-                            query = query.Where(a => a.UnitsSold != 0);
-                    }
-                }
-
-
-                if (filterList.salesThisPeriod != null)
-                {
-                    // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
-
-                    string? filtertype = filterList.salesThisPeriod.type.ToLower();
-                    decimal filterValue = filterList.salesThisPeriod.filter;
-
-                    if (filterList.salesThisPeriod.type.ToLower().Equals("inrange"))
-                        query = query.Where(a => a.SalesThisPeriod >= filterList.salesThisPeriod.filter && a.SalesThisPeriod <= filterList.salesThisPeriod.filterTo);
-                    else
-                    {
-
-                        if (filtertype.Equals("equals"))
-                            query = query.Where(a => a.SalesThisPeriod == filterValue);
-                        else if (filtertype.Equals("doesnotequal"))
-                            query = query.Where(a => a.SalesThisPeriod != filterValue);
-                        else if (filtertype.Equals("greaterthan"))
-                            query = query.Where(a => a.SalesThisPeriod > filterValue);
-                        else if (filtertype.Equals("greaterthanorequal"))
-                            query = query.Where(a => a.SalesThisPeriod >= filterValue);
-                        else if (filtertype.Equals("lessthan"))
-                            query = query.Where(a => a.SalesThisPeriod < filterValue);
-                        else if (filtertype.Equals("lessthanorequal"))
-                            query = query.Where(a => a.SalesThisPeriod <= filterValue);
-                        else if (filtertype.Equals("between"))
-                            query = query.Where(a => a.SalesThisPeriod >= filterValue);
-                        else if (filtertype.Equals("blank"))
-                            query = query.Where(a => a.SalesThisPeriod == 0);
-                        else if (filtertype.Equals("notblank"))
-                            query = query.Where(a => a.SalesThisPeriod != 0);
-                    }
-                }
-
-                if (filterList.salesToDate != null)
-                {
-                    // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
-
-                    string? filtertype = filterList.salesToDate.type.ToLower();
-                    decimal filterValue = filterList.salesToDate.filter;
-
-                    if (filterList.salesToDate.type.ToLower().Equals("inrange"))
-                        query = query.Where(a => a.SalesToDate >= filterList.salesToDate.filter && a.SalesToDate <= filterList.salesToDate.filterTo);
-                    else
-                    {
-
-                        if (filtertype.Equals("equals"))
-                            query = query.Where(a => a.SalesToDate == filterValue);
-                        else if (filtertype.Equals("doesnotequal"))
-                            query = query.Where(a => a.SalesToDate != filterValue);
-                        else if (filtertype.Equals("greaterthan"))
-                            query = query.Where(a => a.SalesToDate > filterValue);
-                        else if (filtertype.Equals("greaterthanorequal"))
-                            query = query.Where(a => a.SalesToDate >= filterValue);
-                        else if (filtertype.Equals("lessthan"))
-                            query = query.Where(a => a.SalesToDate < filterValue);
-                        else if (filtertype.Equals("lessthanorequal"))
-                            query = query.Where(a => a.SalesToDate <= filterValue);
-                        else if (filtertype.Equals("between"))
-                            query = query.Where(a => a.SalesToDate >= filterValue);
-                        else if (filtertype.Equals("blank"))
-                            query = query.Where(a => a.SalesToDate == 0);
-                        else if (filtertype.Equals("notblank"))
-                            query = query.Where(a => a.SalesToDate != 0);
-                    }
-                }
-                if (filterList.royalty != null)
-                {
-                    // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
-
-                    string? filtertype = filterList.royalty.type.ToLower();
-                    decimal filterValue = filterList.royalty.filter;
-
-                    if (filterList.royalty.type.ToLower().Equals("inrange"))
-                        query = query.Where(a => a.Royalty >= filterList.royalty.filter && a.Royalty <= filterList.royalty.filterTo);
-                    else
-                    {
-
-                        if (filtertype.Equals("equals"))
-                            query = query.Where(a => a.Royalty == filterValue);
-                        else if (filtertype.Equals("doesnotequal"))
-                            query = query.Where(a => a.Royalty != filterValue);
-                        else if (filtertype.Equals("greaterthan"))
-                            query = query.Where(a => a.Royalty > filterValue);
-                        else if (filtertype.Equals("greaterthanorequal"))
-                            query = query.Where(a => a.Royalty >= filterValue);
-                        else if (filtertype.Equals("lessthan"))
-                            query = query.Where(a => a.Royalty < filterValue);
-                        else if (filtertype.Equals("lessthanorequal"))
-                            query = query.Where(a => a.Royalty <= filterValue);
-                        else if (filtertype.Equals("between"))
-                            query = query.Where(a => a.Royalty >= filterValue);
-                        else if (filtertype.Equals("blank"))
-                            query = query.Where(a => a.Royalty == 0);
-                        else if (filtertype.Equals("notblank"))
-                            query = query.Where(a => a.Royalty != 0);
-                    }
+                    if (filtertype.Equals("equals"))
+                        query = query.Where(a => a.UnitsSold == filterValue);
+                    else if (filtertype.Equals("doesnotequal"))
+                        query = query.Where(a => a.UnitsSold != filterValue);
+                    else if (filtertype.Equals("greaterthan"))
+                        query = query.Where(a => a.UnitsSold > filterValue);
+                    else if (filtertype.Equals("greaterthanorequal"))
+                        query = query.Where(a => a.UnitsSold >= filterValue);
+                    else if (filtertype.Equals("lessthan"))
+                        query = query.Where(a => a.UnitsSold < filterValue);
+                    else if (filtertype.Equals("lessthanorequal"))
+                        query = query.Where(a => a.UnitsSold <= filterValue);
+                    else if (filtertype.Equals("between"))
+                        query = query.Where(a => a.UnitsSold >= filterValue);
+                    else if (filtertype.Equals("blank"))
+                        query = query.Where(a => a.UnitsSold == 0);
+                    else if (filtertype.Equals("notblank"))
+                        query = query.Where(a => a.UnitsSold != 0);
                 }
             }
 
-            if (sortColumn == "TITLE")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.Title) :
-                    query.OrderByDescending(a => a.Title);
-            else if (sortColumn == "BOOKID")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.BookID) : query.OrderByDescending(a => a.BookID);
-            else if (sortColumn == "ISBN")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.ISBN) : query.OrderByDescending(a => a.ISBN);
-            else if (sortColumn == "VENDORNAME")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.VendorName) : query.OrderByDescending(a => a.VendorName);
-            else if (sortColumn == "SALESDATE")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.SalesDate) : query.OrderByDescending(a => a.SalesDate);
-            else if (sortColumn == "UNITSSOLD")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.UnitsSold) : query.OrderByDescending(a => a.UnitsSold);
-            else if (sortColumn == "UNITSTODATE")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.UnitsToDate) : query.OrderByDescending(a => a.UnitsToDate);
-            else if (sortColumn == "SALESTHISPERIOD")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.SalesThisPeriod) : query.OrderByDescending(a => a.SalesThisPeriod);
-            else if (sortColumn == "SALESTODATE")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.SalesToDate) : query.OrderByDescending(a => a.SalesToDate);
-            else if (sortColumn == "ROYALTY")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.Royalty) : query.OrderByDescending(a => a.Royalty);
 
-
-
-            result = await query.Skip(startRow).Take(endRow - startRow)
-                    .Select(p => new SaleSummaryGridModel
-                    {
-                        BookID = p.BookID,
-                        Title = p.Title,
-                        ISBN = p.ISBN,
-                        VendorName = p.VendorName,
-                        SalesDate = p.SalesDate,
-                        UnitsSold = p.UnitsSold,
-                        UnitsToDate = p.UnitsToDate,
-                        SalesThisPeriod = p.SalesThisPeriod,
-                        SalesToDate = p.SalesToDate,
-                        Royalty = p.Royalty
-                    })
-                    .ToListAsync();
-
-            foreach (var item in result)
+            if (filterList.salesThisPeriod != null)
             {
-                item.SalesDate = string.IsNullOrEmpty(item.SalesDate) ? "" : item.SalesDate[..10];                
-                item.Title = string.IsNullOrEmpty(item.Title) ? "" : item.Title.Replace("&amp;", "&");
-                item.Title = string.IsNullOrEmpty(item.Title) ? "" : item.Title.Replace("&#39;", "'");
+                // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
+
+                string? filtertype = filterList.salesThisPeriod.type.ToLower();
+                decimal filterValue = filterList.salesThisPeriod.filter;
+
+                if (filterList.salesThisPeriod.type.ToLower().Equals("inrange"))
+                    query = query.Where(a => a.SalesThisPeriod >= filterList.salesThisPeriod.filter && a.SalesThisPeriod <= filterList.salesThisPeriod.filterTo);
+                else
+                {
+
+                    if (filtertype.Equals("equals"))
+                        query = query.Where(a => a.SalesThisPeriod == filterValue);
+                    else if (filtertype.Equals("doesnotequal"))
+                        query = query.Where(a => a.SalesThisPeriod != filterValue);
+                    else if (filtertype.Equals("greaterthan"))
+                        query = query.Where(a => a.SalesThisPeriod > filterValue);
+                    else if (filtertype.Equals("greaterthanorequal"))
+                        query = query.Where(a => a.SalesThisPeriod >= filterValue);
+                    else if (filtertype.Equals("lessthan"))
+                        query = query.Where(a => a.SalesThisPeriod < filterValue);
+                    else if (filtertype.Equals("lessthanorequal"))
+                        query = query.Where(a => a.SalesThisPeriod <= filterValue);
+                    else if (filtertype.Equals("between"))
+                        query = query.Where(a => a.SalesThisPeriod >= filterValue);
+                    else if (filtertype.Equals("blank"))
+                        query = query.Where(a => a.SalesThisPeriod == 0);
+                    else if (filtertype.Equals("notblank"))
+                        query = query.Where(a => a.SalesThisPeriod != 0);
+                }
+            }
+
+            if (filterList.salesToDate != null)
+            {
+                // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
+
+                string? filtertype = filterList.salesToDate.type.ToLower();
+                decimal filterValue = filterList.salesToDate.filter;
+
+                if (filterList.salesToDate.type.ToLower().Equals("inrange"))
+                    query = query.Where(a => a.SalesToDate >= filterList.salesToDate.filter && a.SalesToDate <= filterList.salesToDate.filterTo);
+                else
+                {
+
+                    if (filtertype.Equals("equals"))
+                        query = query.Where(a => a.SalesToDate == filterValue);
+                    else if (filtertype.Equals("doesnotequal"))
+                        query = query.Where(a => a.SalesToDate != filterValue);
+                    else if (filtertype.Equals("greaterthan"))
+                        query = query.Where(a => a.SalesToDate > filterValue);
+                    else if (filtertype.Equals("greaterthanorequal"))
+                        query = query.Where(a => a.SalesToDate >= filterValue);
+                    else if (filtertype.Equals("lessthan"))
+                        query = query.Where(a => a.SalesToDate < filterValue);
+                    else if (filtertype.Equals("lessthanorequal"))
+                        query = query.Where(a => a.SalesToDate <= filterValue);
+                    else if (filtertype.Equals("between"))
+                        query = query.Where(a => a.SalesToDate >= filterValue);
+                    else if (filtertype.Equals("blank"))
+                        query = query.Where(a => a.SalesToDate == 0);
+                    else if (filtertype.Equals("notblank"))
+                        query = query.Where(a => a.SalesToDate != 0);
+                }
+            }
+            if (filterList.royalty != null)
+            {
+                // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
+
+                string? filtertype = filterList.royalty.type.ToLower();
+                decimal filterValue = filterList.royalty.filter;
+
+                if (filterList.royalty.type.ToLower().Equals("inrange"))
+                    query = query.Where(a => a.Royalty >= filterList.royalty.filter && a.Royalty <= filterList.royalty.filterTo);
+                else
+                {
+
+                    if (filtertype.Equals("equals"))
+                        query = query.Where(a => a.Royalty == filterValue);
+                    else if (filtertype.Equals("doesnotequal"))
+                        query = query.Where(a => a.Royalty != filterValue);
+                    else if (filtertype.Equals("greaterthan"))
+                        query = query.Where(a => a.Royalty > filterValue);
+                    else if (filtertype.Equals("greaterthanorequal"))
+                        query = query.Where(a => a.Royalty >= filterValue);
+                    else if (filtertype.Equals("lessthan"))
+                        query = query.Where(a => a.Royalty < filterValue);
+                    else if (filtertype.Equals("lessthanorequal"))
+                        query = query.Where(a => a.Royalty <= filterValue);
+                    else if (filtertype.Equals("between"))
+                        query = query.Where(a => a.Royalty >= filterValue);
+                    else if (filtertype.Equals("blank"))
+                        query = query.Where(a => a.Royalty == 0);
+                    else if (filtertype.Equals("notblank"))
+                        query = query.Where(a => a.Royalty != 0);
+                }
             }
         }
-        catch (Exception ex)
+
+        if (sortColumn == "TITLE")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.Title) :
+                query.OrderByDescending(a => a.Title);
+        else if (sortColumn == "BOOKID")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.BookID) : query.OrderByDescending(a => a.BookID);
+        else if (sortColumn == "ISBN")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.ISBN) : query.OrderByDescending(a => a.ISBN);
+        else if (sortColumn == "VENDORNAME")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.VendorName) : query.OrderByDescending(a => a.VendorName);
+        else if (sortColumn == "SALESDATE")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.SalesDate) : query.OrderByDescending(a => a.SalesDate);
+        else if (sortColumn == "UNITSSOLD")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.UnitsSold) : query.OrderByDescending(a => a.UnitsSold);
+        else if (sortColumn == "UNITSTODATE")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.UnitsToDate) : query.OrderByDescending(a => a.UnitsToDate);
+        else if (sortColumn == "SALESTHISPERIOD")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.SalesThisPeriod) : query.OrderByDescending(a => a.SalesThisPeriod);
+        else if (sortColumn == "SALESTODATE")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.SalesToDate) : query.OrderByDescending(a => a.SalesToDate);
+        else if (sortColumn == "ROYALTY")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.Royalty) : query.OrderByDescending(a => a.Royalty);
+
+
+
+        result = await query.Skip(startRow).Take(endRow - startRow)
+                .Select(p => new SaleSummaryGridModel
+                {
+                    BookID = p.BookID,
+                    Title = p.Title,
+                    ISBN = p.ISBN,
+                    VendorName = p.VendorName,
+                    SalesDate = p.SalesDate,
+                    UnitsSold = p.UnitsSold,
+                    UnitsToDate = p.UnitsToDate,
+                    SalesThisPeriod = p.SalesThisPeriod,
+                    SalesToDate = p.SalesToDate,
+                    Royalty = p.Royalty
+                })
+                .ToListAsync();
+
+        foreach (var item in result)
         {
-            _ = ex.Message;
+            item.SalesDate = string.IsNullOrEmpty(item.SalesDate) ? "" : item.SalesDate[..10];
+            item.Title = string.IsNullOrEmpty(item.Title) ? "" : item.Title.Replace("&amp;", "&");
+            item.Title = string.IsNullOrEmpty(item.Title) ? "" : item.Title.Replace("&#39;", "'");
         }
 
         return result;

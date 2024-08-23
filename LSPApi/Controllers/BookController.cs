@@ -3,8 +3,6 @@ using LSPApi.DataLayer.Model;
 
 using Microsoft.AspNetCore.Mvc;
 
-using System.Configuration;
-
 using Model = LSPApi.DataLayer.Model;
 
 
@@ -28,152 +26,67 @@ public class BookController : ControllerBase
 
 
     [HttpGet, Route("{id:int}")]
-    public async Task<Model.BookDto> GetById(int id)
-    {
-        try
-        {             
-            _logger.LogInformation($"*** Book GetById: {id}");
-            return await _book.GetById(id);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return new Model.BookDto();
-        }
-    }
-
+    public async Task<Model.BookDto> GetById(int id) => await _book.GetById(id);
 
     [HttpGet("gridsearch")]
-    public async Task<List<Model.BookListResultsModel>> GetBooks(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "")
-    {
-        try
-        {
-            _logger.LogInformation($"*** Book GridSearch: start: {startRow} end: {endRow} sort: {sortColumn} direction: {sortDirection} filter: {filter}");
-            return await _book.GetBooks(startRow, endRow, sortColumn, sortDirection, filter);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return null;
-        }
-    }
+    public async Task<List<Model.BookListResultsModel>> GetBooks(int startRow, int endRow, string sortColumn, string sortDirection, string filter = "") =>
+              await _book.GetBooks(startRow, endRow, sortColumn, sortDirection, filter);
 
     [HttpGet, Route("getidbyauthor/{id:int}")]
-    public async Task<List<BookListSummaryModel>> GetByAuthor(int id)
-    {
-        try
-        {
-            _logger.LogInformation($"*** Book GetByAuthor: {id}");
-            return await _book.GetIdsByAuthor(id);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return [];
-        }
-    }
+    public async Task<List<BookListSummaryModel>> GetByAuthor(int id) => await _book.GetIdsByAuthor(id);
 
     [HttpGet, Route("author/{id:int}")]
-    public async Task<List<Model.BookSummaryModel>> GetByAuthorId(int id)
-    { 
-        try
-        {
-            _logger.LogInformation($"*** Book GetByAuthorId: {id}");
-            return await _book.GetByAuthorId(id);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-            return new List<Model.BookSummaryModel>();
-        }
-    }
+    public async Task<List<Model.BookSummaryModel>> GetByAuthorId(int id) => await _book.GetByAuthorId(id);
 
 
     [HttpGet]
     public async Task<IEnumerable<Model.BookDto>> GetAll() => await _book.GetAll();
 
     [HttpPost]
-    public async Task Insert([FromBody] Model.BookDto Book)
-    {
-        try
-        {
-            Book.DateCreated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
-            await _book.Add(Book);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-        }
-
-    }
+    public async Task Insert([FromBody] Model.BookDto Book) => await _book.Add(Book);
 
     [HttpPost, Route("update")]
     public async Task Update([FromBody] Model.BookDto Book)
     {
-        try
+        if (Book.BookID == 0)
         {
-            if (Book.BookID == 0)
-            {
-                Book.DateCreated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
-                await _book.Add(Book);
-            }
-            else
-            {
-                Book.DateUpdated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
-                await _book.Update(Book);
-            }
+            Book.DateCreated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+            await _book.Add(Book);
         }
-        catch (Exception ex)
+        else
         {
-            _logger.LogError(ex.Message, ex);
+            Book.DateUpdated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
+            await _book.Update(Book);
         }
     }
 
     [HttpGet, Route("delete/{id:int}")]
-    public async Task Delete(int id)
-    {
-        try
-        {
-            await _book.Delete(id);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.Message, ex);
-        }
-
-    }
+    public async Task Delete(int id) => await _book.Delete(id);
 
     [HttpPost("upload")]
     public async Task<IActionResult> UploadFiles(List<IFormFile> files)
     {
-        try
+        if (files == null || files.Count == 0)
         {
-            if (files == null || files.Count == 0)
-            {
-                return BadRequest("No files received.");
-            }
+            return BadRequest("No files received.");
+        }
 
-            foreach (var file in files)
+        foreach (var file in files)
+        {
+            if (file.Length > 0)
             {
-                if (file.Length > 0)
+                //var filePath = Path.Combine("uploads", file.FileName); // Adjust "uploads" folder path as needed
+                var sequrl = _configuration.GetValue<string>("seq");
+                var filePath = Path.Combine(sequrl, "data", file.FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    //var filePath = Path.Combine("uploads", file.FileName); // Adjust "uploads" folder path as needed
-                    var sequrl = _configuration.GetValue<string>("seq");
-                    var filePath = Path.Combine(sequrl, "data", file.FileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
+                    await file.CopyToAsync(stream);
                 }
             }
+        }
 
-            return Ok("Files uploaded successfully.");
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
+        return Ok("Files uploaded successfully.");
     }
 
 }

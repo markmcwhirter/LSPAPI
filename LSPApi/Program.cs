@@ -41,12 +41,13 @@ public class Program
 
         var builder = WebApplication.CreateBuilder(args);
 
-        var connectionString = configuration.GetConnectionString("LSPConnection");
+        var connectionString = configuration.GetConnectionString("LSPConnection");        
 
         builder.Services.AddDbContext<LSPContext>(options =>
         {
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             options.EnableSensitiveDataLogging();
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
 
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -99,6 +100,7 @@ public class Program
         app.MapControllers();
 
         app.UseMiddleware<ScanRequest>();
+        app.UseExceptionHandlingMiddleware();
 
         app.Run();
     }

@@ -25,94 +25,87 @@ public class AuthorRepository : IAuthorRepository
     {
         List<AuthorListResultsModel> result = [];
 
-        try
+        var query = _context.Author.AsQueryable(); // Start with IQueryable
+
+        sortColumn = sortColumn == "null" ? "AUTHORID" : sortColumn.ToUpper();
+        sortDirection = sortDirection == "null" ? "ASC" : sortDirection.ToUpper();
+
+        FilterModel? filterList = new();
+
+        // parse filter and add to a where clause
+        if (!string.IsNullOrEmpty(filter) && filter != "{}")
+            filterList = JsonSerializer.Deserialize<FilterModel>(filter);
+
+        if (filterList != null)
         {
-            var query = _context.Author.AsQueryable(); // Start with IQueryable
-
-            sortColumn = sortColumn == "null" ? "AUTHORID" : sortColumn.ToUpper();
-            sortDirection = sortDirection == "null" ? "ASC" : sortDirection.ToUpper();
-
-            FilterModel? filterList = new();
-
-            // parse filter and add to a where clause
-            if (!string.IsNullOrEmpty(filter) && filter != "{}")
-                filterList = JsonSerializer.Deserialize<FilterModel>(filter);
-
-            if (filterList != null)
+            if (filterList.authorID != null)
             {
-                if (filterList.authorID != null)
+                // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
+
+                string? filtertype = filterList.authorID.type.ToLower();
+                int filterValue = filterList.authorID.filter;
+
+                if (filterList.authorID.type.ToLower().Equals("inrange"))
+                    query = query.Where(a => a.AuthorID >= filterList.authorID.filter && a.AuthorID <= filterList.authorID.filterTo);
+                else
                 {
-                    // TODO: implement {"authorID":{"filterType":"number","type":"inRange","filter":500,"filterTo":600}}
 
-                    string? filtertype = filterList.authorID.type.ToLower();
-                    int filterValue = filterList.authorID.filter;
-
-                    if (filterList.authorID.type.ToLower().Equals("inrange"))
-                        query = query.Where(a => a.AuthorID >= filterList.authorID.filter && a.AuthorID <= filterList.authorID.filterTo);
-                    else
-                    {
-
-                        if (filtertype.Equals("equals"))
-                            query = query.Where(a => a.AuthorID == filterValue);
-                        else if (filtertype.Equals("doesnotequal"))
-                            query = query.Where(a => a.AuthorID != filterValue);
-                        else if (filtertype.Equals("greaterthan"))
-                            query = query.Where(a => a.AuthorID > filterValue);
-                        else if (filtertype.Equals("greaterthanorequal"))
-                            query = query.Where(a => a.AuthorID >= filterValue);
-                        else if (filtertype.Equals("lessthan"))
-                            query = query.Where(a => a.AuthorID < filterValue);
-                        else if (filtertype.Equals("lessthanorequal"))
-                            query = query.Where(a => a.AuthorID <= filterValue);
-                        else if (filtertype.Equals("between"))
-                            query = query.Where(a => a.AuthorID >= filterValue);
-                        else if (filtertype.Equals("blank"))
-                            query = query.Where(a => a.AuthorID == 0);
-                        else if (filtertype.Equals("notblank"))
-                            query = query.Where(a => a.AuthorID != 0);
-                    }
+                    if (filtertype.Equals("equals"))
+                        query = query.Where(a => a.AuthorID == filterValue);
+                    else if (filtertype.Equals("doesnotequal"))
+                        query = query.Where(a => a.AuthorID != filterValue);
+                    else if (filtertype.Equals("greaterthan"))
+                        query = query.Where(a => a.AuthorID > filterValue);
+                    else if (filtertype.Equals("greaterthanorequal"))
+                        query = query.Where(a => a.AuthorID >= filterValue);
+                    else if (filtertype.Equals("lessthan"))
+                        query = query.Where(a => a.AuthorID < filterValue);
+                    else if (filtertype.Equals("lessthanorequal"))
+                        query = query.Where(a => a.AuthorID <= filterValue);
+                    else if (filtertype.Equals("between"))
+                        query = query.Where(a => a.AuthorID >= filterValue);
+                    else if (filtertype.Equals("blank"))
+                        query = query.Where(a => a.AuthorID == 0);
+                    else if (filtertype.Equals("notblank"))
+                        query = query.Where(a => a.AuthorID != 0);
                 }
-               
-                if (filterList.lastName != null)
-                    query = query.BuildStringQuery("LastName", filterList.lastName.type.ToLower(), filterList.lastName.filter);
-                if (filterList.firstName != null)
-                    query = query.BuildStringQuery("FirstName", filterList.firstName.type.ToLower(), filterList.firstName.filter);
-                if (filterList.eMail != null)
-                    query = query.BuildStringQuery("Email", filterList.eMail.type.ToLower(), filterList.eMail.filter);
             }
 
-            if (sortColumn == "LASTNAME")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.LastName) :
-                    query.OrderByDescending(a => a.LastName);
-            else if (sortColumn == "FIRSTNAME")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.FirstName) : query.OrderByDescending(a => a.FirstName);
-            else if (sortColumn == "AUTHORID")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.AuthorID) : query.OrderByDescending(a => a.AuthorID);
-            else if (sortColumn == "EMAIL")
-                query = sortDirection == "ASC" ? query.OrderBy(a => a.Email) : query.OrderByDescending(a => a.Email);
+            if (filterList.lastName != null)
+                query = query.BuildStringQuery("LastName", filterList.lastName.type.ToLower(), filterList.lastName.filter);
+            if (filterList.firstName != null)
+                query = query.BuildStringQuery("FirstName", filterList.firstName.type.ToLower(), filterList.firstName.filter);
+            if (filterList.eMail != null)
+                query = query.BuildStringQuery("Email", filterList.eMail.type.ToLower(), filterList.eMail.filter);
+        }
+
+        if (sortColumn == "LASTNAME")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.LastName) :
+                query.OrderByDescending(a => a.LastName);
+        else if (sortColumn == "FIRSTNAME")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.FirstName) : query.OrderByDescending(a => a.FirstName);
+        else if (sortColumn == "AUTHORID")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.AuthorID) : query.OrderByDescending(a => a.AuthorID);
+        else if (sortColumn == "EMAIL")
+            query = sortDirection == "ASC" ? query.OrderBy(a => a.Email) : query.OrderByDescending(a => a.Email);
 
 
-            result = await query.Skip(startRow).Take(endRow - startRow)
-                    .Select(p => new AuthorListResultsModel
-                    {
-                        AuthorID = p.AuthorID,
-                        FirstName = p.FirstName,
-                        LastName = p.LastName,
-                        MiddleName = p.MiddleName,
-                        Prefix = p.Prefix,
-                        Suffix = p.Suffix,
-                        EMail = p.Email,
-                        Notes = p.Notes,
-                        InfoLink = p.AuthorID.ToString(),
-                        EditLink = p.AuthorID.ToString(),
-                        DeleteLink = p.AuthorID.ToString()
-                    })
-                    .ToListAsync();
-        }
-        catch (Exception ex)
-        {
-            _ = ex.Message;
-        }
+        result = await query.Skip(startRow).Take(endRow - startRow)
+                .Select(p => new AuthorListResultsModel
+                {
+                    AuthorID = p.AuthorID,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    MiddleName = p.MiddleName,
+                    Prefix = p.Prefix,
+                    Suffix = p.Suffix,
+                    EMail = p.Email,
+                    Notes = p.Notes,
+                    InfoLink = p.AuthorID.ToString(),
+                    EditLink = p.AuthorID.ToString(),
+                    DeleteLink = p.AuthorID.ToString()
+                })
+                .ToListAsync();
 
         return result;
 
@@ -124,75 +117,68 @@ public class AuthorRepository : IAuthorRepository
 
         List<AuthorListResultsModel> result = [];
 
-        try
+        if (authorsearch == null)
         {
-            if (authorsearch == null)
-            {
-                authorsearch = new AuthorSearchModel();
-                return result;
-            }
+            authorsearch = new AuthorSearchModel();
+            return result;
+        }
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
-            authorsearch.FirstName = string.IsNullOrEmpty(authorsearch?.FirstName) ? " " : authorsearch?.FirstName.Trim();
-            authorsearch.LastName = string.IsNullOrEmpty(authorsearch?.LastName) ? " " : authorsearch?.LastName.Trim();
-            authorsearch.Direction = string.IsNullOrEmpty(authorsearch?.Direction) ? "ASC" : authorsearch?.Direction.Trim();
-            authorsearch.SortOrder = string.IsNullOrEmpty(authorsearch?.SortOrder) ? "LASTNAME" : authorsearch?.SortOrder.Trim();
+        authorsearch.FirstName = string.IsNullOrEmpty(authorsearch?.FirstName) ? " " : authorsearch?.FirstName.Trim();
+        authorsearch.LastName = string.IsNullOrEmpty(authorsearch?.LastName) ? " " : authorsearch?.LastName.Trim();
+        authorsearch.Direction = string.IsNullOrEmpty(authorsearch?.Direction) ? "ASC" : authorsearch?.Direction.Trim();
+        authorsearch.SortOrder = string.IsNullOrEmpty(authorsearch?.SortOrder) ? "LASTNAME" : authorsearch?.SortOrder.Trim();
 
 
-            bool firstNameEmpty = string.IsNullOrEmpty(authorsearch?.FirstName);
-            bool lastNameEmpty = string.IsNullOrEmpty(authorsearch?.LastName);
-
-
-
-            if (lastNameEmpty && firstNameEmpty)
-                query = _context.Author;
-
-            else if (!lastNameEmpty && !firstNameEmpty)
-                query = _context.Author.Where(item => EF.Functions.Like(item.LastName.ToLower(), $"%{authorsearch.LastName.ToLower()}%") &&
-                        EF.Functions.Like(item.FirstName.ToLower(), $"%{authorsearch.FirstName.ToLower()}%"));
-
-            else if (!string.IsNullOrEmpty(authorsearch?.FirstName))
-                query = _context.Author.Where(item => EF.Functions.Like(item.FirstName.ToLower(), $"%{authorsearch.FirstName.ToLower()}%"));
-
-            else if (!string.IsNullOrEmpty(authorsearch?.LastName))
-                query = _context.Author.Where(item => EF.Functions.Like(item.LastName.ToLower(), $"%{authorsearch.LastName.ToLower()}%"));
-
-            else
-                query = _context.Author.Where(a => a.LastName != null);
-
-
-            if (authorsearch.SortOrder.Equals("LASTNAME", StringComparison.CurrentCultureIgnoreCase))
-                query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.LastName) :
-                    query.OrderByDescending(a => a.LastName);
-            else if (authorsearch.SortOrder.Equals("FIRSTNAME", StringComparison.CurrentCultureIgnoreCase))
-                query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.FirstName) : query.OrderByDescending(a => a.FirstName);
-            else if (authorsearch.SortOrder.Equals("AUTHORID", StringComparison.CurrentCultureIgnoreCase))
-                query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.AuthorID) : query.OrderByDescending(a => a.AuthorID);
-            else if (authorsearch.SortOrder.Equals("EMAIL", StringComparison.CurrentCultureIgnoreCase))
-                query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.Email) : query.OrderByDescending(a => a.Email);
+        bool firstNameEmpty = string.IsNullOrEmpty(authorsearch?.FirstName);
+        bool lastNameEmpty = string.IsNullOrEmpty(authorsearch?.LastName);
 
 
 
-            result = await query
-                    .Select(p => new AuthorListResultsModel
-                    {
-                        AuthorID = p.AuthorID,
-                        FirstName = p.FirstName,
-                        LastName = p.LastName,
-                        MiddleName = p.MiddleName,
-                        Prefix = p.Prefix,
-                        Suffix = p.Suffix,
-                        EMail = p.Email,
-                        EditLink = $"<a href='ProfileModify?id={p.AuthorID}'>Edit</a>",
-                        DeleteLink = $"<a href='DeleteAuthor?id={p.AuthorID}'>Delete</a>"
-                    })
-                    .ToListAsync();
-        }
-        catch (Exception ex)
-        {
-            _ = ex.Message;
-        }
+        if (lastNameEmpty && firstNameEmpty)
+            query = _context.Author;
+
+        else if (!lastNameEmpty && !firstNameEmpty)
+            query = _context.Author.Where(item => EF.Functions.Like(item.LastName.ToLower(), $"%{authorsearch.LastName.ToLower()}%") &&
+                    EF.Functions.Like(item.FirstName.ToLower(), $"%{authorsearch.FirstName.ToLower()}%"));
+
+        else if (!string.IsNullOrEmpty(authorsearch?.FirstName))
+            query = _context.Author.Where(item => EF.Functions.Like(item.FirstName.ToLower(), $"%{authorsearch.FirstName.ToLower()}%"));
+
+        else if (!string.IsNullOrEmpty(authorsearch?.LastName))
+            query = _context.Author.Where(item => EF.Functions.Like(item.LastName.ToLower(), $"%{authorsearch.LastName.ToLower()}%"));
+
+        else
+            query = _context.Author.Where(a => a.LastName != null);
+
+
+        if (authorsearch.SortOrder.Equals("LASTNAME", StringComparison.CurrentCultureIgnoreCase))
+            query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.LastName) :
+                query.OrderByDescending(a => a.LastName);
+        else if (authorsearch.SortOrder.Equals("FIRSTNAME", StringComparison.CurrentCultureIgnoreCase))
+            query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.FirstName) : query.OrderByDescending(a => a.FirstName);
+        else if (authorsearch.SortOrder.Equals("AUTHORID", StringComparison.CurrentCultureIgnoreCase))
+            query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.AuthorID) : query.OrderByDescending(a => a.AuthorID);
+        else if (authorsearch.SortOrder.Equals("EMAIL", StringComparison.CurrentCultureIgnoreCase))
+            query = authorsearch.Direction.Equals("ASC", StringComparison.CurrentCultureIgnoreCase) ? query.OrderBy(a => a.Email) : query.OrderByDescending(a => a.Email);
+
+
+
+        result = await query
+                .Select(p => new AuthorListResultsModel
+                {
+                    AuthorID = p.AuthorID,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    MiddleName = p.MiddleName,
+                    Prefix = p.Prefix,
+                    Suffix = p.Suffix,
+                    EMail = p.Email,
+                    EditLink = $"<a href='ProfileModify?id={p.AuthorID}'>Edit</a>",
+                    DeleteLink = $"<a href='DeleteAuthor?id={p.AuthorID}'>Delete</a>"
+                })
+                .ToListAsync();
         return result ?? [];
 
     }
@@ -232,7 +218,7 @@ public class AuthorRepository : IAuthorRepository
 
         // if sucessfull, update last login date
         if (result != null)
-        { 
+        {
             await Update(result);
         }
         return result ?? new AuthorDto();

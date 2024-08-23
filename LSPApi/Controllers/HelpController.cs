@@ -1,11 +1,9 @@
-﻿using LSPApi.DataLayer;
+﻿using LSPApi.DataLayer.Model;
 
 using Microsoft.AspNetCore.Mvc;
 
-using System.Net.Mail;
-using LSPApi.DataLayer.Model;
-using SendGrid.Helpers.Mail;
 using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace LSPApi.Controllers;
 
