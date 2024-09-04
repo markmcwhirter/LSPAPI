@@ -27,5 +27,6 @@ public partial class AuthorDto
 	public string? Admin { get; set; }
 	public string? Bio { get; set; }
     public string? Notes { get; set; }
+	public ICollection<BookDto> Books { get; set; }
 
 }

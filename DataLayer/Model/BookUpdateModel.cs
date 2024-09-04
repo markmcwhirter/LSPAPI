@@ -1,9 +1,10 @@
-using System.ComponentModel.DataAnnotations;
+﻿namespace LSPApi.DataLayer.Model;
 
 using Newtonsoft.Json;
 
-namespace LSPApi.DataLayer.Model;
-public partial class BookDto
+using System.ComponentModel.DataAnnotations;
+
+public partial class BookUpdateModel
 {
     [Key]
     [JsonProperty("bookID")]
@@ -45,12 +46,12 @@ public partial class BookDto
 
     [JsonProperty("coverIdea")]
     public string? CoverIdea { get; set; }
-    
+
     [JsonProperty("document")]
     public string? Document { get; set; }
 
     [JsonProperty("notes")]
     public string? Notes { get; set; }
 
-    public AuthorDto Author { get; set; }
 }
+
