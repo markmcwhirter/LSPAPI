@@ -46,10 +46,31 @@ public class BookController : ControllerBase
     public async Task Insert([FromBody] Model.BookDto Book) => await _book.Add(Book);
 
     [HttpPost, Route("update")]
-    public async Task Update([FromBody] Model.BookDto Book)
+    public async Task Update([FromBody] Model.BookUpdateModel BookUpdate)
     {
-        if (Book.BookID == 0)
+        Model.BookDto Book = new BookDto
         {
+            AuthorBio = BookUpdate.AuthorBio,
+            AuthorID = BookUpdate.AuthorID,
+            AuthorPhoto = BookUpdate.AuthorPhoto,
+            BookID = BookUpdate.BookID,
+            Cover = BookUpdate.Cover,
+            CoverIdea = BookUpdate.CoverIdea,
+            DateCreated = BookUpdate.DateCreated,
+            DateUpdated = BookUpdate.DateUpdated,
+            Description = BookUpdate.Description,
+            Document = BookUpdate.Document,
+            Interior = BookUpdate.Interior,
+            ISBN = BookUpdate.ISBN,
+            Notes = BookUpdate.Notes,
+            Subtitle = BookUpdate.Subtitle,
+            Title = BookUpdate.Title
+
+        };
+
+        if (BookUpdate.BookID == 0)
+        {
+
             Book.DateCreated = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss");
             await _book.Add(Book);
         }
