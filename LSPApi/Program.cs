@@ -15,6 +15,7 @@ public class Program
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
+            //.AddJsonFile($"appsettings.Development.json", true)
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
             .Build();
 
@@ -99,8 +100,8 @@ public class Program
 
         app.MapControllers();
 
-        app.UseMiddleware<ScanRequest>();
-        app.UseExceptionHandlingMiddleware();
+        //app.UseMiddleware<ScanRequest>();
+        //app.UseExceptionHandlingMiddleware();
 
         app.Run();
     }
